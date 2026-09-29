@@ -188,6 +188,12 @@ function builder() {
     }
   }
 
+  // the idea arrives written into an empty brief (the builder sits below the form on phones)
+  const message = $("[data-message]");
+  if (params.get("product") && params.get("place") && message && !message.value && !draft.get("brief")) {
+    message.value = `Idea: an AI streamer tests our ${picked("product").dataset.phrase} ${picked("place").dataset.phrase}.\n\nProduct link: \nGoal: \nTimeline: `;
+  }
+
   root.addEventListener("change", render);
 
   $("[data-shuffle]", root)?.addEventListener("click", () => {
@@ -230,9 +236,10 @@ function form() {
   const handoff = $("[data-handoff]", el);
   const ready = $("[data-handoff-body]", el);
   const gmail = $("[data-handoff-gmail]", el);
+  const outlook = $("[data-handoff-outlook]", el);
   const mailto = $("[data-handoff-mailto]", el);
   const max = 4000;
-  const mailtoMax = 1800; // Outlook for Windows cuts mailto: links much longer than this
+  const mailtoMax = 1900; // encoded length: Outlook for Windows cuts mailto: links much past 2,000
   const subject = "Brief for Wubba";
   const number = new Intl.NumberFormat("en-US");
 
@@ -283,24 +290,44 @@ function form() {
     }, 250);
   }
 
+  // The longest mailto: body that stays under the limit once encoded, cut on a whole word.
+  function mailtoBody(text, tail) {
+    const enc = encodeURIComponent;
+    const budget = mailtoMax - enc(subject).length - `mailto:${INBOX}?subject=&body=`.length;
+    if (enc(text + tail).length <= budget) return { body: text + tail, long: false };
+    let lo = 0;
+    let hi = text.length;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      if (enc(`${text.slice(0, mid).trimEnd()} […]${tail}`).length <= budget) lo = mid;
+      else hi = mid - 1;
+    }
+    const cut = text.slice(0, lo).replace(/\s+\S*$/, "").trimEnd();
+    return { body: `${cut} […]${tail}`, long: true };
+  }
+
   // Without a form endpoint the site can't send the brief itself. It writes the email and
-  // hands it over: Gmail, the visitor's mail app, or the clipboard. It never claims it was sent.
+  // hands it over: Gmail, Outlook, the visitor's mail app, or the clipboard. It never claims it was sent.
   function openHandoff(failed) {
     const address = email.value.trim();
     const text = message.value.trim();
-    const body = `${text}\n\nReply to: ${address}`;
-    const long = body.length > mailtoMax;
-    const shortBody = long ? `${text.slice(0, mailtoMax - 80).trimEnd()} […]\n\nReply to: ${address}` : body;
+    const tail = `\n\nReply to: ${address}`;
+    const body = `${text}${tail}`;
+    const short = mailtoBody(text, tail);
     const enc = encodeURIComponent;
     $("[data-handoff-title]", el).textContent = failed
       ? "It didn’t go through. Send it from your email instead."
       : "One more step: send it from your email.";
     ready.value = body;
-    mailto.href = `mailto:${INBOX}?subject=${enc(subject)}&body=${enc(shortBody)}`;
+    mailto.href = `mailto:${INBOX}?subject=${enc(subject)}&body=${enc(short.body)}`;
     gmail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(INBOX)}&su=${enc(subject)}&body=${enc(body)}`;
-    $("[data-handoff-long]", el).hidden = !long;
+    outlook.href = `https://outlook.office.com/mail/deeplink/compose?to=${enc(INBOX)}&subject=${enc(subject)}&body=${enc(body)}`;
+    $("[data-handoff-long]", el).hidden = !short.long;
     foot.hidden = true;
     handoff.hidden = false;
+    // the preview shows the whole email, "Reply to" included, up to its cap
+    ready.style.height = "auto";
+    ready.style.height = `${Math.min(ready.scrollHeight + 2, 320)}px`;
     $("[data-handoff-title]", el).focus({ preventScroll: true });
     handoff.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "nearest" });
   }
@@ -363,7 +390,9 @@ function form() {
       invalid.push(message);
     }
     if (invalid.length) {
-      invalid[0].focus();
+      // the whole field, label included, comes into view clear of the bar
+      fieldOf(invalid[0]).scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "nearest" });
+      invalid[0].focus({ preventScroll: true });
       return;
     }
 
@@ -462,6 +491,25 @@ function films() {
   });
 }
 
+// ------------------------------------------------------------------ the horizons draw in when they come into view
+
+function reveals() {
+  const items = $$("[data-reveal]");
+  if (!items.length || !("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      }
+    },
+    { rootMargin: "0px 0px -12% 0px" },
+  );
+  items.forEach((item) => observer.observe(item));
+  document.documentElement.classList.add("reveal-ready");
+}
+
 bar();
 primary();
 menu();
@@ -469,3 +517,4 @@ builder();
 form();
 copy();
 films();
+reveals();

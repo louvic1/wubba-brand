@@ -33,7 +33,7 @@ The format already ran in public before any client existed. The first series, a 
 - The offer, as the site states it. Source: the owner's offer document (revised 28 September 2026). Prices are left out on purpose.
   - Concept: 3 to 5 concepts written on paper for the product; the brand picks one and approves it in writing before anything is produced.
   - Production: the chosen concept, produced once, as a vertical 9:16 hero film.
-  - Kit: 8 to 12 assets, all cut from that one production: 3 hooks, 2 endings (one with a product end card), 2 gameplay sequences, an organic cut, a paid cut for Meta and TikTok ads inside the safe zones, delivered in 9:16, 1:1 and 16:9.
+  - Kit: 8 to 12 assets, all cut from that one production: 3 hooks, 2 endings (one with a product end card), 2 gameplay sequences (so the same shot is not burned on two placements), an organic cut for the brand's main account that does not look like an ad, and a paid cut for Meta and TikTok ads inside the safe zones, delivered in 9:16, 1:1 and 16:9. The range "8 to 12" and the item list are both the owner's; the document does not break the count down further, so the site shows both as written. Open question for the owner: how the count is made.
   - Rights: 6 months of paid usage on every channel, extendable; category exclusivity for the term. The brand gets the finished film and its usage rights; licensed music and stock footage stay with their owners; project files are not delivered. A one-page rights record comes with the delivery.
   - Revisions: 2 rounds of consolidated feedback; a change outside the approved concept is quoted as a change order.
   - Delivery: 10 to 15 business days after written approval of the concept.

@@ -8,34 +8,31 @@ path: /series
 {{> header}}
 <main id="main">
 
-  <header class="page-head wrap">
-    <h1 class="h1">A gamer playing Counter-Strike in the middle of the ocean.</h1>
-    <p class="lede">The first series. February 2026. No client, no brief.</p>
-  </header>
-
-  <section class="section" aria-labelledby="record-title">
-    <div class="wrap split">
-      <div class="split__main">
-        <h2 class="sr-only" id="record-title">The record</h2>
-        <div class="tally">
-          <p class="tally__num" aria-hidden="true">98<span class="point"></span>8M</p>
-          <p class="tally__cap"><span class="sr-only">98.8M </span>views across the series and its reposts</p>
-          <dl class="tally__meta">
-            <div><dt>Platforms</dt><dd>X, Instagram &amp;&nbsp;YouTube</dd></div>
-            <div><dt>Counted</dt><dd>1&nbsp;September&nbsp;2026</dd></div>
-          </dl>
-        </div>
-        <ul class="record">
-          <li class="record__big">Reposted twice by Elon Musk.</li>
-          <li class="record__big">The guy in it doesn’t exist.</li>
-          <li class="record__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.{{#if tf1}} <a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}</li>
-        </ul>
+  <div class="wrap series-top">
+    <header class="page-head series-top__head">
+      <h1 class="h1">A gamer playing Counter-Strike in the middle of the ocean.</h1>
+      <p class="lede">The first series. February 2026. No client, no brief.</p>
+    </header>
+    <section class="series-top__record" aria-labelledby="record-title">
+      <h2 class="sr-only" id="record-title">The record</h2>
+      <div class="tally">
+        <p class="tally__num" aria-hidden="true">98<span class="point"><span class="point__char">.</span></span>8M</p>
+        <p class="tally__cap"><span class="sr-only">98.8M </span>views across the series and its reposts</p>
+        <dl class="tally__meta">
+          <div><dt>Platforms</dt><dd>X, Instagram &amp;&nbsp;YouTube</dd></div>
+          <div><dt>Counted</dt><dd>1&nbsp;September&nbsp;2026</dd></div>
+        </dl>
       </div>
-      <div class="split__side">{{> reel}}</div>
-    </div>
-  </section>
+      <ul class="record">
+        <li class="record__big">Reposted twice by Elon Musk.</li>
+        <li class="record__big">The guy in it doesn’t exist.</li>
+        <li class="record__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.{{#if tf1}} <a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}</li>
+      </ul>
+    </section>
+    <div class="series-top__card">{{> reel}}</div>
+  </div>
 
-  <section class="section" aria-labelledby="format-title">
+  <section class="section section--ruled" aria-labelledby="format-title">
     <div class="wrap">
       <h2 class="h2" id="format-title">Your film keeps the format.</h2>
       <ul class="anatomy after-h2" aria-label="An AI streamer tests your product somewhere it has no business working.">
@@ -44,17 +41,19 @@ path: /series
         <li class="anatomy__part"><span class="anatomy__words">your product</span><span class="anatomy__note">It keeps its real shape and logo.</span></li>
         <li class="anatomy__part"><span class="anatomy__words">somewhere it has no business working.</span><span class="anatomy__note">We build the scene around it.</span></li>
       </ul>
-      <p class="lede anatomy__foot">The surprise doesn’t carry over. Your film ships labeled as AI, like every film we make.</p>
+      <p class="lede anatomy__foot">One thing changes: your film is labeled. Every film we make ships labeled as AI.</p>
     </div>
   </section>
 
   <section class="disc-band" aria-labelledby="next-title" data-primary>
-    <div class="wrap">
+    <div class="wrap disc-band__wrap">
+      <span class="disc-band__disc" aria-hidden="true"></span>
       <div class="disc-band__in">
-        <span class="disc-band__disc" aria-hidden="true"></span>
         <h2 class="disc-band__h" id="next-title">Put your product in the next one.</h2>
-        <a class="btn btn--ink btn--big" href="/brief">Send a brief</a>
-        <a class="disc-band__try" href="/brief?product=chair&amp;place=summit">Or start from an idea: a chair on a mountain summit <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <div class="disc-band__acts">
+          <a class="btn btn--ink btn--big" href="/brief">Send a brief</a>
+          <a class="disc-band__try" href="/brief?product=chair&amp;place=summit">Or start from an idea: a chair on a mountain summit<svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
       </div>
     </div>
   </section>

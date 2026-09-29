@@ -23,13 +23,14 @@
         <p class="mail__row"><span class="mail__k">To</span><span class="mail__v">{{email}}</span></p>
         <p class="mail__row"><span class="mail__k">Subject</span><span class="mail__v" data-handoff-subject>Brief for Wubba</span></p>
         <label class="sr-only" for="f-ready">Your email, ready to send</label>
-        <textarea class="mail__body" id="f-ready" rows="6" readonly data-handoff-body></textarea>
+        <textarea class="mail__body" id="f-ready" rows="4" readonly data-handoff-body></textarea>
       </div>
       <div class="handoff__actions" data-handoff-actions>
         <a class="btn btn--green" href="https://mail.google.com/mail/" rel="noopener" target="_blank" data-handoff-gmail>Open in Gmail <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn btn--line" href="https://outlook.office.com/mail/" rel="noopener" target="_blank" data-handoff-outlook>Open in Outlook <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
         <a class="btn btn--line" href="mailto:{{email}}" data-handoff-mailto>Open my email app</a>
-        <button class="btn btn--line" type="button" data-handoff-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-handoff-copy-label>Copy the brief</span></button>
       </div>
+      <button class="handoff__copy" type="button" data-handoff-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-handoff-copy-label>Copy the brief</span></button>
       <p class="handoff__note" data-handoff-long hidden>Your brief is long, so the email app only gets the first part. Copy the brief to paste all of it.</p>
     </div>
     <div class="form__status" role="status" tabindex="-1" data-status>

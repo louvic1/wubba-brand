@@ -4,6 +4,7 @@ description: We build AI streamers who test gaming gear where it has no business
 nav: home
 path: /
 steps: inline
+primary: top
 -->
 {{> head}}
 {{> header}}
@@ -15,11 +16,11 @@ steps: inline
       <h1 class="hero__title" id="hero-title">We build AI streamers <span class="hero__sub">who test gaming gear where it has no business working.</span></h1>
       <div class="hero__actions" data-primary>
         <a class="btn btn--green" href="/brief">Send a brief</a>
-        {{#if video}}<a class="btn btn--line" href="#series">Watch the film</a>{{else}}{{#if instagram}}<a class="btn btn--line" href="{{instagram}}" rel="noopener" target="_blank">Watch the series <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> on Instagram (opens in a new tab)</span></a>{{/if}}{{/if}}
+        {{#if video}}<a class="btn btn--line" href="#series">Watch the film</a>{{else}}{{#if instagram}}<a class="btn btn--line" href="{{instagram}}" rel="noopener" target="_blank">See it on Instagram <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}{{/if}}
       </div>
     </div>
     <figure class="figure">
-      <p class="figure__num" aria-hidden="true"><span class="g">9</span><span class="g">8</span><span class="point"></span><span class="g">8</span><span class="g">M</span></p>
+      <p class="figure__num" aria-hidden="true"><span class="g">9</span><span class="g">8</span><span class="point"><span class="point__char">.</span></span><span class="g">8</span><span class="g">M</span></p>
       <figcaption class="figure__cap">
         <div class="cell"><p class="cell__lead"><span class="sr-only">98.8M </span>views across the series and its reposts</p></div>
         <div class="cell"><p class="cell__k">Platforms</p><p class="cell__v">X, Instagram &amp;&nbsp;YouTube</p></div>
@@ -29,28 +30,29 @@ steps: inline
     <p class="hero__twist">The guy in it doesn’t exist.</p>
   </section>
 
-  <section class="section" id="series" aria-labelledby="series-title">
-    <div class="wrap sheet">
-      <div class="sheet__media">{{> reel}}</div>
-      <div class="sheet__body">
-        <h2 class="sheet__title" id="series-title">A gamer playing Counter-Strike in the middle of the ocean.</h2>
-        <p class="sheet__sub">The first series. February 2026. No client, no brief.</p>
-        <dl class="facts">
-          <div class="fact">
-            <dt class="sr-only">Reposts</dt>
-            <dd class="fact__big">Reposted twice by Elon Musk.</dd>
-          </div>
-          <div class="fact">
-            <dt class="sr-only">Fact-check</dt>
-            <dd class="fact__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.</dd>
-            {{#if tf1}}<dd class="links"><a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a></dd>{{/if}}
-          </div>
-          <div class="fact">
-            <dt class="sr-only">AI label</dt>
-            <dd class="fact__big">Every film we make ships labeled as AI.</dd>
-          </div>
-        </dl>
-      </div>
+  <section class="scene" id="series" aria-labelledby="series-title">
+    <div class="wrap scene__sky">
+      <h2 class="scene__title" id="series-title">A gamer playing Counter-Strike in the middle of the ocean.</h2>
+      <p class="scene__sub">The first series. February 2026. No client, no brief.</p>
+      {{#if video}}<div class="scene__film">{{> reel}}</div>{{/if}}
+    </div>
+    <div class="scene__horizon" aria-hidden="true" data-reveal><span class="scene__point"></span></div>
+    <div class="wrap scene__sea">
+      <dl class="scene__facts">
+        <div class="fact">
+          <dt class="sr-only">Reposts</dt>
+          <dd class="fact__big">Reposted twice by Elon Musk.</dd>
+        </div>
+        <div class="fact">
+          <dt class="sr-only">Fact-check</dt>
+          <dd class="fact__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.</dd>
+        </div>
+        <div class="fact">
+          <dt class="sr-only">AI label</dt>
+          <dd class="fact__big">Every film we make ships labeled as AI.</dd>
+        </div>
+      </dl>
+      <p class="links scene__links">{{#if instagram}}<a class="link-ext" href="{{instagram}}" rel="noopener" target="_blank">Watch the series on Instagram <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}{{#if tf1}}<a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}</p>
     </div>
   </section>
 
@@ -90,6 +92,12 @@ steps: inline
           <p class="step__text">How the film did, with a recommendation for the next wave.</p>
         </li>
       </ol>
+      <dl class="print-only print-terms">
+        <div><dt>Paid usage</dt><dd>6 months, every channel</dd></div>
+        <div><dt>Revisions</dt><dd>2 rounds</dd></div>
+        <div><dt>Delivery</dt><dd>10 to 15 business days</dd></div>
+        <div><dt>Payment</dt><dd>Half, then half</dd></div>
+      </dl>
       <div class="rights">
         <p><strong>Rights:</strong> paid usage on every channel for six months, and category exclusivity for the term.</p>
         <a class="link-ext" href="/offer">See the full offer <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>

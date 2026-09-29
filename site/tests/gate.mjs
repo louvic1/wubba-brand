@@ -13,6 +13,7 @@ const PAGES = ["/", "/series", "/offer", "/about", "/brief", "/privacy", "/does-
 const VIEWPORTS = [
   [360, 740],
   [390, 844],
+  [600, 900],
   [768, 1024],
   [1024, 768],
   [1440, 900],
@@ -112,32 +113,44 @@ for (const [width, height] of VIEWPORTS) {
     }
     await page.evaluate(() => scrollTo(0, 0));
 
-    // the closing band: every word and button sits on the green disc
-    const offDisc = await page.evaluate(() => {
+    // the closing band: black type sits on the disc, white type stays off it, and the crop is decisive:
+    // exactly half at the bottom, and either a clear margin or the same clear bleed on both sides
+    const band = await page.evaluate(() => {
       const disc = document.querySelector(".disc-band__disc");
-      if (!disc) return [];
+      if (!disc) return null;
       const d = disc.getBoundingClientRect();
+      const b = document.querySelector(".disc-band").getBoundingClientRect();
       const cx = d.left + d.width / 2;
       const cy = d.top + d.height / 2;
-      const r = d.width / 2 - 6;
-      const inside = (x, y) => (x - cx) ** 2 + (y - cy) ** 2 <= r * r;
+      const r = d.width / 2;
+      const dist = (x, y) => Math.hypot(x - cx, y - cy);
       const out = [];
-      for (const el of document.querySelectorAll(".disc-band__in > :not(.disc-band__disc)")) {
-        // line boxes, not the element box: ragged lines may leave the corners empty
+      // the button and the idea sit on the disc; the heading stays on black above it
+      for (const el of document.querySelectorAll(".disc-band__acts > *, .disc-band__h")) {
+        const black = !!el.closest(".disc-band__acts");
         const range = document.createRange();
         range.selectNodeContents(el);
         const rects = [...range.getClientRects()].filter((q) => q.width > 1);
         if (el.classList.contains("btn")) rects.push(el.getBoundingClientRect());
         for (const q of rects) {
-          if (![[q.left, q.top], [q.right, q.top], [q.left, q.bottom], [q.right, q.bottom]].every(([x, y]) => inside(x, y))) {
-            out.push(`${el.tagName.toLowerCase()}.${el.className} "${el.textContent.trim().slice(0, 30)}"`);
+          const corners = [[q.left, q.top], [q.right, q.top], [q.left, q.bottom], [q.right, q.bottom]];
+          const bad = black ? corners.some(([x, y]) => dist(x, y) > r - 6) : corners.some(([x, y]) => dist(x, y) < r + 4);
+          if (bad) {
+            out.push(`${black ? "off" : "on"} the disc: "${el.textContent.trim().slice(0, 30)}"`);
             break;
           }
         }
       }
+      const left = b.left - d.left;
+      const right = d.right - b.right;
+      const width = b.width;
+      if (Math.abs(cy - b.bottom) > 1.5) out.push(`disc centre ${Math.round(cy - b.bottom)}px off the band's bottom edge`);
+      if (Math.abs(left - right) > 2) out.push(`uneven crop: ${Math.round(left)}px left, ${Math.round(right)}px right`);
+      const margin = -left;
+      if (margin >= 0 ? margin < width * 0.07 : -margin < d.width * 0.08) out.push(`indecisive crop: ${Math.round(margin)}px at the sides`);
       return out;
     });
-    if (offDisc.length) fail(where, `off the green disc: ${offDisc.join(", ")}`);
+    if (band?.length) fail(where, `closing band: ${band.join(", ")}`);
 
     if (width === 390 || width === 1440) {
       // content must be visible with reduced motion
@@ -236,10 +249,14 @@ for (const [width, height] of VIEWPORTS) {
 // ------------------------------------------------------------------ the first screen tells the whole hook
 
 for (const [width, height] of [
-  [1280, 720],
-  [1366, 768],
-  [1440, 900],
-  [390, 844],
+  [1280, 609],
+  [1366, 657],
+  [1440, 789],
+  [1536, 730],
+  [1024, 672],
+  [1920, 969],
+  [390, 664],
+  [375, 553],
 ]) {
   const context = await browser.newContext({ viewport: { width, height }, reducedMotion: "reduce" });
   const where = `fold @${width}x${height}`;
@@ -248,11 +265,34 @@ for (const [width, height] of [
     const bottom = (s) => document.querySelector(s).getBoundingClientRect().bottom;
     const title = parseFloat(getComputedStyle(document.querySelector(".hero__title")).fontSize);
     const h2 = parseFloat(getComputedStyle(document.querySelector("main .h2")).fontSize);
-    return { twist: bottom(".hero__twist"), actions: bottom(".hero__actions"), title, h2 };
+    const bar = getComputedStyle(document.querySelector(".bar__cta")).visibility === "visible";
+    return { twist: bottom(".hero__twist"), actions: bottom(".hero__actions"), bar, title, h2 };
   });
   if (fold.twist > height) fail(where, `"The guy in it doesn't exist." ends at ${Math.round(fold.twist)}px, below the fold`);
-  if (fold.actions > height) fail(where, "the hero actions sit below the fold");
+  if (fold.actions > height && !fold.bar) fail(where, "no green action on the first screen");
+  if (fold.actions <= height && fold.bar) fail(where, "two green actions on the first screen");
   if (width >= 1280 && fold.title < fold.h2 * 0.95) fail(where, `the headline (${fold.title}px) is smaller than the section headings (${fold.h2}px)`);
+  await context.close();
+}
+
+// ------------------------------------------------------------------ the first frame, motion on
+
+{
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  for (const [path, folded] of [["/", true], ["/offer", true], ["/does-not-exist", true], ["/brief", true], ["/series", false], ["/about", false]]) {
+    const where = `first frame ${path}`;
+    const page = await context.newPage();
+    await page.goto(url + path, { waitUntil: "commit" });
+    await page.waitForSelector(".bar__cta", { state: "attached" });
+    const state = await page.evaluate(() => {
+      const cta = document.querySelector(".bar__cta");
+      const style = getComputedStyle(cta);
+      return { visibility: style.visibility, width: cta.getBoundingClientRect().width };
+    });
+    if (folded && (state.visibility !== "hidden" || state.width > 1)) fail(where, `the bar's green button shows before the page's own (${JSON.stringify(state)})`);
+    if (!folded && state.visibility !== "visible") fail(where, "the bar's button is hidden on a page without its own action");
+    await page.close();
+  }
   await context.close();
 }
 
@@ -271,6 +311,19 @@ for (const [width, height] of [
       .map((el) => el.className),
   );
   if (stuck.length) fail(where, `entrance motion left elements hidden: ${stuck.join(", ")}`);
+
+  // the figure copies as the number it shows, once (a real copy: hidden screen-reader text stays out)
+  await page.evaluate(() => {
+    const range = document.createRange();
+    range.setStartBefore(document.querySelector(".figure__num"));
+    range.setEndAfter(document.querySelector(".cell__lead"));
+    getSelection().removeAllRanges();
+    getSelection().addRange(range);
+  });
+  await page.keyboard.press("Control+C");
+  const copiedFigure = await page.evaluate(() => navigator.clipboard.readText());
+  await page.evaluate(() => getSelection().removeAllRanges());
+  if (!/^98\.8M\s+views across the series and its reposts/.test(copiedFigure)) fail(where, `the figure copies as "${copiedFigure.slice(0, 60)}"`);
 
   // the bar's green action waits until the hero's has scrolled away
   const barAtTop = await page.evaluate(() => getComputedStyle(document.querySelector(".bar__cta")).visibility);
@@ -341,6 +394,7 @@ for (const [width, height] of [
       gmailTo: gmail.searchParams.get("to"),
       gmailBody: gmail.searchParams.get("body"),
       mailto: decodeURIComponent(mail),
+      outlookTo: new URL(document.querySelector("[data-handoff-outlook]").href).searchParams.get("to"),
       primary: document.querySelector("[data-handoff-actions] .btn").textContent.trim(),
     };
   });
@@ -349,6 +403,7 @@ for (const [width, height] of [
   if (!handoff.title.startsWith("One more step")) fail(where, `hand-off title "${handoff.title}"`);
   if (!handoff.ready.startsWith(text) || !handoff.ready.includes("Reply to: name@brand.com")) fail(where, `hand-off brief reads "${handoff.ready}"`);
   if (handoff.gmailTo !== "contact@wubba.studio" || !handoff.gmailBody?.startsWith(text)) fail(where, `Gmail link: to=${handoff.gmailTo}`);
+  if (handoff.outlookTo !== "contact@wubba.studio") fail(where, `Outlook link: to=${handoff.outlookTo}`);
   if (!handoff.mailto.startsWith("mailto:contact@wubba.studio?subject=Brief for Wubba&body=" + text)) fail(where, `mailto link: ${handoff.mailto.slice(0, 90)}`);
   if (!handoff.primary.startsWith("Open in Gmail")) fail(where, `the hand-off leads with "${handoff.primary}" on desktop`);
 
@@ -376,7 +431,7 @@ for (const [width, height] of [
     mailto: document.querySelector("[data-handoff-mailto]").href.length,
     gmail: new URL(document.querySelector("[data-handoff-gmail]").href).searchParams.get("body").length,
   }));
-  if (!long.note || long.mailto > 3600 || long.gmail < 2900) fail(where, `long brief ${JSON.stringify(long)}`);
+  if (!long.note || long.mailto > 2000 || long.gmail < 2900) fail(where, `long brief ${JSON.stringify(long)}`);
 
   // the draft survives a reload in the same tab
   await page.fill("[data-message]", text);
@@ -497,6 +552,8 @@ for (const status of [200, 500]) {
   const { page } = await open(context, "/brief?product=monitor&place=desert", where);
   const idea = await page.textContent("[data-idea]");
   if (!idea.includes("monitor") || !idea.includes("in the desert")) fail(where, `idea reads "${idea}"`);
+  const written = await page.inputValue("[data-message]");
+  if (!written.startsWith("Idea: an AI streamer tests our monitor in the desert.")) fail(where, `the brief starts "${written.slice(0, 50)}"`);
   await context.close();
 }
 
@@ -553,6 +610,15 @@ for (const status of [200, 500]) {
   if (pages !== 1) fail(where, `prints on ${pages} pages`);
   const ground = await page.evaluate(() => [getComputedStyle(document.documentElement).colorScheme, getComputedStyle(document.body).backgroundColor]);
   if (ground[0] !== "light" || ground[1] !== "rgb(255, 255, 255)") fail(where, `prints on ${ground.join(" / ")}`);
+  for (const [path, most] of [["/offer", 3], ["/series", 2], ["/about", 2]]) {
+    await page.goto(url + path, { waitUntil: "networkidle" });
+    await page.emulateMedia({ media: "print", reducedMotion: "reduce" });
+    const sheet = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
+    const count = (sheet.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
+    if (count > most) fail(`print ${path}`, `runs to ${count} pages (at most ${most})`);
+    const shown = await page.evaluate(() => [...document.querySelectorAll(".disc-band, .card")].filter((el) => getComputedStyle(el).display !== "none").length);
+    if (shown) fail(`print ${path}`, "prints the disc band or the title card");
+  }
   await context.close();
 }
 
