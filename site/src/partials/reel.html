@@ -1,0 +1,29 @@
+{{#if video}}
+<div class="reel" data-reel>
+  <video muted loop playsinline preload="none" poster="{{videoPoster}}" data-src="{{video}}" aria-label="The first series: a gamer playing Counter-Strike in the middle of the ocean"></video>
+</div>
+{{else}}{{#if instagram}}
+<a class="reel" href="{{instagram}}" rel="noopener" target="_blank" data-reel>
+  <span class="reel__card" aria-hidden="true">
+    <span class="reel__top"><span class="meta">The first series</span><span class="meta">February 2026</span></span>
+    <span class="reel__horizon"></span>
+    <span class="reel__boat"></span>
+    <span class="reel__play"><svg class="icon"><use href="#i-play"/></svg></span>
+    <span class="reel__bottom">
+      <span class="reel__title">Counter-Strike, middle of the ocean</span>
+      <span class="reel__cta">Watch on Instagram <svg class="icon"><use href="#i-ext"/></svg></span>
+    </span>
+  </span>
+  <span class="sr-only">Watch the first series on Instagram (opens in a new tab)</span>
+</a>
+{{else}}
+<div class="reel" data-reel>
+  <span class="reel__card" aria-hidden="true">
+    <span class="reel__top"><span class="meta">The first series</span><span class="meta">February 2026</span></span>
+    <span class="reel__horizon"></span>
+    <span class="reel__boat"></span>
+    <span></span>
+    <span class="reel__bottom"><span class="reel__title">Counter-Strike, middle of the ocean</span></span>
+  </span>
+</div>
+{{/if}}{{/if}}

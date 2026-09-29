@@ -1,0 +1,37 @@
+<footer class="foot">
+  <div class="wrap">
+    <a class="foot__mark" href="/" aria-label="wubba, home">{{> logo-wordmark}}</a>
+    <div class="foot__grid">
+      <div>
+        <p class="foot__k">Briefs and questions</p>
+        <div class="foot__mail">
+          <a href="mailto:{{email}}">{{email}}</a>
+          <button class="copy" type="button" data-copy="{{email}}"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-copy-label>Copy</span></button>
+        </div>
+      </div>
+      <div>
+        <p class="foot__k">This site</p>
+        <ul class="foot__list">
+          <li><a href="/series">The series</a></li>
+          <li><a href="/offer">The offer</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/brief">Send a brief</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot__k">Elsewhere</p>
+        <ul class="foot__list">
+          <li><a href="{{x}}" rel="noopener" target="_blank">@wubbastudio on X</a></li>
+          <li><a href="/wubba-one-sheet.pdf" download>The one-sheet (PDF)</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="print-only print-cta">Send a brief at wubba.studio/brief, or write to {{email}}.</p>
+    <div class="foot__base">
+      <span>© {{year}} Wubba</span>
+      <a href="/privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

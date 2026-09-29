@@ -1,0 +1,58 @@
+<div class="brief-grid">
+  <div class="builder" data-builder>
+    <fieldset class="builder__group">
+      <legend>Your product</legend>
+      <div class="chips">
+        <label class="chip"><input type="radio" name="product" value="headset" data-phrase="headset" checked><span>Headset</span></label>
+        <label class="chip"><input type="radio" name="product" value="mouse" data-phrase="mouse"><span>Mouse</span></label>
+        <label class="chip"><input type="radio" name="product" value="keyboard" data-phrase="keyboard"><span>Keyboard</span></label>
+        <label class="chip"><input type="radio" name="product" value="controller" data-phrase="controller"><span>Controller</span></label>
+        <label class="chip"><input type="radio" name="product" value="monitor" data-phrase="monitor"><span>Monitor</span></label>
+        <label class="chip"><input type="radio" name="product" value="chair" data-phrase="chair"><span>Chair</span></label>
+        <label class="chip"><input type="radio" name="product" value="microphone" data-phrase="microphone"><span>Microphone</span></label>
+        <label class="chip"><input type="radio" name="product" value="energy drink" data-phrase="energy drink"><span>Energy drink</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="builder__group">
+      <legend>Somewhere it has no business working</legend>
+      <div class="chips chips--3">
+        <label class="chip"><input type="radio" name="place" value="ocean" data-phrase="in the middle of the ocean" checked><span>The middle of the ocean</span></label>
+        <label class="chip"><input type="radio" name="place" value="summit" data-phrase="on a mountain summit"><span>A summit</span></label>
+        <label class="chip"><input type="radio" name="place" value="desert" data-phrase="in the desert"><span>The desert</span></label>
+        <label class="chip"><input type="radio" name="place" value="oil-platform" data-phrase="on an oil platform"><span>An oil platform</span></label>
+        <label class="chip"><input type="radio" name="place" value="cockpit" data-phrase="in a cockpit"><span>A cockpit</span></label>
+        <label class="chip"><input type="radio" name="place" value="polar-station" data-phrase="at a polar station"><span>A polar station</span></label>
+      </div>
+    </fieldset>
+    <div class="idea">
+      <p class="idea__k" id="idea-k">Your film, in one line</p>
+      <p class="idea__line" aria-live="polite" aria-labelledby="idea-k" data-idea>An AI streamer tests your <span class="swap" data-slot="product">headset</span> <span class="swap" data-slot="place">in the middle of the ocean</span>.</p>
+      <div class="idea__actions">
+        <button class="btn btn--line btn--small" type="button" data-shuffle><svg class="icon icon--shuffle" aria-hidden="true"><use href="#i-shuffle"/></svg>Shuffle</button>
+        <button class="btn btn--line btn--small" type="button" data-use-idea>Add it to my brief</button>
+      </div>
+    </div>
+  </div>
+
+  <form class="form" action="mailto:{{email}}" method="post" enctype="text/plain" novalidate data-form data-endpoint="{{formEndpoint}}">
+    <div class="field" data-field>
+      <label for="f-email">Your email</label>
+      <div class="field__box"><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="name@brand.com" aria-describedby="f-email-err"></div>
+      <p class="field__error" id="f-email-err" data-error>Enter an email address we can reply to.</p>
+    </div>
+    <div class="field" data-field>
+      <label for="f-msg">Your product and campaign</label>
+      <div class="field__box"><textarea id="f-msg" name="message" required maxlength="4000" rows="7" aria-describedby="f-msg-help f-msg-err" data-message></textarea></div>
+      <div class="field__help" id="f-msg-help"><span>A product link, a goal and a rough timeline are enough. Up to 4,000 characters.</span><span class="field__count" data-count aria-hidden="true">0 / 4,000</span></div>
+      <p class="field__error" id="f-msg-err" data-error>Tell us what you’re launching and what the campaign needs to do.</p>
+    </div>
+    <div class="form__foot">
+      <button class="btn btn--green" type="submit">Send the brief</button>
+      <p class="form__note">No newsletter. We reply from <a href="mailto:{{email}}">{{email}}</a>.</p>
+    </div>
+    <div class="form__status" role="status" aria-live="polite" tabindex="-1" data-status>
+      <p class="form__status-title"><svg class="check" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14"/><path d="M8.5 14.5l3.6 3.6 7.4-7.6"/></svg><span data-status-title>Brief sent.</span></p>
+      <p class="prose" data-status-text>We reply from {{email}}.</p>
+    </div>
+  </form>
+</div>

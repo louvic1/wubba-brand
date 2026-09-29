@@ -1,0 +1,28 @@
+<header class="bar" data-bar>
+  <div class="wrap bar__in">
+    <a class="bar__logo" href="/" aria-label="wubba, home">{{> logo-wordmark}}</a>
+    <nav class="bar__nav" aria-label="Main">
+      <a href="/series" data-nav="series">The series</a>
+      <a href="/offer" data-nav="offer">The offer</a>
+      <a href="/about" data-nav="about">About</a>
+    </nav>
+    <a class="btn btn--green bar__cta" href="/brief" data-nav="brief">Send a brief</a>
+    <button class="bar__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+      <span class="sr-only">Menu</span>
+      <span class="burger" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+<div class="menu" id="menu" aria-label="Menu" inert data-menu>
+  <div class="menu__spacer" aria-hidden="true"></div>
+  <nav class="menu__links" aria-label="Menu">
+    <a href="/" data-nav="home">Home</a>
+    <a href="/series" data-nav="series">The series</a>
+    <a href="/offer" data-nav="offer">The offer</a>
+    <a href="/about" data-nav="about">About</a>
+  </nav>
+  <div class="menu__foot">
+    <a class="btn btn--green" href="/brief" data-nav="brief">Send a brief</a>
+    <p class="meta">contact@wubba.studio</p>
+  </div>
+</div>
