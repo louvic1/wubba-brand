@@ -1,6 +1,6 @@
 <!--
 title: The first series | wubba
-description: A gamer playing Counter-Strike in the middle of the ocean. February 2026. No client, no brief. The gamer was generated.
+description: A gamer playing Counter-Strike in the middle of the ocean. February 2026. No client, no brief. 98.8M views across the series and its reposts.
 nav: series
 path: /series
 -->
@@ -15,55 +15,47 @@ path: /series
 
   <section class="section" aria-labelledby="record-title">
     <div class="wrap split">
-      <div class="split__side">
-        <div class="series-reel">{{> reel}}</div>
-      </div>
       <div class="split__main">
         <h2 class="sr-only" id="record-title">The record</h2>
-        <dl class="record">
-          <div class="wide">
-            <dt>Views</dt>
-            <dd class="big"><span aria-hidden="true">98<span class="point"></span>8M</span><span class="sr-only">98.8M</span> <span class="sub">views across the series and its reposts. X, Instagram &amp; YouTube. Counted 1 September 2026.</span></dd>
-          </div>
-          <div>
-            <dt>Reposts</dt>
-            <dd class="big">Reposted twice by Elon Musk.</dd>
-          </div>
-          <div>
-            <dt>The gamer</dt>
-            <dd class="big">The guy in it doesn’t exist.</dd>
-          </div>
-          <div class="wide">
-            <dt>What happened next</dt>
-            <dd>A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.</dd>
-          </div>
-          <div class="wide">
-            <dt>Label</dt>
-            <dd>Every film we make ships labeled as AI.</dd>
-          </div>
-        </dl>
-        <div class="links">
-          {{#if instagram}}<a class="link-ext" href="{{instagram}}" rel="noopener" target="_blank">Watch the series on Instagram <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}
-          {{#if tf1}}<a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}
+        <div class="tally">
+          <p class="tally__num" aria-hidden="true">98<span class="point"></span>8M</p>
+          <p class="tally__cap"><span class="sr-only">98.8M </span>views across the series and its reposts</p>
+          <dl class="tally__meta">
+            <div><dt>Platforms</dt><dd>X, Instagram &amp;&nbsp;YouTube</dd></div>
+            <div><dt>Counted</dt><dd>1&nbsp;September&nbsp;2026</dd></div>
+          </dl>
         </div>
+        <ul class="record">
+          <li class="record__big">Reposted twice by Elon Musk.</li>
+          <li class="record__big">The guy in it doesn’t exist.</li>
+          <li class="record__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.{{#if tf1}} <a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}</li>
+        </ul>
       </div>
+      <div class="split__side">{{> reel}}</div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="carry-title">
-    <div class="wrap carry">
-      <h2 class="h2" id="carry-title">Your film keeps the format.</h2>
-      <div class="prose">
-        <p>An AI streamer, your product, and a place it has no business being. Your product keeps its real shape and logo. We build the scene around it.</p>
-        <p>The surprise doesn’t carry over. Your film ships labeled as AI, like every film we make.</p>
-      </div>
+  <section class="section" aria-labelledby="format-title">
+    <div class="wrap">
+      <h2 class="h2" id="format-title">Your film keeps the format.</h2>
+      <ul class="anatomy after-h2" aria-label="An AI streamer tests your product somewhere it has no business working.">
+        <li class="anatomy__part"><span class="anatomy__words">An AI streamer</span><span class="anatomy__note">Generated for your film, like the gamer in the first series.</span></li>
+        <li class="anatomy__part anatomy__part--link" aria-hidden="true"><span class="anatomy__words">tests</span></li>
+        <li class="anatomy__part"><span class="anatomy__words">your product</span><span class="anatomy__note">It keeps its real shape and logo.</span></li>
+        <li class="anatomy__part"><span class="anatomy__words">somewhere it has no business working.</span><span class="anatomy__note">We build the scene around it.</span></li>
+      </ul>
+      <p class="lede anatomy__foot">The surprise doesn’t carry over. Your film ships labeled as AI, like every film we make.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="next-title">
-    <div class="wrap cta-band">
-      <h2 class="h2" id="next-title">Put your product in the next one.</h2>
-      <a class="btn btn--green" href="/brief">Send a brief</a>
+  <section class="disc-band" aria-labelledby="next-title" data-primary>
+    <div class="wrap">
+      <div class="disc-band__in">
+        <span class="disc-band__disc" aria-hidden="true"></span>
+        <h2 class="disc-band__h" id="next-title">Put your product in the next one.</h2>
+        <a class="btn btn--ink btn--big" href="/brief">Send a brief</a>
+        <a class="disc-band__try" href="/brief?product=chair&amp;place=summit">Or start from an idea: a chair on a mountain summit <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
     </div>
   </section>
 

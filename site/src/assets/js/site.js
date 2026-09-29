@@ -1,12 +1,13 @@
 // wubba.studio: small, dependency-free behaviour.
 // Every page works as plain HTML without it; this file adds the menu, the brief builder,
-// form validation, copy-to-clipboard and the lazy video.
+// the brief form and its hand-off to email, the copy buttons and the film controls.
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const INBOX = "contact@wubba.studio";
 
-function cssMs(name, fallback) {
+function cssValue(name, fallback) {
   const value = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
   return Number.isFinite(value) ? value : fallback;
 }
@@ -18,7 +19,7 @@ function swapText(el, next) {
     el.textContent = next;
     return;
   }
-  const dur = cssMs("--text-swap-dur", 150);
+  const dur = cssValue("--text-swap-dur", 150);
   clearTimeout(el._swap);
   el.classList.add("is-exit");
   el._swap = setTimeout(() => {
@@ -42,6 +43,44 @@ function announce(text) {
   requestAnimationFrame(() => (liveRegion.textContent = text));
 }
 
+// The brief draft lives in this tab only, so a reload or a page change doesn't lose it.
+const draft = {
+  get(key) {
+    try {
+      return sessionStorage.getItem(`wubba:${key}`) ?? "";
+    } catch {
+      return "";
+    }
+  },
+  set(key, value) {
+    try {
+      if (value) sessionStorage.setItem(`wubba:${key}`, value);
+      else sessionStorage.removeItem(`wubba:${key}`);
+    } catch {
+      // storage refused (private window, blocked site data): the form works without it
+    }
+  },
+};
+
+// Copies to the clipboard. Where the browser refuses, selects the text so it can be copied by hand.
+async function copyText(text, fallback) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    if (fallback?.select) {
+      fallback.focus();
+      fallback.select();
+    } else if (fallback) {
+      const range = document.createRange();
+      range.selectNodeContents(fallback);
+      getSelection().removeAllRanges();
+      getSelection().addRange(range);
+    }
+    return false;
+  }
+}
+
 // ------------------------------------------------------------------ top bar
 
 function bar() {
@@ -54,6 +93,24 @@ function bar() {
   new IntersectionObserver(([entry]) => el.classList.toggle("is-stuck", !entry.isIntersecting)).observe(sentinel);
 }
 
+// One green action per screen: the bar's "Send a brief" steps aside while the page shows its own.
+function primary() {
+  const targets = $$("[data-primary]");
+  if (!targets.length || !("IntersectionObserver" in window)) return;
+  const inView = new Set();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) inView.add(entry.target);
+        else inView.delete(entry.target);
+      }
+      document.documentElement.classList.toggle("primary-in-view", inView.size > 0);
+    },
+    { rootMargin: `-${cssValue("--bar-h", 64)}px 0px 0px 0px` },
+  );
+  targets.forEach((target) => observer.observe(target));
+}
+
 // ------------------------------------------------------------------ mobile menu
 
 function menu() {
@@ -62,26 +119,13 @@ function menu() {
   if (!toggle || !panel) return;
   const root = document.documentElement;
   const label = $(".sr-only", toggle);
-  const behind = () => $$("main, footer");
-  const focusables = () => [toggle, ...$$("a[href], button", panel)];
+  // everything the open menu covers leaves the tab order and the accessibility tree
+  const behind = () => $$(".skip, main, footer");
 
   function onKey(event) {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      close();
-      return;
-    }
-    if (event.key !== "Tab") return;
-    const items = focusables();
-    const first = items[0];
-    const last = items[items.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    close();
   }
 
   function open() {
@@ -133,7 +177,7 @@ function builder() {
     swapText(slots.place, picked("place").dataset.phrase);
   }
 
-  // /brief?product=keyboard&place=cockpit pre-selects an idea (handy for links in outreach emails)
+  // /brief?product=keyboard&place=cockpit pre-selects an idea (the closing bands and outreach emails use it)
   const params = new URLSearchParams(location.search);
   for (const name of ["product", "place"]) {
     const wanted = params.get(name);
@@ -154,8 +198,7 @@ function builder() {
     render();
   });
 
-  const use = $("[data-use-idea]", root);
-  use?.addEventListener("click", () => {
+  $("[data-use-idea]", root)?.addEventListener("click", () => {
     const message = $("[data-message]");
     if (!message) return;
     const idea = `Idea: an AI streamer tests our ${picked("product").dataset.phrase} ${picked("place").dataset.phrase}.`;
@@ -181,12 +224,27 @@ function form() {
   const email = $('input[name="email"]', el);
   const message = $("[data-message]", el);
   const count = $("[data-count]", el);
+  const foot = $("[data-form-foot]", el);
+  const submitLabel = $("[data-submit-label]", el);
+  const status = $("[data-status]", el);
+  const handoff = $("[data-handoff]", el);
+  const ready = $("[data-handoff-body]", el);
+  const gmail = $("[data-handoff-gmail]", el);
+  const mailto = $("[data-handoff-mailto]", el);
   const max = 4000;
+  const mailtoMax = 1800; // Outlook for Windows cuts mailto: links much longer than this
+  const subject = "Brief for Wubba";
   const number = new Intl.NumberFormat("en-US");
-  const inbox = "contact@wubba.studio";
 
   const fieldOf = (input) => input.closest("[data-field]");
   const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+
+  // Phones hand mailto: links to their mail app reliably; desktops more often live in webmail.
+  if (matchMedia("(pointer: coarse)").matches) {
+    mailto.classList.replace("btn--line", "btn--green");
+    gmail.classList.replace("btn--green", "btn--line");
+    gmail.before(mailto);
+  }
 
   function updateCount() {
     const n = message.value.length;
@@ -212,27 +270,83 @@ function form() {
     box.classList.remove("is-shaking");
     void box.offsetWidth;
     box.classList.add("is-shaking");
-    const shake = cssMs("--shake-dur-a", 80) * 2 + cssMs("--shake-dur-b", 60) * 2;
+    const shake = cssValue("--shake-dur-a", 80) * 2 + cssValue("--shake-dur-b", 60) * 2;
     setTimeout(() => box.classList.remove("is-shaking"), shake + 20);
   }
 
-  function done(title, text) {
-    el.classList.remove("is-sending");
-    $("[data-status-title]", el).textContent = title;
-    $("[data-status-text]", el).textContent = text;
-    el.classList.add("is-sent");
-    $("[data-status]", el).focus({ preventScroll: true });
+  let saving;
+  function save() {
+    clearTimeout(saving);
+    saving = setTimeout(() => {
+      draft.set("email", email.value.trim());
+      draft.set("brief", message.value);
+    }, 250);
   }
 
-  message.addEventListener("input", () => {
-    updateCount();
-    clearError(message);
-  });
-  email.addEventListener("input", () => clearError(email));
+  // Without a form endpoint the site can't send the brief itself. It writes the email and
+  // hands it over: Gmail, the visitor's mail app, or the clipboard. It never claims it was sent.
+  function openHandoff(failed) {
+    const address = email.value.trim();
+    const text = message.value.trim();
+    const body = `${text}\n\nReply to: ${address}`;
+    const long = body.length > mailtoMax;
+    const shortBody = long ? `${text.slice(0, mailtoMax - 80).trimEnd()} […]\n\nReply to: ${address}` : body;
+    const enc = encodeURIComponent;
+    $("[data-handoff-title]", el).textContent = failed
+      ? "It didn’t go through. Send it from your email instead."
+      : "One more step: send it from your email.";
+    ready.value = body;
+    mailto.href = `mailto:${INBOX}?subject=${enc(subject)}&body=${enc(shortBody)}`;
+    gmail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(INBOX)}&su=${enc(subject)}&body=${enc(body)}`;
+    $("[data-handoff-long]", el).hidden = !long;
+    foot.hidden = true;
+    handoff.hidden = false;
+    $("[data-handoff-title]", el).focus({ preventScroll: true });
+    handoff.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "nearest" });
+  }
+
+  function closeHandoff() {
+    handoff.hidden = true;
+    foot.hidden = false;
+  }
+
+  function sent() {
+    el.classList.add("is-sent");
+    draft.set("brief", "");
+    status.focus({ preventScroll: true });
+  }
+
+  if (!email.value) email.value = draft.get("email");
+  if (!message.value) message.value = draft.get("brief");
   updateCount();
+
+  el.addEventListener("input", (event) => {
+    if (event.target !== email && event.target !== message) return;
+    if (event.target === message) updateCount();
+    clearError(event.target);
+    save();
+    // the brief changed, so the email written from it is stale
+    if (!handoff.hidden) closeHandoff();
+  });
+
+  const copyButton = $("[data-handoff-copy]", el);
+  const copyLabel = $("[data-handoff-copy-label]", el);
+  copyButton.addEventListener("click", async () => {
+    const copied = await copyText(ready.value, ready);
+    swapText(copyLabel, copied ? "Copied" : "Selected");
+    announce(copied ? "Brief copied." : "The brief is selected. Copy it with your keyboard or the menu.");
+    clearTimeout(copyButton._reset);
+    copyButton._reset = setTimeout(() => swapText(copyLabel, "Copy the brief"), 2200);
+  });
+
+  $("[data-edit]", el).addEventListener("click", () => {
+    el.classList.remove("is-sent");
+    message.focus();
+  });
 
   el.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (el.classList.contains("is-sending")) return;
     const invalid = [];
     const address = email.value.trim();
     const text = message.value.trim();
@@ -254,28 +368,29 @@ function form() {
     }
 
     const endpoint = el.dataset.endpoint;
-    if (endpoint) {
-      el.classList.add("is-sending");
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ email: address, message: text, page: location.pathname }),
-        });
-        if (!response.ok) throw new Error(String(response.status));
-        done("Brief sent.", `We reply from ${inbox}.`);
-      } catch {
-        el.classList.remove("is-sending");
-        showError(message, `The brief didn’t go through. Try again, or email it to ${inbox}.`);
-      }
+    if (!endpoint) {
+      openHandoff(false);
       return;
     }
 
-    // No endpoint yet: hand the brief to the visitor's email app, already written.
-    const subject = `Brief from ${address}`;
-    const body = `${text}\n\nReply to: ${address}`;
-    location.href = `mailto:${inbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    done("Your email app should open.", `The brief is already written in it. If nothing opened, send it to ${inbox}.`);
+    el.classList.add("is-sending");
+    el.setAttribute("aria-busy", "true");
+    swapText(submitLabel, "Sending…");
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ email: address, message: text, page: location.pathname }),
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      sent();
+    } catch {
+      openHandoff(true);
+    } finally {
+      el.classList.remove("is-sending");
+      el.removeAttribute("aria-busy");
+      swapText(submitLabel, "Send the brief");
+    }
   });
 }
 
@@ -284,38 +399,63 @@ function form() {
 function copy() {
   $$("[data-copy]").forEach((button) => {
     const label = $("[data-copy-label]", button);
+    const source = $("[data-copy-text]", button.parentElement);
     button.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(button.dataset.copy);
-        swapText(label, "Copied");
-        announce("Email address copied.");
-        clearTimeout(button._reset);
-        button._reset = setTimeout(() => swapText(label, "Copy"), 1800);
-      } catch {
-        location.href = `mailto:${button.dataset.copy}`;
-      }
+      const copied = await copyText(button.dataset.copy, source);
+      swapText(label, copied ? "Copied" : "Selected");
+      announce(copied ? "Email address copied." : "The email address is selected.");
+      clearTimeout(button._reset);
+      button._reset = setTimeout(() => swapText(label, "Copy"), 1800);
     });
   });
 }
 
-// ------------------------------------------------------------------ the film, when the owner adds it
+// ------------------------------------------------------------------ the film, once the owner adds it
 
-function reels() {
-  $$("[data-reel] video[data-src]").forEach((video) => {
-    if (reduce.matches) {
-      video.controls = true;
+function films() {
+  $$("[data-film]").forEach((box) => {
+    const video = $("video", box);
+    const play = $("[data-film-play]", box);
+    const sound = $("[data-film-sound]", box);
+    let held = reduce.matches; // with reduced motion the film waits for a click
+    const load = () => {
+      if (!video.getAttribute("src")) video.src = video.dataset.src;
+    };
+
+    function render() {
+      $("[data-film-play-label]", play).textContent = video.paused ? "Play" : "Pause";
+      $("use", play).setAttribute("href", video.paused ? "#i-play" : "#i-pause");
+      $("[data-film-sound-label]", sound).textContent = video.muted ? "Sound on" : "Sound off";
+      $("use", sound).setAttribute("href", video.muted ? "#i-sound" : "#i-mute");
+    }
+
+    ["play", "pause", "volumechange"].forEach((type) => video.addEventListener(type, render));
+    play.addEventListener("click", () => {
+      load();
+      held = !video.paused;
+      if (video.paused) video.play().catch(() => {});
+      else video.pause();
+    });
+    sound.addEventListener("click", () => {
+      load();
+      video.muted = !video.muted;
+      if (!video.muted && video.paused) {
+        held = false;
+        video.play().catch(() => {});
+      }
+    });
+    render();
+
+    if (held) {
       video.preload = "metadata";
-      video.src = video.dataset.src;
+      load();
       return;
     }
     new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!video.getAttribute("src")) video.src = video.dataset.src;
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
+        if (!entry.isIntersecting) return video.pause();
+        load();
+        if (!held) video.play().catch(() => {});
       },
       { threshold: 0.25 },
     ).observe(video);
@@ -323,8 +463,9 @@ function reels() {
 }
 
 bar();
+primary();
 menu();
 builder();
 form();
 copy();
-reels();
+films();

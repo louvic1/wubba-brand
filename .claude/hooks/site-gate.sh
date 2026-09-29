@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Stop hook: the site's mechanical gate (loop engineering, step 4a).
-# Runs only when site/ changed since the last green run. While the gate is red it blocks the stop
-# and hands the failures back; after 5 blocks in a row it lets the stop through so it never spins forever.
+# Runs only when site/ changed since the last green run. It rebuilds, reprints the one-sheet PDF,
+# rebuilds again and runs the gate. While the gate is red it blocks the stop and hands the failures
+# back; after 5 blocks in a row it lets the stop through so it never spins forever.
 set -u
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 SITE="$ROOT/site"
@@ -11,7 +12,9 @@ mkdir -p "$STATE"
 
 say() { jq -n --arg m "$1" '{systemMessage: $m}'; }
 
-HASH=$(cd "$SITE" && find src build.mjs site.config.json tests/gate.mjs tools -type f -print0 2>/dev/null \
+# the PDF and the social card are outputs, so they stay out of the hash
+HASH=$(cd "$SITE" && find src build.mjs site.config.json tests/gate.mjs tests/fixtures tools -type f \
+  ! -name 'wubba-one-sheet.pdf' ! -name 'og.png' -print0 2>/dev/null \
   | sort -z | xargs -0 sha1sum | sha1sum | cut -c1-40)
 if [ "$(cat "$STATE/green" 2>/dev/null)" = "$HASH" ]; then
   rm -f "$STATE/blocks"
@@ -23,7 +26,7 @@ if [ ! -f "$SITE/node_modules/axe-core/axe.min.js" ]; then
   exit 0
 fi
 
-OUT=$(cd "$SITE" && node build.mjs 2>&1 && node tests/gate.mjs 2>&1)
+OUT=$(cd "$SITE" && node build.mjs 2>&1 && node tools/pdf.mjs 2>&1 && node build.mjs 2>&1 && node tests/gate.mjs 2>&1)
 if [ $? -eq 0 ]; then
   echo "$HASH" > "$STATE/green"
   rm -f "$STATE/blocks"

@@ -3,6 +3,7 @@ title: wubba: AI streamers who test gaming gear where it has no business working
 description: We build AI streamers who test gaming gear where it has no business working. The first series: 98.8M views across the series and its reposts.
 nav: home
 path: /
+steps: inline
 -->
 {{> head}}
 {{> header}}
@@ -11,65 +12,57 @@ path: /
 
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero__head">
-      <h1 class="hero__title" id="hero-title">We build AI streamers who test gaming gear where it has no business working.</h1>
-      <div class="hero__actions">
+      <h1 class="hero__title" id="hero-title">We build AI streamers <span class="hero__sub">who test gaming gear where it has no business working.</span></h1>
+      <div class="hero__actions" data-primary>
         <a class="btn btn--green" href="/brief">Send a brief</a>
-        <a class="btn btn--line" href="/series">See the first series</a>
+        {{#if video}}<a class="btn btn--line" href="#series">Watch the film</a>{{else}}{{#if instagram}}<a class="btn btn--line" href="{{instagram}}" rel="noopener" target="_blank">Watch the series <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> on Instagram (opens in a new tab)</span></a>{{/if}}{{/if}}
       </div>
     </div>
     <figure class="figure">
-      <p class="figure__num" aria-hidden="true"><span class="g">9</span><span class="g">8</span><span class="point" aria-hidden="true"></span><span class="g">8</span><span class="g">M</span></p>
+      <p class="figure__num" aria-hidden="true"><span class="g">9</span><span class="g">8</span><span class="point"></span><span class="g">8</span><span class="g">M</span></p>
       <figcaption class="figure__cap">
         <div class="cell"><p class="cell__lead"><span class="sr-only">98.8M </span>views across the series and its reposts</p></div>
-        <div class="cell"><p class="cell__k">Platforms</p><p class="cell__v">X, Instagram &amp; YouTube</p></div>
-        <div class="cell"><p class="cell__k">Counted</p><p class="cell__v">1 September 2026</p></div>
+        <div class="cell"><p class="cell__k">Platforms</p><p class="cell__v">X, Instagram &amp;&nbsp;YouTube</p></div>
+        <div class="cell"><p class="cell__k">Counted</p><p class="cell__v">1&nbsp;September&nbsp;2026</p></div>
       </figcaption>
     </figure>
+    <p class="hero__twist">The guy in it doesn’t exist.</p>
   </section>
 
-  <section class="section" aria-labelledby="facts-title">
+  <section class="section" id="series" aria-labelledby="series-title">
     <div class="wrap sheet">
-      <div class="sheet__head">
-        <h2 class="statement" id="facts-title">The guy in it doesn’t exist.</h2>
-      </div>
       <div class="sheet__media">{{> reel}}</div>
-      <dl class="facts">
-        <div class="fact fact--wide">
-          <dt class="fact__k">The first series</dt>
-          <dd class="fact__v fact__v--big">A gamer playing Counter-Strike in the middle of the ocean.</dd>
-          <dd class="fact__v">February 2026. No client, no brief.</dd>
-        </div>
-        <div class="fact">
-          <dt class="fact__k">Reposts</dt>
-          <dd class="fact__v fact__v--big">Reposted twice by Elon Musk.</dd>
-        </div>
-        <div class="fact">
-          <dt class="fact__k">Label</dt>
-          <dd class="fact__v fact__v--big">Every film we make ships labeled as AI.</dd>
-        </div>
-        <div class="fact fact--wide">
-          <dt class="fact__k">Fact-check</dt>
-          <dd class="fact__v">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.</dd>
-          <dd class="links">
-            {{#if instagram}}<a class="link-ext" href="{{instagram}}" rel="noopener" target="_blank">Watch the series on Instagram <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}
-            {{#if tf1}}<a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>{{/if}}
-          </dd>
-        </div>
-      </dl>
+      <div class="sheet__body">
+        <h2 class="sheet__title" id="series-title">A gamer playing Counter-Strike in the middle of the ocean.</h2>
+        <p class="sheet__sub">The first series. February 2026. No client, no brief.</p>
+        <dl class="facts">
+          <div class="fact">
+            <dt class="sr-only">Reposts</dt>
+            <dd class="fact__big">Reposted twice by Elon Musk.</dd>
+          </div>
+          <div class="fact">
+            <dt class="sr-only">Fact-check</dt>
+            <dd class="fact__text">A community note flagged the borrowed gameplay. TF1 investigated, then published our confirmation that the gamer was generated.</dd>
+            {{#if tf1}}<dd class="links"><a class="link-ext" href="{{tf1}}" rel="noopener" target="_blank">Read the TF1 fact-check <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a></dd>{{/if}}
+          </div>
+          <div class="fact">
+            <dt class="sr-only">AI label</dt>
+            <dd class="fact__big">Every film we make ships labeled as AI.</dd>
+          </div>
+        </dl>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="offer-title">
+  <section class="section pitch" aria-labelledby="offer-title">
     <div class="wrap">
-      <div class="offer-grid">
-      <div class="offer-head">
-        <h2 class="h2" id="offer-title">Every headset ad happens at a desk.</h2>
-        <p class="lede">RGB light, a hand on the product, a voice saying it feels great. People have seen that one. They haven’t seen a headset in the middle of the ocean.</p>
+      <div class="pitch__problem">
+        <h2 class="pitch__h pitch__h--dim">Every headset ad happens at a desk.</h2>
+        <p class="lede">RGB light, a hand on the product, a voice saying it feels great. The chair and the mouse get the same ad. People have seen that one. They haven’t seen a headset in the middle of the ocean.</p>
       </div>
-      <div class="offer-head offer-head--solution">
-        <h3 class="h3">We build a film around your product, from concept to campaign.</h3>
-        <p class="prose">Your product keeps its real shape and logo. We build the scene around it, then deliver the film and campaign cutdowns, with usage rights agreed before production.</p>
-      </div>
+      <div class="pitch__solution">
+        <h2 class="pitch__h" id="offer-title">We build a film around your product, then cut it into a campaign.</h2>
+        <p class="lede">Your product keeps its real shape and logo. We build the scene around it, then deliver the film and campaign cutdowns, with usage rights agreed before production.</p>
       </div>
       <ol class="steps">
         <li class="step">
@@ -99,7 +92,7 @@ path: /
       </ol>
       <div class="rights">
         <p><strong>Rights:</strong> paid usage on every channel for six months, and category exclusivity for the term.</p>
-        <a class="link-ext" href="/offer">How it works</a>
+        <a class="link-ext" href="/offer">See the full offer <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
   </section>

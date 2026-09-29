@@ -5,8 +5,8 @@
       <div>
         <p class="foot__k">Briefs and questions</p>
         <div class="foot__mail">
-          <a href="mailto:{{email}}">{{email}}</a>
-          <button class="copy" type="button" data-copy="{{email}}"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-copy-label>Copy</span></button>
+          <a href="mailto:{{email}}" data-copy-text>{{email}}</a>
+          <button class="copy" type="button" data-copy="{{email}}"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-copy-label>Copy</span><span class="sr-only"> the email address</span></button>
         </div>
       </div>
       <div>
@@ -21,8 +21,8 @@
       <div>
         <p class="foot__k">Elsewhere</p>
         <ul class="foot__list">
-          <li><a href="{{x}}" rel="noopener" target="_blank">@wubbastudio on X</a></li>
-          <li><a href="/wubba-one-sheet.pdf" download>The one-sheet (PDF)</a></li>
+          <li><a href="{{x}}" rel="noopener" target="_blank">@wubbastudio on X<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li data-preview-omit><a href="/wubba-one-sheet.pdf" download>The one-sheet (PDF)</a></li>
         </ul>
       </div>
     </div>

@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "test": "node build.mjs && node tests/gate.mjs"
+    "assets": "node tools/og.mjs && node build.mjs && node tools/pdf.mjs && node build.mjs",
+    "test": "node build.mjs && node tests/gate.mjs",
+    "shots": "node build.mjs && node tools/shoot.mjs"
   },
   "devDependencies": {
     "axe-core": "^4.10.0"
