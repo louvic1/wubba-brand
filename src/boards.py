@@ -80,7 +80,7 @@ footer{{margin-top:22px;display:flex;justify-content:space-between;font:500 11px
 <div class="grid g3">
  <div class="panel"><p class="lab">Palette</p><div class="chips">{''.join(chips)}</div><ul class="c">{contrasts}</ul></div>
  <div class="panel spec"><p class="lab">Typographie</p>
-  <div class="d">wubba studio</div>
+  <div class="d">wubba</div>
   <div class="b">{TAGLINE}.</div>
   <div class="m">{DOMAIN} · {HANDLE}</div>
   <div class="fonts"><div><b>{d.display.family}</b>titres</div><div><b>{d.body.family}</b>texte</div><div><b>{d.mono.family}</b>étiquettes, données</div></div>

@@ -1,0 +1,251 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-09-29T02:01:40Z"
+  },
+  "title": "wubba",
+  "namespace": "Wubba",
+  "libraries": [],
+  "sections": {},
+  "groups": [
+    "Logos",
+    "Symbole",
+    "Tuiles",
+    "Social"
+  ],
+  "assetGroups": {
+    "Logos": {
+      "name": "Logos",
+      "tile": "l",
+      "order": [
+        "wubba-logo.svg",
+        "wubba-logo-reversed.svg",
+        "wubba-logo-sur-signal.svg",
+        "wubba-logo-mono-noir.svg",
+        "wubba-logo-mono-blanc.svg",
+        "wubba-lockup-horizontal.svg",
+        "wubba-lockup-horizontal-reversed.svg",
+        "wubba-lockup-empile.svg",
+        "wubba-lockup-empile-reversed.svg",
+        "wubba-filigrane.svg"
+      ],
+      "files": {
+        "wubba-logo.svg": {
+          "name": "wubba-logo.svg",
+          "blob": "fafcf9c3e40d5a314a354ebf02e29f93",
+          "size": 1669,
+          "type": "image/svg+xml"
+        },
+        "wubba-logo-reversed.svg": {
+          "name": "wubba-logo-reversed.svg",
+          "blob": "f61bb63945d5ae499fba5701c25b1ea3",
+          "size": 1918,
+          "type": "image/svg+xml"
+        },
+        "wubba-logo-sur-signal.svg": {
+          "name": "wubba-logo-sur-signal.svg",
+          "blob": "b92c62ee5473f94a30ff58d8e3e63af0",
+          "size": 1669,
+          "type": "image/svg+xml"
+        },
+        "wubba-logo-mono-noir.svg": {
+          "name": "wubba-logo-mono-noir.svg",
+          "blob": "b561bba6026e1fe90fc7c78448635ea2",
+          "size": 1669,
+          "type": "image/svg+xml"
+        },
+        "wubba-logo-mono-blanc.svg": {
+          "name": "wubba-logo-mono-blanc.svg",
+          "blob": "cb5467e5f2a85e06a933cb8d98c100ca",
+          "size": 1918,
+          "type": "image/svg+xml"
+        },
+        "wubba-lockup-horizontal.svg": {
+          "name": "wubba-lockup-horizontal.svg",
+          "blob": "a225dbe0cb3f355bc4f0a44e85ca2de8",
+          "size": 2079,
+          "type": "image/svg+xml"
+        },
+        "wubba-lockup-horizontal-reversed.svg": {
+          "name": "wubba-lockup-horizontal-reversed.svg",
+          "blob": "7f60292965dade345858aa9cb7507206",
+          "size": 2338,
+          "type": "image/svg+xml"
+        },
+        "wubba-lockup-empile.svg": {
+          "name": "wubba-lockup-empile.svg",
+          "blob": "26857c880872844a781a2521a61c9459",
+          "size": 2108,
+          "type": "image/svg+xml"
+        },
+        "wubba-lockup-empile-reversed.svg": {
+          "name": "wubba-lockup-empile-reversed.svg",
+          "blob": "0a7372c81f22f4792c274771f6cf85f4",
+          "size": 2363,
+          "type": "image/svg+xml"
+        },
+        "wubba-filigrane.svg": {
+          "name": "wubba-filigrane.svg",
+          "blob": "b3af0e27433edad27d806be25938d7c9",
+          "size": 1918,
+          "type": "image/svg+xml"
+        }
+      }
+    },
+    "Symbole": {
+      "name": "Symbole",
+      "tile": "m",
+      "order": [
+        "wubba-symbole.svg",
+        "wubba-symbole-reversed.svg",
+        "wubba-symbole-mono-noir.svg",
+        "wubba-symbole-mono-blanc.svg",
+        "wubba-symbole-petit.svg"
+      ],
+      "files": {
+        "wubba-symbole.svg": {
+          "name": "wubba-symbole.svg",
+          "blob": "c5c8d35c9e1d9321badb35e9070de796",
+          "size": 520,
+          "type": "image/svg+xml"
+        },
+        "wubba-symbole-reversed.svg": {
+          "name": "wubba-symbole-reversed.svg",
+          "blob": "fa2c2c0bf3af41aad9667699c5564d16",
+          "size": 531,
+          "type": "image/svg+xml"
+        },
+        "wubba-symbole-mono-noir.svg": {
+          "name": "wubba-symbole-mono-noir.svg",
+          "blob": "961cf5dc700700e3c2be4b8591bf05d8",
+          "size": 520,
+          "type": "image/svg+xml"
+        },
+        "wubba-symbole-mono-blanc.svg": {
+          "name": "wubba-symbole-mono-blanc.svg",
+          "blob": "f02a632662fb8c8eeae0021ce6e25cb0",
+          "size": 531,
+          "type": "image/svg+xml"
+        },
+        "wubba-symbole-petit.svg": {
+          "name": "wubba-symbole-petit.svg",
+          "blob": "05b6741ab62484a065c3baeb2968331d",
+          "size": 532,
+          "type": "image/svg+xml"
+        }
+      }
+    },
+    "Tuiles": {
+      "name": "Tuiles",
+      "tile": "s",
+      "order": [
+        "wubba-icone.svg",
+        "wubba-icone-papier.svg",
+        "wubba-icone-signal.svg",
+        "wubba-icone-rond.svg",
+        "wubba-icone-mono.svg",
+        "wubba-icone-petit.svg",
+        "favicon.svg",
+        "avatar.svg"
+      ],
+      "files": {
+        "wubba-icone.svg": {
+          "name": "wubba-icone.svg",
+          "blob": "f2033c52a444d49c405d489226968ab7",
+          "size": 673,
+          "type": "image/svg+xml"
+        },
+        "wubba-icone-papier.svg": {
+          "name": "wubba-icone-papier.svg",
+          "blob": "589c694277c9cbd3523a51e2bffaefe9",
+          "size": 673,
+          "type": "image/svg+xml"
+        },
+        "wubba-icone-signal.svg": {
+          "name": "wubba-icone-signal.svg",
+          "blob": "47a33ada62289dff9409a99005629a87",
+          "size": 673,
+          "type": "image/svg+xml"
+        },
+        "wubba-icone-rond.svg": {
+          "name": "wubba-icone-rond.svg",
+          "blob": "356aa8cc8dbedb5f31e8ce4ad8717ee1",
+          "size": 634,
+          "type": "image/svg+xml"
+        },
+        "wubba-icone-mono.svg": {
+          "name": "wubba-icone-mono.svg",
+          "blob": "3ce582b0d5d475e34e20235e33d53cfd",
+          "size": 596,
+          "type": "image/svg+xml"
+        },
+        "wubba-icone-petit.svg": {
+          "name": "wubba-icone-petit.svg",
+          "blob": "ad2b76a8819b297eeb7327f57285564e",
+          "size": 685,
+          "type": "image/svg+xml"
+        },
+        "favicon.svg": {
+          "name": "favicon.svg",
+          "blob": "541ecfa438ef2f198a2631f6fbcb2fc3",
+          "size": 685,
+          "type": "image/svg+xml"
+        },
+        "avatar.svg": {
+          "name": "avatar.svg",
+          "blob": "e1525f6c6aacf32f974b81b1f8d91323",
+          "size": 543,
+          "type": "image/svg+xml"
+        }
+      }
+    },
+    "Social": {
+      "name": "Social",
+      "tile": "l",
+      "order": [
+        "x-header.png",
+        "og.png",
+        "linkedin.png",
+        "linkedin-company.png"
+      ],
+      "files": {
+        "x-header.png": {
+          "name": "x-header.png",
+          "blob": "e6483cc100b70805ec22b6628e22cc33",
+          "size": 35954,
+          "type": "image/png"
+        },
+        "og.png": {
+          "name": "og.png",
+          "blob": "458603ddd9c3c7cad7b4acbbb6c6ec84",
+          "size": 35652,
+          "type": "image/png"
+        },
+        "linkedin.png": {
+          "name": "linkedin.png",
+          "blob": "681163df49928e7bc4dc69e6ee111c21",
+          "size": 28912,
+          "type": "image/png"
+        },
+        "linkedin-company.png": {
+          "name": "linkedin-company.png",
+          "blob": "d55512cf8358d3ba2d153c0d485c8f75",
+          "size": 14914,
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  "blobs": {},
+  "docs": {
+    "sections": []
+  },
+  "lastChange": {
+    "by": "Claude",
+    "at": "2026-09-29T02:01:40Z",
+    "via": "Claude Code",
+    "note": "Premier jet : direction A, Le point de trop (tokens, guide, logos, tuiles, bannières)"
+  }
+}

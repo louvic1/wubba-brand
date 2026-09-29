@@ -263,6 +263,15 @@ TYPE_PAIRS = [
 ]
 
 
+def trim(path, bg=(237, 237, 234)):
+    """Coupe le fond uni autour d'une capture (la page est plus courte que la fenêtre de rendu)."""
+    from PIL import Image, ImageChops
+    im = Image.open(path).convert("RGB")
+    box = ImageChops.difference(im, Image.new("RGB", im.size, bg)).getbbox()
+    if box:
+        im.crop(box).save(path)
+
+
 def build_type():
     """Paires typographiques candidates pour A, posées à côté du logo pour juger l'accord."""
     root = compose.ROOT
@@ -273,11 +282,11 @@ def build_type():
             faces.add((fam, file))
         rows.append(f"""<section><div class="light"><div class="top"><span class="code">{code}</span><span class="lab">{label}</span>
 <img src="file://{compose.OPT / 'A-point' / 'logo-light-transparent.svg'}"></div>
-<h2 style="font-family:'{disp[0]}';{disp[2]}">We build AI streamers who test gaming gear where it has no business working.</h2>
-<p style="font-family:'{body[0]}';{body[2]}">The price is the license and the library, not the render. It covers a concept written for one product, eight to twelve assets cut from a single shoot, six months of paid usage on every channel, and category exclusivity for the term.</p>
-<div class="data" style="font-family:'{mono[0]}';{mono[2]}"><span>ASSETS <b>8–12</b></span><span>RIGHTS <b>6 MO</b></span><span>DELIVERY <b>10–15 D</b></span><span>WUBBA.STUDIO</span></div></div>
-<div class="dark"><h3 style="font-family:'{disp[0]}';{disp[2]}">wubba studio</h3>
-<div class="data" style="font-family:'{mono[0]}';{mono[2]}"><span>● 9:16 · 1:1 · 16:9</span></div></div></section>""")
+<h2 style="font-family:'{disp[0]}';{disp[2]}">AI streamers who test gaming gear where it has no business working</h2>
+<p style="font-family:'{body[0]}';{body[2]}">wubba · wubba.studio · @wubbastudio · contact@wubba.studio<br>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 &amp; ? ! @ %</p>
+<div class="data" style="font-family:'{mono[0]}';{mono[2]}"><span>WUBBA.STUDIO</span><span>@WUBBASTUDIO</span><span>0123456789</span></div></div>
+<div class="dark"><h3 style="font-family:'{disp[0]}';{disp[2]}">wubba</h3>
+<div class="data" style="font-family:'{mono[0]}';{mono[2]}"><span>● WUBBA.STUDIO</span></div></div></section>""")
     ff = "\n".join(f'@font-face{{font-family:"{fam}";src:url("file://{fonts / file}");font-weight:100 900;font-stretch:50% 200%}}'
                    for fam, file in faces)
     html = f"""<!doctype html><meta charset="utf-8"><style>{ff}
@@ -306,6 +315,7 @@ p{{font-size:17px;line-height:1.5;margin:0 0 16px;max-width:70ch}}
         hp.write_text(one.replace("body{margin:0;background:#EDEDEA;width:1900px}",
                                   "body{margin:0;background:#EDEDEA;width:1852px}"))
         compose.render_html(hp, tdir / f"{code}.png", 1852, "auto", 1)
+        trim(tdir / f"{code}.png")
     hp.unlink()
     print("A", len(TYPE_PAIRS), "paires typo")
 

@@ -120,7 +120,7 @@ def direction_block(d, imgs):
 
 def build():
     OUT.mkdir(exist_ok=True)
-    for f in IMG.glob("*.webp") if IMG.exists() else []:
+    for f in list(IMG.glob("*.webp")) + list(IMG.glob("*.mp4")) if IMG.exists() else []:
         f.unlink()
     imgs = {}
     for d in ALL:
@@ -171,16 +171,42 @@ def build():
         types.append((f"type-A-{code}", code, label,
                       webp(compose.OPT / "A-point" / "typo" / f"{code}.png", f"A-type-{code}", 1500)[0]))
 
-    page = render(imgs, overview, signs, palettes, lays, types)
+    # -------- animations (WebP animé copié tel quel, carton 9:16 en MP4)
+    import shutil
+    motions = []
+    for d in sorted(ALL, key=lambda d: -sum(critique.V2.get(d.code, critique.V1[d.code][0]))):
+        m = compose.OPT / f"{d.code}-{d.key}" / "motion"
+        if (m / "sting.webp").exists():
+            shutil.copyfile(m / "sting.webp", IMG / f"{d.code}-sting.webp")
+            shutil.copyfile(m / "endcard-9x16.mp4", IMG / f"{d.code}-endcard.mp4")
+            # affiche du carton vertical : sa dernière image, pour que la vidéo ne soit jamais un rectangle noir
+            import subprocess
+            import imageio_ffmpeg
+            tmp = IMG / f"_{d.code}-poster.png"
+            subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y", "-sseof", "-0.2",
+                            "-i", str(m / "endcard-9x16.mp4"), "-frames:v", "1", str(tmp)], check=True)
+            poster = webp(tmp, f"{d.code}-endcard-poster", 540)[0]
+            tmp.unlink()
+            motions.append((d, f"img/{d.code}-sting.webp", f"img/{d.code}-endcard.mp4", poster))
+    # -------- mises en situation
+    mocks = []
+    for d in sorted(ALL, key=lambda d: -sum(critique.V2.get(d.code, critique.V1[d.code][0]))):
+        m = compose.OPT / f"{d.code}-{d.key}" / "mockups"
+        if (m / "stickers.png").exists():
+            mocks.append((d, webp(m / "stickers.png", f"{d.code}-stickers", 1200)[0],
+                          webp(m / "signature.png", f"{d.code}-signature", 900, 90)[0]))
+
+    page = render(imgs, overview, signs, palettes, lays, types, motions, mocks)
     (OUT / "index.html").write_text(page)
-    n = len(list(IMG.glob("*.webp")))
-    size = sum(f.stat().st_size for f in IMG.glob("*.webp")) / 1e6
+    files = list(IMG.glob("*.webp")) + list(IMG.glob("*.mp4"))
+    n = len(files)
+    size = sum(f.stat().st_size for f in files) / 1e6
     print(f"catalogue : {n} images, {size:.1f} Mo, page {len(page) / 1e3:.0f} ko")
 
 
 # ------------------------------------------------------------------ page
 
-def render(imgs, overview, signs, palettes, lays, types):
+def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
     ranked = sorted(ALL, key=lambda d: -sum(critique.V2.get(d.code, critique.V1[d.code][0])))
     short = []
     reasons = {
@@ -225,7 +251,16 @@ def render(imgs, overview, signs, palettes, lays, types):
     type_cards = "".join(f"""<figure class="opt wide"><img src="{src}" alt="{esc(label)}" loading="lazy">
 <figcaption><b>{code}</b> {esc(label)}{pick_btn(pid, "")}</figcaption></figure>""" for pid, code, label, src in types)
 
+    motion_cards = "".join(f"""<figure class="opt motion"><div class="mv"><img src="{webp_src}" alt="Animation du logo {esc(d.name)}" loading="lazy">
+<video src="{mp4}" poster="{poster}" autoplay muted loop playsinline preload="metadata" aria-label="Carton de fin vertical {esc(d.name)}"></video></div>
+<figcaption><b>{d.code}</b> {esc(d.name)}{pick_btn(f"anim-{d.code}", "")}</figcaption></figure>""" for d, webp_src, mp4, poster in motions)
+    mock_cards = "".join(f"""<figure class="opt"><img src="{st}" alt="Autocollants {esc(d.name)}" loading="lazy">
+<img class="sig" src="{sg}" alt="Signature courriel {esc(d.name)}" loading="lazy">
+<figcaption><b>{d.code}</b> {esc(d.name)}{pick_btn(f"mock-{d.code}", "")}</figcaption></figure>""" for d, st, sg in mocks)
+
     labels = {f"dir-{d.code}": f"Direction {d.code} · {d.name}" for d in ALL}
+    labels.update({f"anim-{d.code}": f"Animation {d.code} · {d.name}" for d, *_ in motions})
+    labels.update({f"mock-{d.code}": f"En situation {d.code} · {d.name}" for d, _, _ in mocks})
     labels.update({pid: f"Signe {code} · {label}" for pid, code, label, _ in signs})
     for code, rows in palettes.items():
         labels.update({pid: f"{code} · palette {label}" for pid, label, _, _ in rows})
@@ -234,11 +269,13 @@ def render(imgs, overview, signs, palettes, lays, types):
     labels.update({pid: f"Typo {code} · {label}" for pid, code, label, _ in types})
 
     counts = {"n_dir": len(ALL), "n_pal": sum(len(r) for r in palettes.values()), "n_sign": len(signs),
-              "n_lay": sum(len(i) for i in lays.values()), "n_type": len(types)}
+              "n_lay": sum(len(i) for i in lays.values()), "n_type": len(types), "n_anim": len(motions),
+              "n_mock": 2 * len(mocks)}
 
     return TEMPLATE.format(
         date=DATE, overview=overview, shortlist="".join(short), table="".join(table_rows), dirs=dirs,
         signs=sign_cards, palettes="".join(pal_blocks), layouts="".join(lay_blocks), types=type_cards,
+        motions=motion_cards, mocks=mock_cards,
         labels=json.dumps(labels, ensure_ascii=False), **counts)
 
 
@@ -332,6 +369,9 @@ ul.score em{{font-style:normal;font-family:var(--mono);font-size:11px;color:var(
 .opt{{background:var(--panel);border:1px solid var(--line);padding:10px}}
 .opt figcaption{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--fg)}}
 .opt figcaption .pick{{margin-left:auto}}
+.mv{{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);gap:10px;align-items:center}}
+.mv video{{width:100%;aspect-ratio:9/16;display:block;background:#000}}
+.opt img.sig{{margin-top:10px}}
 .pick{{font:500 12px var(--mono);display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:transparent;color:var(--fg);
   border:1px solid var(--line);padding:6px 10px;border-radius:999px;white-space:nowrap}}
 .pick .box{{width:12px;height:12px;border:1.5px solid currentColor;border-radius:3px;display:inline-block}}
@@ -362,11 +402,11 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
   <p class="eyebrow">wubba · identité visuelle · {date}</p>
   <h1>Options d'identité Wubba</h1>
   <p class="lede">Quinze directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées au moins une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
-  <p class="counts"><span><b>{n_dir}</b> directions</span><span><b>{n_sign}</b> signes</span><span><b>{n_pal}</b> palettes</span><span><b>{n_lay}</b> bannières alternatives</span><span><b>{n_type}</b> paires typo</span></p>
+  <p class="counts"><span><b>{n_dir}</b> directions</span><span><b>{n_sign}</b> signes</span><span><b>{n_pal}</b> palettes</span><span><b>{n_lay}</b> bannières alternatives</span><span><b>{n_type}</b> paires typo</span><span><b>{n_anim}</b> animations</span><span><b>{n_mock}</b> mises en situation</span></p>
 </header>
 <nav class="toc" aria-label="Sections">
   <a href="#preselection">Présélection</a><a href="#ensemble">Vue d'ensemble</a><a href="#directions">Les {n_dir} directions</a>
-  <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a>
+  <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a><a href="#animations">Animations</a><a href="#situation">En situation</a>
   <a href="#methode">Méthode</a><a class="sel" href="#ma-selection">Ma sélection · <span id="pick-count">0</span></a>
 </nav>
 
@@ -420,6 +460,18 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
   <h2>Paires typographiques</h2>
   <p class="intro">Cinq combinaisons titres, texte et étiquettes pour la direction A, toutes sur Google Fonts sous licence libre. Le logo reste dessiné à la main : la typo sert aux titres, aux documents et au site.</p>
   <div class="opts one">{types}</div>
+</section>
+
+<section id="animations">
+  <h2>Animations</h2>
+  <p class="intro">Le logo en mouvement, pour la fin des vidéos : à gauche le sting 16:9 (3 secondes), à droite le carton vertical pour Shorts, TikTok et Reels. Chaque animation existe aussi en WebM à fond transparent pour OBS, dans <code>options/&lt;direction&gt;/motion/</code>.</p>
+  <div class="opts two">{motions}</div>
+</section>
+
+<section id="situation">
+  <h2>En situation</h2>
+  <p class="intro">Chaque direction sur une planche d'autocollants (sur un couvercle de portable) et dans une signature courriel. Utile pour voir comment le logo tient une fois découpé, en petit et sur du blanc.</p>
+  <div class="opts two">{mocks}</div>
 </section>
 
 <section id="ma-selection">

@@ -1,0 +1,40 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>wubba</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&family=Instrument+Sans:wght@400&display=swap">
+<style>
+  html, body { margin: 0; }
+  body { background: var(--wb-bg); }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--wb-bg); }
+  .cover svg { position: absolute; left: 0; top: 0; }
+  .slab { fill: var(--wb-ink); }
+  [data-theme="dark"] .slab { fill: var(--wb-neutral-850); }
+  .tint { fill: var(--wb-neutral-300); }
+  .mark { fill: var(--wb-neutral-700); }
+  .dot { fill: var(--wb-signal); rx: 32px; }
+  .name { position: absolute; left: 48px; bottom: 76px; margin: 0; font-family: var(--font-display); font-stretch: 125%;
+          font-weight: 800; font-size: 104px; line-height: .95; letter-spacing: -0.025em; color: var(--wb-text); }
+  .tag { position: absolute; left: 48px; bottom: 48px; margin: 0; max-width: 440px; font-family: var(--font-body);
+         font-size: 13px; line-height: 1.4; color: var(--wb-text-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+  <svg viewBox="0 0 960 288" width="960" height="288" aria-hidden="true">
+    <!-- blocs : dalle wb-ink 384×288 (sombre : wb-neutral-850), carré wb-neutral-300 96×96, point wb-signal 64×64 -->
+    <!-- disposition : une grande dalle qui sort à droite, le carré gris collé à son pied, le point rouge à cheval sur son bord gauche, là où il n'a rien à faire -->
+    <!-- motif : grille de croix (précis, technique, mono : les repères de suivi des bannières), pas wb-space-7 = 48, bras wb-space-3 = 12 -->
+    <!-- pas et rayons : wb-space-7, wb-space-8, wb-space-9 ; point en rayon plein (rx = moitié du côté), dalle et carré en wb-radius-none -->
+    <rect class="slab" x="576" y="0" width="384" height="288"/>
+    <rect class="tint" x="480" y="192" width="96" height="96"/>
+    <rect class="mark" x="594" y="23" width="12" height="2"/><rect class="mark" x="599" y="18" width="2" height="12"/><rect class="mark" x="594" y="119" width="12" height="2"/><rect class="mark" x="599" y="114" width="2" height="12"/><rect class="mark" x="594" y="167" width="12" height="2"/><rect class="mark" x="599" y="162" width="2" height="12"/><rect class="mark" x="594" y="215" width="12" height="2"/><rect class="mark" x="599" y="210" width="2" height="12"/><rect class="mark" x="594" y="263" width="12" height="2"/><rect class="mark" x="599" y="258" width="2" height="12"/><rect class="mark" x="642" y="23" width="12" height="2"/><rect class="mark" x="647" y="18" width="2" height="12"/><rect class="mark" x="642" y="71" width="12" height="2"/><rect class="mark" x="647" y="66" width="2" height="12"/><rect class="mark" x="642" y="119" width="12" height="2"/><rect class="mark" x="647" y="114" width="2" height="12"/><rect class="mark" x="642" y="167" width="12" height="2"/><rect class="mark" x="647" y="162" width="2" height="12"/><rect class="mark" x="642" y="215" width="12" height="2"/><rect class="mark" x="647" y="210" width="2" height="12"/><rect class="mark" x="642" y="263" width="12" height="2"/><rect class="mark" x="647" y="258" width="2" height="12"/><rect class="mark" x="690" y="23" width="12" height="2"/><rect class="mark" x="695" y="18" width="2" height="12"/><rect class="mark" x="690" y="71" width="12" height="2"/><rect class="mark" x="695" y="66" width="2" height="12"/><rect class="mark" x="690" y="119" width="12" height="2"/><rect class="mark" x="695" y="114" width="2" height="12"/><rect class="mark" x="690" y="167" width="12" height="2"/><rect class="mark" x="695" y="162" width="2" height="12"/><rect class="mark" x="690" y="215" width="12" height="2"/><rect class="mark" x="695" y="210" width="2" height="12"/><rect class="mark" x="690" y="263" width="12" height="2"/><rect class="mark" x="695" y="258" width="2" height="12"/><rect class="mark" x="738" y="23" width="12" height="2"/><rect class="mark" x="743" y="18" width="2" height="12"/><rect class="mark" x="738" y="71" width="12" height="2"/><rect class="mark" x="743" y="66" width="2" height="12"/><rect class="mark" x="738" y="119" width="12" height="2"/><rect class="mark" x="743" y="114" width="2" height="12"/><rect class="mark" x="738" y="167" width="12" height="2"/><rect class="mark" x="743" y="162" width="2" height="12"/><rect class="mark" x="738" y="215" width="12" height="2"/><rect class="mark" x="743" y="210" width="2" height="12"/><rect class="mark" x="738" y="263" width="12" height="2"/><rect class="mark" x="743" y="258" width="2" height="12"/><rect class="mark" x="786" y="23" width="12" height="2"/><rect class="mark" x="791" y="18" width="2" height="12"/><rect class="mark" x="786" y="71" width="12" height="2"/><rect class="mark" x="791" y="66" width="2" height="12"/><rect class="mark" x="786" y="119" width="12" height="2"/><rect class="mark" x="791" y="114" width="2" height="12"/><rect class="mark" x="786" y="167" width="12" height="2"/><rect class="mark" x="791" y="162" width="2" height="12"/><rect class="mark" x="786" y="215" width="12" height="2"/><rect class="mark" x="791" y="210" width="2" height="12"/><rect class="mark" x="786" y="263" width="12" height="2"/><rect class="mark" x="791" y="258" width="2" height="12"/><rect class="mark" x="834" y="23" width="12" height="2"/><rect class="mark" x="839" y="18" width="2" height="12"/><rect class="mark" x="834" y="71" width="12" height="2"/><rect class="mark" x="839" y="66" width="2" height="12"/><rect class="mark" x="834" y="119" width="12" height="2"/><rect class="mark" x="839" y="114" width="2" height="12"/><rect class="mark" x="834" y="167" width="12" height="2"/><rect class="mark" x="839" y="162" width="2" height="12"/><rect class="mark" x="834" y="215" width="12" height="2"/><rect class="mark" x="839" y="210" width="2" height="12"/><rect class="mark" x="834" y="263" width="12" height="2"/><rect class="mark" x="839" y="258" width="2" height="12"/><rect class="mark" x="882" y="23" width="12" height="2"/><rect class="mark" x="887" y="18" width="2" height="12"/><rect class="mark" x="882" y="71" width="12" height="2"/><rect class="mark" x="887" y="66" width="2" height="12"/><rect class="mark" x="882" y="119" width="12" height="2"/><rect class="mark" x="887" y="114" width="2" height="12"/><rect class="mark" x="882" y="167" width="12" height="2"/><rect class="mark" x="887" y="162" width="2" height="12"/><rect class="mark" x="882" y="215" width="12" height="2"/><rect class="mark" x="887" y="210" width="2" height="12"/><rect class="mark" x="882" y="263" width="12" height="2"/><rect class="mark" x="887" y="258" width="2" height="12"/><rect class="mark" x="930" y="23" width="12" height="2"/><rect class="mark" x="935" y="18" width="2" height="12"/><rect class="mark" x="930" y="71" width="12" height="2"/><rect class="mark" x="935" y="66" width="2" height="12"/><rect class="mark" x="930" y="119" width="12" height="2"/><rect class="mark" x="935" y="114" width="2" height="12"/><rect class="mark" x="930" y="167" width="12" height="2"/><rect class="mark" x="935" y="162" width="2" height="12"/><rect class="mark" x="930" y="215" width="12" height="2"/><rect class="mark" x="935" y="210" width="2" height="12"/><rect class="mark" x="930" y="263" width="12" height="2"/><rect class="mark" x="935" y="258" width="2" height="12"/>
+    <rect class="dot" x="544" y="48" width="64" height="64"/>
+  </svg>
+  <p class="name">wubba</p>
+  <p class="tag">AI streamers who test gaming gear where it has no business working</p>
+</div>
+</body>
+</html>
