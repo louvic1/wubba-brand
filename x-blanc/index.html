@@ -29,12 +29,40 @@ h2 { font-family:var(--display); font-stretch:125%; font-weight:800; font-size:2
 figcaption { font-size:11px; color:var(--muted); margin-top:6px }
 .link code { font-size:11px; color:var(--muted); word-break:break-all }
 .dot { display:inline-block; width:.6em; height:.6em; border-radius:50%; background:var(--lime); vertical-align:.05em; margin-right:.35em }
+.final { border-color:var(--fg) }
+.swap { display:flex; flex-wrap:wrap; align-items:center; gap:14px 22px }
+.swap span { display:flex; align-items:center; gap:8px; font-size:14px }
+.swap i { width:26px; height:26px; display:inline-block; border:1px solid var(--line) }
+.swap .av { width:96px; height:96px; border-radius:50%; border:1px solid var(--line); margin-left:auto }
 </style>
 
 <div class="wrap">
-  <p class="eyebrow">wubba · direction A · forêt et lime sur blanc</p>
+  <p class="eyebrow">wubba · direction A · bannière X retenue</p>
   <h1>Bannière et typo wubba</h1>
-  <p class="lede">Cinq bannières X sur fond blanc, avec seulement « wubba » et « AI streamers », puis six typographies. Réponds avec un numéro de chaque liste, par exemple B2 et T3.</p>
+  <p class="lede">Retenu : la bannière B2 sur fond noir, avec le point vert à gauche, et la typo T2. Juste dessous, la même sur vert forêt pour comparer. Les cinq bannières et les six typographies d'origine suivent.</p>
+
+
+
+  <h2>Retenue</h2>
+  <article class="opt final">
+    <header><span class="num">B2</span><h3>Fond noir, point vert à gauche</h3></header>
+    <img src="img/final.webp" alt="Bannière X retenue sur fond noir : logo blanc géant à droite, disque vert à gauche">
+    <figure class="pv"><img src="img/final-profil.webp" alt="La bannière sur un profil X, la photo de profil noire posée sur le disque vert"><figcaption>Sur un profil X : la photo de profil noire se pose sur le disque vert</figcaption></figure>
+    <div class="swap">
+      <span><i style="background:#000000"></i><code>#000000</code> fond</span>
+      <span><i style="background:#FFFFFF"></i><code>#FFFFFF</code> mot</span>
+      <span><i style="background:#72AC0E"></i><code>#72AC0E</code> vert</span>
+      <img class="av" src="img/final-avatar.webp" alt="Photo de profil assortie">
+    </div>
+    <p>Typo T2 : Sora pour les titres, Figtree pour le texte, JetBrains Mono pour les petites mentions comme « AI STREAMERS ».</p>
+    <img src="img/final-t2.webp" alt="Planche T2 sur fond noir">
+  </article>
+  <article class="opt">
+    <header><span class="num">B2</span><h3>À comparer : fond vert forêt</h3></header>
+    <img src="img/final-foret.webp" alt="La même bannière sur fond vert forêt">
+    <figure class="pv"><img src="img/final-foret-profil.webp" alt="La version vert forêt sur un profil X"><figcaption>Sur un profil X</figcaption></figure>
+    <p>La même bannière sur vert forêt #0E2B22. Le noir avec ce vert rappelle Nvidia, dont le vert est #76B900.</p>
+  </article>
 
   <h2>Bannières X</h2>
   <p class="intro">1500 × 500, sans coins ni slogan. Sous chaque bannière, la même vue sur un profil X, pour vérifier que l'avatar ne cache rien. La mention prendra la typo que tu choisiras plus bas.</p>
