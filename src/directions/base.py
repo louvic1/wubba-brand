@@ -73,6 +73,9 @@ class Direction:
     mono: Font = None
     banner_scheme = "dark"     # schéma par défaut des bannières
     tagline_mono = True        # la ligne en mono capitales (sinon : police de texte, casse normale)
+    tagline_role = None        # rôle de couleur de la ligne (None = mélange texte/fond à 68 %)
+    tagline_scale = 1.0
+    version = "v1"
     icon_scheme = "dark"       # tuile : fond encre par défaut
     icon_ratio = 0.64          # largeur du symbole dans la tuile
     icon_lift = 0.02           # remontée optique
@@ -106,9 +109,16 @@ class Direction:
     def bounds(layers):
         return svgout.union_bounds(*[p for p, _ in layers])
 
+    @classmethod
+    def place(cls, layers, box_target, align="center", valign="center"):
+        placed, s, _ = cls.place_t(layers, box_target, align, valign)
+        return placed, s
+
     @staticmethod
-    def place(layers, box_target, align="center", valign="center"):
-        """Met à l'échelle et place des calques dans une boîte (x0, y0, x1, y1), en coordonnées y-haut."""
+    def place_t(layers, box_target, align="center", valign="center"):
+        """Met à l'échelle et place des calques dans une boîte (x0, y0, x1, y1), en coordonnées y-haut.
+
+        Renvoie (calques placés, échelle, (tx, ty)) : un point (x, y) du dessin va en (s*x + tx, s*y + ty)."""
         xmin, ymin, xmax, ymax = svgout.union_bounds(*[p for p, _ in layers])
         x0, y0, x1, y1 = box_target
         s = min((x1 - x0) / (xmax - xmin), (y1 - y0) / (ymax - ymin))
@@ -125,4 +135,5 @@ class Direction:
             dy = y0
         else:
             dy = y1 - h
-        return [(g.translate(p, dx=dx - xmin * s, dy=dy - ymin * s, sx=s, sy=s), r) for p, r in layers], s
+        tx, ty = dx - xmin * s, dy - ymin * s
+        return [(g.translate(p, dx=tx, dy=ty, sx=s, sy=s), r) for p, r in layers], s, (tx, ty)

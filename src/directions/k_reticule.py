@@ -35,15 +35,16 @@ class Reticule(Direction):
     display = Font("Saira", FONT[0], {"wght": 750, "wdth": 125})
     body = Font("Onest", "Onest[wght].ttf", {"wght": 400})
     mono = Font("Red Hat Mono", "RedHatMono[wght].ttf", {"wght": 500})
+    version = "v2"
 
     def wordmark(self):
         t, w = tp.text("wubba", FONT[0], 200, FONT[1], tracking=0.0)
         x0, y0, x1, y1 = t.bounds
         m = tp.metrics(FONT[0], FONT[1])
         xh = m["x"] * 200 / m["upem"]
-        s = xh / 290
-        arms, dot = crosshair(0, 0, 74 * s, 30 * s, 40 * s, 30 * s)
-        dx = x0 - (74 + 40) * s - xh * 0.42
+        s = xh * 1.18 / 228
+        arms, dot = crosshair(0, 0, 74 * s, 30 * s, 40 * s, 34 * s)
+        dx = x0 - (74 + 40) * s - xh * 0.34
         arms, dot = g.translate(arms, dx=dx, dy=xh / 2), g.translate(dot, dx=dx, dy=xh / 2)
         return [(arms, "fg"), (dot, "accent"), (t, "fg")]
 

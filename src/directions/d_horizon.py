@@ -32,6 +32,7 @@ class Horizon(Direction):
     body = Font("Figtree", "Figtree[wght].ttf", {"wght": 400})
     mono = Font("Red Hat Mono", "RedHatMono[wght].ttf", {"wght": 500})
     tagline_mono = False
+    version = "v2"
 
     def wordmark(self):
         t, w = tp.text("wubba", FONT[0], 200, FONT[1], tracking=-0.005)
@@ -42,21 +43,31 @@ class Horizon(Direction):
         return [(t, "fg"), (sun, "accent")]
 
     def symbol(self):
+        # le soleil posé sur l'horizon : le même demi-disque que dans le mot, et sa ligne
         r = 64
-        sun = half_disc(128, r)
-        bars = g.union(g.rounded_rect(128 - 60, -26, 128 + 60, -14, 6, smooth=0),
-                       g.rounded_rect(128 - 40, -46, 128 + 40, -34, 6, smooth=0),
-                       g.rounded_rect(128 - 20, -66, 128 + 20, -54, 6, smooth=0))
-        return [(sun, "accent"), (bars, "fg2")]
+        sun = half_disc(0, r)
+        line = g.rect(-r * 1.55, -22, r * 1.55, -6)
+        return [(sun, "accent"), (line, "fg")]
 
-    def device(self, W, H, sch, fmt):
-        from compose import mix
-        line = mix(sch["bg"], sch["fg"], 0.22)
-        glow = mix(sch["bg"], sch["accent"], 0.14)
-        y = H * 0.30
-        out = [(dv.hline(0, W, y, 1.5), line)]
-        if fmt != "linkedin-company":
-            R = H * 0.42
-            cx = W * 0.14 if fmt != "linkedin" else W * 0.5
-            out.insert(0, (g.translate(half_disc(cx, R), dy=y), glow))
-        return out
+    def banner_layout(self, fmt, W, H, sch, layout=None):
+        """L'horizon traverse la bannière à la hauteur exacte de la ligne de base du mot."""
+        from compose import TAGLINE, DOMAIN, mix, page, text_line
+        line = mix(sch["bg"], sch["fg"], 0.30)
+        muted = mix(sch["fg"], sch["bg"], 0.30)
+        wm = self.wordmark()
+        box = {"x-header": (W / 2 - 330, 230, W / 2 + 330, 400), "og": (W / 2 - 300, 300, W / 2 + 300, 470),
+               "linkedin": (W - 700, 190, W - 90, 320), "linkedin-company": (W - 430, 92, W - 64, 150)}[fmt]
+        align = "right" if fmt.startswith("linkedin") else "center"
+        wmp, s, (tx, ty) = self.place_t(wm, box, align=align)
+        base = ty                                           # y=0 du dessin -> ligne de base à l'écran
+        layers = [(dv.hline(0, W, base - 1, 2.0), line)] + self.color(wmp, sch)
+        size = {"x-header": 21, "og": 25, "linkedin": 19, "linkedin-company": 13}[fmt]
+        gap = {"x-header": 58, "og": 66, "linkedin": 48, "linkedin-company": 30}[fmt]
+        x = W / 2 if align == "center" else box[2]
+        tl, _, _ = text_line(TAGLINE, self.body, size, x, base - gap, muted, align, False, 0.0, max_w=900)
+        layers.append(tl)
+        if fmt in ("x-header", "og"):
+            dom, _, _ = text_line(DOMAIN, self.mono, 16, W - 76 if fmt == "x-header" else 76, 62, muted,
+                                  "right" if fmt == "x-header" else "left", False, 0.02)
+            layers.append(dom)
+        return page(W, H, layers, bg=sch["bg"])

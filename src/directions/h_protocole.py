@@ -27,6 +27,7 @@ class Protocole(Direction):
     display = Font("Azeret Mono", FONT[0], {"wght": 700})
     body = Font("IBM Plex Sans", "IBMPlexSans[wdth,wght].ttf", {"wght": 400, "wdth": 100})
     mono = Font("Azeret Mono", FONT[0], {"wght": 500})
+    version = "v2"
 
     def wordmark(self):
         gl = tp.glyphs("wubba", FONT[0], 200, FONT[1])
@@ -47,6 +48,14 @@ class Protocole(Direction):
         pad = xh * 0.28
         block = g.rect(x0 - pad, -pad, x1 + pad, xh + pad)
         return [(g.diff(block, p), "accent")]
+
+    def icon_symbol(self, small=False):
+        gl = tp.glyphs("w", FONT[0], 200, FONT[1])
+        _, p, _, adv = gl[0]
+        m = tp.metrics(FONT[0], FONT[1])
+        xh = m["x"] * 200 / m["upem"]
+        cursor = g.rect(adv * 1.02, 0, adv * 1.02 + adv * 0.62, xh * 1.02)
+        return [(p, "fg"), (cursor, "accent")]
 
     def device(self, W, H, sch, fmt):
         from compose import mix

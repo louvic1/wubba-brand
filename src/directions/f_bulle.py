@@ -28,6 +28,9 @@ class Bulle(Direction):
     mono = Font("Space Mono", "SpaceMono-Regular.ttf", {})
     banner_scheme = "banner"
     tagline_mono = False
+    tagline_role = "fg2"
+    tagline_scale = 1.1
+    version = "v2"
 
     def _word(self, word):
         gl = tp.glyphs(word, FONT[0], 200, FONT[1], tracking=-0.01)
@@ -37,13 +40,25 @@ class Bulle(Direction):
         for ch, p, x, adv in gl:
             letters.append(p)
             if ch == "b":
-                x0, y0, x1, y1 = p.bounds
-                # la panse du b occupe la partie droite, sous la hauteur d'x
-                cx = x0 + (x1 - x0) * 0.62
-                cy = xh * 0.5
-                r = xh * 0.14
-                pupils.append(g.circle(cx + r * 0.9, cy, r))
+                pupils.append(self._pupil(p))
         return g.union(*letters), g.union(*pupils) if pupils else None
+
+    @staticmethod
+    def _pupil(glyph):
+        """Pupille inscrite dans la contreforme du b, collée côté droit : le regard de côté."""
+        contours = list(glyph.contours)
+        counter = min(contours, key=lambda c: (c.bounds[2] - c.bounds[0]) * (c.bounds[3] - c.bounds[1]))
+        cx0, cy0, cx1, cy1 = counter.bounds
+        ch, cw = cy1 - cy0, cx1 - cx0
+        r = min(ch, cw) * 0.30
+        y = (cy0 + cy1) / 2
+        x = cx1 - r - min(ch, cw) * 0.12
+        pupil = g.circle(x, y, r)
+        while abs(g.intersect(pupil, glyph).area) > 0.5 and r > 2:   # jamais au contact de la lettre
+            r *= 0.95
+            x = cx1 - r - min(ch, cw) * 0.12
+            pupil = g.circle(x, y, r)
+        return pupil
 
     def wordmark(self):
         w, eyes = self._word("wubba")

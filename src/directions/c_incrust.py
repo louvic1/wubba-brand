@@ -28,6 +28,7 @@ class Incrust(Direction):
     mono = Font("DM Mono", "DMMono-Medium.ttf", {})
     banner_scheme = "accent"
     icon_scheme = "accent"
+    version = "v2"
 
     def _plate(self, word, pad_x=0.26, pad_y=0.34, radius=0.06):
         t, w = tp.text(word, FONT[0], 200, FONT[1], tracking=-0.01)
@@ -60,5 +61,5 @@ class Incrust(Direction):
         step = 110 if H >= 390 else 70
         cx0, cx1 = W * 0.2, W * 0.8
         grid = dv.cross_grid(W, H, step=step, size=16 if H >= 390 else 11, thick=3 if H >= 390 else 2,
-                             keep=lambda x, y: x < cx0 or x > cx1)
+                             keep=lambda x, y: (x < cx0 or x > cx1) and y > (100 if H >= 390 else 0))
         return [(grid, marks)] if grid else []

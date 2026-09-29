@@ -28,6 +28,7 @@ class Terrain(Direction):
     mono = Font("Chivo Mono", "ChivoMono[wght].ttf", {"wght": 500})
     banner_scheme = "dark"
     icon_scheme = "accent"
+    version = "v2"
 
     def _text(self, s):
         t, w = tp.text(s, FONT[0], 200, FONT[1], tracking=0.02)
@@ -66,7 +67,6 @@ class Terrain(Direction):
         return out
 
     def device(self, W, H, sch, fmt):
-        band = {"x-header": 64, "og": 70, "linkedin": 48, "linkedin-company": 26}[fmt]
-        st = dv.stripes(W, band, band * 0.55, band * 0.55, 45, 0, W * 0.34)
-        return [(st, sch["accent"]), (g.translate(dv.stripes(W, band, band * 0.55, band * 0.55, 45, 0, W * 0.34),
-                                                 dy=H - band), sch["accent"])]
+        inset = {"x-header": 40, "og": 40, "linkedin": 32, "linkedin-company": 16}[fmt]
+        L = {"x-header": 64, "og": 64, "linkedin": 52, "linkedin-company": 30}[fmt]
+        return [(dv.hud_corners(W, H, inset, L, 8 if H > 250 else 5), sch["accent"])]

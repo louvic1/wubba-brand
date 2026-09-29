@@ -28,20 +28,25 @@ class Maison(Direction):
     banner_scheme = "light"
     icon_scheme = "dark"
     tagline_mono = True
+    version = "v2"
 
     def wordmark(self):
         t, _ = tp.text("wubba", FONT[0], 200, FONT[1], tracking=-0.025)
         return [(t, "fg")]
 
-    def symbol(self):
-        t, _ = tp.text("w", FONT[0], 200, FONT[1])
+    def symbol(self, opsz=96):
+        t, _ = tp.text("w", FONT[0], 200, {"wght": 900, "opsz": opsz})
         x0, y0, x1, y1 = t.bounds
         dot = g.rect(x1 + 10, 0, x1 + 34, 24)
         return [(t, "fg"), (dot, "accent")]
 
+    def icon_symbol(self, small=False):
+        # coupe optique « petit corps » : déliés plus épais, lisibles à 16 px
+        return self.symbol(opsz=6 if small else 11)
+
     def device(self, W, H, sch, fmt):
         from compose import mix
         rule = mix(sch["bg"], sch["fg"], 0.85)
-        inset = {"x-header": 56, "og": 56, "linkedin": 44, "linkedin-company": 24}[fmt]
-        out = [(dv.hline(inset, W - inset, H - inset, 1.2), rule), (dv.hline(inset, W - inset, inset, 1.2), rule)]
-        return out
+        inset = {"x-header": 40, "og": 40, "linkedin": 36, "linkedin-company": 20}[fmt]
+        return [(dv.hline(inset, W - inset, H - inset, 2.0), sch["accent"]),
+                (dv.hline(inset, W - inset, inset, 1.2), rule)]

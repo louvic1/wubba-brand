@@ -22,7 +22,7 @@ class Vitesse(Direction):
     code = "G"
     key = "vitesse"
     name = "Vitesse"
-    idea = "Le langage de l'esport, dit sans détour : capitales larges penchées à 12°, et un accent volt qui ne sert qu'à dire « ça bouge »."
+    idea = "Le langage de l'esport, dit sans détour : capitales larges penchées à 12°, et un W en deux chevrons dont le second est volt."
     mark_type = "Wordmark capitales + symbole W chevrons"
     why = [
         "Parle la langue visuelle des équipes et des tournois : zéro traduction pour un public CS2.",
@@ -37,26 +37,37 @@ class Vitesse(Direction):
     display = Font("Unbounded", FONT[0], {"wght": 800})
     body = Font("Barlow", "Barlow-Medium.ttf", {})
     mono = Font("JetBrains Mono", "JetBrainsMono[wght].ttf", {"wght": 600})
+    version = "v2"
+
+    def _chevron_w(self, x0, width, height, bar):
+        """W en deux chevrons (V + V) qui partagent le sommet central. Renvoie (V gauche, V droit)."""
+        run = (width - bar) / 4
+
+        def slab(xt, dirn):
+            return g.poly([(xt, height), (xt + bar, height), (xt + bar + dirn * run, 0), (xt + dirn * run, 0)])
+        v1 = g.union(slab(x0, 1), slab(x0 + 2 * run, -1))
+        v2 = g.union(slab(x0 + 2 * run, 1), slab(x0 + 4 * run, -1))
+        return v1, v2
+
+    def _word(self):
+        gl = tp.glyphs("WUBBA", FONT[0], 200, FONT[1], tracking=0.01)
+        m = tp.metrics(FONT[0], FONT[1])
+        cap = m["cap"] * 200 / m["upem"]
+        stem = tp.text("I", FONT[0], 200, FONT[1])[0].bounds
+        bar = (stem[2] - stem[0]) * 1.12
+        _, wpath, _, _ = gl[0]
+        x0, y0, x1, y1 = wpath.bounds
+        v1, v2 = self._chevron_w(x0, x1 - x0, cap, bar)
+        rest = g.union(*[p for _, p, _, _ in gl[1:]])
+        return skew(v1), skew(v2), skew(rest)
 
     def wordmark(self):
-        t, w = tp.text("WUBBA", FONT[0], 200, FONT[1], tracking=0.01)
-        t = skew(t)
-        x0, y0, x1, y1 = t.bounds
-        h = y1 - y0
-        bar = skew(g.rect(x1 + h * 0.16, 0, x1 + h * 0.16 + h * 0.20, h))
-        return [(t, "fg"), (bar, "accent")]
+        v1, v2, rest = self._word()
+        return [(v1, "fg"), (v2, "accent"), (rest, "fg")]
 
     def symbol(self):
-        # W en deux chevrons : quatre barres obliques, la seconde paire en accent
-        u, h, t = 60, 220, 52
-        k = math.tan(math.radians(20))
-        def bar(x_top, dirn):
-            # barre oblique de largeur t, du haut (x_top) vers le bas
-            dx = h * k * dirn
-            return g.poly([(x_top, h), (x_top + t, h), (x_top + t + dx, 0), (x_top + dx, 0)])
-        left = g.union(bar(0, 1), bar(2 * h * k + t * 0.0 - t * 0.0, -1))
-        right = g.translate(left, dx=2 * h * k + t * 0.35)
-        return [(skew(left, 0.0), "fg"), (skew(right, 0.0), "accent")]
+        v1, v2, _ = self._word()
+        return [(v1, "fg"), (v2, "accent")]
 
     def device(self, W, H, sch, fmt):
         from compose import mix

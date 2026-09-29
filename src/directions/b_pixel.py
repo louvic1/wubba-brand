@@ -65,6 +65,8 @@ class Pixel(Direction):
     display = Font("Schibsted Grotesk", "SchibstedGrotesk[wght].ttf", {"wght": 900})
     body = Font("Inter", "Inter[opsz,wght].ttf", {"wght": 400, "opsz": 18})
     mono = Font("Silkscreen", "Silkscreen-Regular.ttf", {})
+    tagline_scale = 1.3
+    version = "v2"
     icon_ratio = 0.625
     icon_lift = 0.0
 

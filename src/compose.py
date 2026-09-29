@@ -157,36 +157,37 @@ def banner(d, fmt, scheme_kind=None, layout=None):
         custom = d.banner_layout(fmt, W, H, sch, layout)
         if custom is not None:
             return custom
-    muted = mix(sch["fg"], sch["bg"], 0.45)
+    muted = sch[d.tagline_role] if d.tagline_role else mix(sch["fg"], sch["bg"], 0.32)
     layers = list(d.device(W, H, sch, fmt))
     wm = d.wordmark()
     tag_font, upper, track = (d.mono, True, 0.06) if d.tagline_mono else (d.body, False, 0.0)
+    ts = d.tagline_scale
     if fmt == "x-header":
         wmp, _ = d.place(wm, (W / 2 - 330, 230, W / 2 + 330, 400))
         layers += d.color(wmp, sch)
         wb = d.bounds(wmp)
-        tl, _, _ = text_line(TAGLINE, tag_font, 17, W / 2, wb[1] - 62, muted, "center", upper, track, max_w=900)
-        dom, _, _ = text_line(DOMAIN, d.mono, 15, W - 56, 44, muted, "right", False, 0.04)
+        tl, _, _ = text_line(TAGLINE, tag_font, 17 * ts, W / 2, wb[1] - 62, muted, "center", upper, track, max_w=900)
+        dom, _, _ = text_line(DOMAIN, d.mono, 15, W - 76, 62, muted, "right", False, 0.04)
         layers += [tl, dom]
     elif fmt == "og":
         wmp, _ = d.place(wm, (W / 2 - 300, 300, W / 2 + 300, 470))
         layers += d.color(wmp, sch)
         wb = d.bounds(wmp)
-        tl, _, _ = text_line(TAGLINE, tag_font, 22 if not upper else 17, W / 2, wb[1] - 70, muted, "center", upper,
-                             track, max_w=1000)
-        dom, _, _ = text_line(DOMAIN, d.mono, 17, 64, 56, sch["fg"], "left", False, 0.04)
+        tl, _, _ = text_line(TAGLINE, tag_font, (22 if not upper else 17) * ts, W / 2, wb[1] - 70, muted, "center",
+                             upper, track, max_w=1000)
+        dom, _, _ = text_line(DOMAIN, d.mono, 17, 76, 64, sch["fg"], "left", False, 0.04)
         layers += [tl, dom]
     elif fmt == "linkedin":
         wmp, _ = d.place(wm, (W - 700, 190, W - 90, 320), align="right")
         layers += d.color(wmp, sch)
         wb = d.bounds(wmp)
-        tl, _, _ = text_line(TAGLINE, tag_font, 16, W - 90, wb[1] - 52, muted, "right", upper, track, max_w=820)
+        tl, _, _ = text_line(TAGLINE, tag_font, 16 * ts, W - 90, wb[1] - 52, muted, "right", upper, track, max_w=820)
         layers += [tl]
     else:  # linkedin-company
         wmp, _ = d.place(wm, (W - 430, 92, W - 64, 150), align="right")
         layers += d.color(wmp, sch)
         wb = d.bounds(wmp)
-        tl, _, _ = text_line(TAGLINE, tag_font, 11, W - 64, wb[1] - 34, muted, "right", upper, track, max_w=560)
+        tl, _, _ = text_line(TAGLINE, tag_font, 11 * ts, W - 64, wb[1] - 34, muted, "right", upper, track, max_w=560)
         layers += [tl]
     return page(W, H, layers, bg=sch["bg"])
 

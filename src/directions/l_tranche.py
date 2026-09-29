@@ -32,12 +32,13 @@ class Tranche(Direction):
     display = Font("Inter Tight", FONT[0], {"wght": 850})
     body = Font("Red Hat Display", "RedHatDisplay[wght].ttf", {"wght": 400})
     mono = Font("Chivo Mono", "ChivoMono[wght].ttf", {"wght": 500})
+    version = "v2"
 
     def _cut(self, s):
         t, w = tp.text(s, FONT[0], 200, FONT[1], tracking=-0.035)
         m = tp.metrics(FONT[0], FONT[1])
         xh = m["x"] * 200 / m["upem"]
-        return slice_(t, xh * 0.46, xh * 0.10, xh * 0.07)
+        return slice_(t, xh * 0.58, xh * 0.05, xh * 0.05)
 
     def wordmark(self):
         top, bot = self._cut("wubba")

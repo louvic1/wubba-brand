@@ -1,0 +1,102 @@
+"""Grilles de critique (méthode du skill logo-design, references/critique.md).
+
+Dix dimensions notées de 1 à 5. Une faille fatale (illisible en petit, ressemble à un concurrent)
+pèse plus lourd que le total. Chaque version garde ses notes pour montrer ce que l'itération a changé.
+"""
+
+DIMS = ["Idée", "Simplicité", "Distinction", "Mémorisation", "Ton", "Exécution", "Polyvalence", "Durée",
+        "Couleur", "Typo"]
+
+# v1 : premier rendu. Notes honnêtes, après examen des planches.
+V1 = {
+    "A": ([5, 5, 4, 5, 5, 4, 5, 4, 3, 4],
+          ["Domaine qui touche le coin du viseur dans la bannière X",
+           "Bannières propres mais sages : un carton-titre centré",
+           "Rouge sur noir partagé avec HyperX et ROG : la forme doit porter seule"]),
+    "B": ([4, 4, 4, 4, 4, 3, 5, 3, 4, 3],
+          ["Le « a » pixel à une panse se lisait « o » (wubbo) : corrigé en a à deux étages",
+           "Ligne de texte en Silkscreen trop petite dans les bannières",
+           "Le pixel art peut tirer vers « jeu indé » : garder une typo de texte sobre"]),
+    "C": ([5, 4, 3, 4, 5, 4, 3, 4, 3, 3],
+          ["Ligne de texte vert foncé sur vert : illisible",
+           "Domaine sur une croix de repère",
+           "Le vert rappelle Spotify et Razer au premier regard"]),
+    "D": ([4, 4, 4, 4, 3, 4, 4, 4, 4, 4],
+          ["Grand disque de fond qui vire au brun boueux",
+           "Symbole coucher de soleil + reflets : pictogramme générique",
+           "Peut se lire « voyage » plutôt que « gaming »"]),
+    "E": ([4, 4, 5, 4, 3, 3, 2, 5, 4, 4],
+          ["Déliés du Didone invisibles sous 24 px (icône, favicon, page LinkedIn)",
+           "Domaine posé sur le filet du bas",
+           "L'outremer n'apparaît presque nulle part"]),
+    "F": ([4, 4, 5, 5, 3, 3, 4, 3, 4, 3],
+          ["Pupilles collées au bord de la panse : la contreforme devient un croissant",
+           "La lime de la palette n'est utilisée nulle part",
+           "Le symbole « bb » peut se lire BB"]),
+    "G": ([3, 4, 3, 3, 4, 4, 4, 3, 4, 3],
+          ["La barre volt finale se lit « I » : WUBBAI",
+           "Le W du logo et le W du symbole n'ont aucun lien",
+           "Codes esport génériques : peu propriétaire"]),
+    "H": ([4, 5, 4, 4, 4, 4, 3, 4, 4, 4],
+          ["Icône bloc jaune + W noir : rappelle Western Union",
+           "Balayage d'écran à peine visible en vignette",
+           "Rien d'autre à reprocher au wordmark"]),
+    "I": ([4, 4, 3, 4, 4, 4, 4, 3, 2, 3],
+          ["Rayures de danger trop littérales : chantier, pas studio",
+           "Rayures qui chevauchent le domaine sur l'aperçu de lien",
+           "Jaune et noir : Corsair et signalétique de danger"]),
+    "J": ([3, 2, 3, 2, 3, 2, 2, 4, 3, 4],
+          ["L'entrelacs ne se lit pas : un peigne à quatre dents",
+           "Un w à fond rond suivi d'un u se lit « uuubba »",
+           "Les lettres monolines ubba sont très réussies : à garder"]),
+    "K": ([3, 5, 2, 3, 4, 4, 5, 3, 3, 2],
+          ["Réticule trop petit devant le mot : il devient une puce « + »",
+           "Un « + » dans une tuile peut se lire bouton « ajouter »",
+           "Saira large : choix esport très courant"]),
+    "L": ([3, 3, 2, 3, 4, 3, 3, 2, 3, 3],
+          ["Coupe trop basse et trop décalée : « bb » et « a » deviennent difficiles à lire",
+           "Bicolore très bruyant",
+           "Effet tranché populaire depuis 2020 : peu propriétaire"]),
+}
+
+# v2 : notes après corrections, relues sur la planche d'ensemble et en zoom.
+V2 = {
+    "A": [5, 5, 4, 5, 5, 4, 5, 4, 3, 4],
+    "B": [4, 4, 4, 4, 4, 4, 5, 3, 4, 3],
+    "C": [5, 4, 3, 4, 5, 4, 3, 4, 3, 3],
+    "D": [5, 4, 4, 4, 3, 5, 4, 4, 4, 4],
+    "E": [4, 4, 5, 4, 3, 4, 3, 5, 4, 4],
+    "F": [4, 4, 5, 5, 3, 4, 4, 3, 5, 3],
+    "G": [4, 4, 3, 4, 4, 4, 4, 3, 4, 3],
+    "H": [4, 5, 4, 4, 4, 4, 4, 4, 4, 4],
+    "I": [4, 4, 3, 4, 4, 4, 4, 3, 3, 3],
+    "J": [4, 5, 3, 4, 4, 4, 5, 4, 3, 4],
+    "K": [3, 5, 2, 3, 4, 4, 5, 3, 3, 2],
+    "L": [3, 4, 2, 3, 4, 4, 3, 2, 3, 3],
+}
+
+# Ce que l'itération a changé, direction par direction.
+CHANGES = {
+    "A": ["Domaine replacé à l'intérieur du cadre de viseur (plus de collision)"],
+    "B": ["« a » pixel refait à deux étages : le mot se lit « wubba », plus « wubbo »",
+          "Ligne de texte agrandie de 30 %"],
+    "C": ["Ligne de texte passée à 68 % d'encre : lisible sur le vert", "Croix de repère retirées de la bande du bas"],
+    "D": ["Le grand disque brun supprimé ; l'horizon traverse la bannière à la hauteur exacte de la ligne de base",
+          "Symbole refait : le même demi-soleil que dans le mot, posé sur sa ligne"],
+    "E": ["Icône et favicon en coupe optique « petit corps » (déliés épaissis)",
+          "Filet du bas en outremer, filets écartés du domaine"],
+    "F": ["Pupilles inscrites dans la contreforme, avec un jour : les b regardent vraiment de côté",
+          "Ligne de texte en lime sur le violet"],
+    "G": ["Le W du mot remplacé par le W en chevrons du symbole : mot et icône parlent la même langue",
+          "Barre volt finale supprimée (elle se lisait « I »)"],
+    "H": ["Icône refaite en « w + curseur » : fini la ressemblance avec Western Union"],
+    "I": ["Rayures de danger supprimées, remplacées par des coins de caisse jaunes"],
+    "J": ["Concept remplacé : le double-u entrelacé ne se lisait pas (et donnait « uuubba »)",
+          "Le w devient une trace d'oscilloscope monoline ; les lettres ubba monolines sont gardées"],
+    "K": ["Réticule agrandi à 118 % de la hauteur d'x : il ne se lit plus comme une puce"],
+    "L": ["Coupe remontée à 58 % de la hauteur d'x, décalage divisé par deux : le mot redevient lisible"],
+}
+
+
+def total(scores):
+    return sum(scores)
