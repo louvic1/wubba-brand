@@ -1,0 +1,49 @@
+{
+  "brand": {
+    "ink": "#0E0F12",
+    "paper": "#F1F0EC",
+    "signal": "#FF2A36",
+    "signal-deep": "#D4101E"
+  },
+  "neutral": {
+    "50": "#FBFAF6",
+    "100": "#F1F0EC",
+    "150": "#E7E6E2",
+    "200": "#DAD9D6",
+    "300": "#BEBEBB",
+    "400": "#989897",
+    "500": "#787979",
+    "600": "#5C5C5D",
+    "700": "#434445",
+    "800": "#2D2E30",
+    "850": "#222325",
+    "900": "#18191C",
+    "950": "#0E0F12"
+  },
+  "signal": {
+    "50": "#FFF2F1",
+    "100": "#FFE0DC",
+    "300": "#FF9289",
+    "500": "#FF2A36",
+    "600": "#D4101E",
+    "800": "#7C1216",
+    "900": "#400C0C"
+  },
+  "state": {
+    "positive": "#3ABA6A",
+    "caution": "#F2B036",
+    "info": "#468DE5"
+  },
+  "state_text": {
+    "positive": "#007B2F",
+    "caution": "#9A5C00",
+    "info": "#226BC0"
+  },
+  "contrast": {
+    "paper_on_ink": 16.81,
+    "signal_on_ink": 5.14,
+    "signal_on_paper": 3.27,
+    "signal_deep_on_paper": 4.73,
+    "ink_on_signal": 5.14
+  }
+}

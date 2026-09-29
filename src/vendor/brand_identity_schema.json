@@ -1,0 +1,483 @@
+{
+  "id": "brand_mulyn8xb",
+  "name": "wubba",
+  "industry": "gaming video studio",
+  "style": "bold",
+  "colors": {
+    "primary": {
+      "name": "primary",
+      "hex": "#ff2934",
+      "hsl": {
+        "h": 357,
+        "s": 100,
+        "l": 58
+      },
+      "usage": "Primary brand color"
+    },
+    "secondary": {
+      "name": "secondary",
+      "hex": "#f64c54",
+      "hsl": {
+        "h": 357,
+        "s": 90,
+        "l": 63
+      },
+      "usage": "Secondary brand color"
+    },
+    "accent": {
+      "name": "accent",
+      "hex": "#ff2934",
+      "hsl": {
+        "h": 357,
+        "s": 100,
+        "l": 58
+      },
+      "usage": "Accent and highlight color"
+    },
+    "neutral": [
+      {
+        "name": "neutral-100",
+        "hex": "#f3f2f2",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 95
+        },
+        "usage": "Neutral shade 1"
+      },
+      {
+        "name": "neutral-200",
+        "hex": "#e7e4e4",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 90
+        },
+        "usage": "Neutral shade 2"
+      },
+      {
+        "name": "neutral-300",
+        "hex": "#cfc9ca",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 80
+        },
+        "usage": "Neutral shade 3"
+      },
+      {
+        "name": "neutral-400",
+        "hex": "#9e9494",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 60
+        },
+        "usage": "Neutral shade 4"
+      },
+      {
+        "name": "neutral-500",
+        "hex": "#6b6161",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 40
+        },
+        "usage": "Neutral shade 5"
+      },
+      {
+        "name": "neutral-600",
+        "hex": "#363031",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 20
+        },
+        "usage": "Neutral shade 6"
+      },
+      {
+        "name": "neutral-700",
+        "hex": "#1b1818",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 10
+        },
+        "usage": "Neutral shade 7"
+      },
+      {
+        "name": "neutral-800",
+        "hex": "#0d0c0c",
+        "hsl": {
+          "h": 357,
+          "s": 5,
+          "l": 5
+        },
+        "usage": "Neutral shade 8"
+      }
+    ],
+    "semantic": {
+      "success": {
+        "name": "success",
+        "hex": "#22c35d",
+        "hsl": {
+          "h": 142,
+          "s": 70,
+          "l": 45
+        },
+        "usage": "Success states"
+      },
+      "warning": {
+        "name": "warning",
+        "hex": "#f59f0a",
+        "hsl": {
+          "h": 38,
+          "s": 92,
+          "l": 50
+        },
+        "usage": "Warning states"
+      },
+      "error": {
+        "name": "error",
+        "hex": "#ef4343",
+        "hsl": {
+          "h": 0,
+          "s": 84,
+          "l": 60
+        },
+        "usage": "Error states"
+      },
+      "info": {
+        "name": "info",
+        "hex": "#368fe7",
+        "hsl": {
+          "h": 210,
+          "s": 79,
+          "l": 56
+        },
+        "usage": "Informational states"
+      }
+    },
+    "contrast": {
+      "primary-on-white": {
+        "ratio": 3.74,
+        "aa": false,
+        "aaLarge": true,
+        "aaa": false,
+        "aaaLarge": false
+      },
+      "primary-on-dark": {
+        "ratio": 4.66,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": false,
+        "aaaLarge": true
+      },
+      "secondary-on-white": {
+        "ratio": 3.45,
+        "aa": false,
+        "aaLarge": true,
+        "aaa": false,
+        "aaaLarge": false
+      },
+      "accent-on-white": {
+        "ratio": 3.74,
+        "aa": false,
+        "aaLarge": true,
+        "aaa": false,
+        "aaaLarge": false
+      }
+    }
+  },
+  "typography": {
+    "headingFont": "Montserrat",
+    "bodyFont": "Open Sans",
+    "monoFont": "JetBrains Mono",
+    "baseSize": 16,
+    "scaleRatio": 1.333,
+    "steps": [
+      {
+        "name": "xs",
+        "size": "9px",
+        "lineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "weight": 400
+      },
+      {
+        "name": "sm",
+        "size": "12px",
+        "lineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "weight": 400
+      },
+      {
+        "name": "base",
+        "size": "16px",
+        "lineHeight": "1.6",
+        "letterSpacing": "0em",
+        "weight": 400
+      },
+      {
+        "name": "lg",
+        "size": "21.33px",
+        "lineHeight": "1.5",
+        "letterSpacing": "-0.01em",
+        "weight": 400
+      },
+      {
+        "name": "xl",
+        "size": "28.43px",
+        "lineHeight": "1.3",
+        "letterSpacing": "-0.01em",
+        "weight": 400
+      },
+      {
+        "name": "2xl",
+        "size": "37.9px",
+        "lineHeight": "1.2",
+        "letterSpacing": "-0.01em",
+        "weight": 600
+      },
+      {
+        "name": "3xl",
+        "size": "50.52px",
+        "lineHeight": "1.2",
+        "letterSpacing": "-0.01em",
+        "weight": 600
+      },
+      {
+        "name": "4xl",
+        "size": "67.34px",
+        "lineHeight": "1.2",
+        "letterSpacing": "-0.01em",
+        "weight": 700
+      },
+      {
+        "name": "5xl",
+        "size": "89.76px",
+        "lineHeight": "1.2",
+        "letterSpacing": "-0.01em",
+        "weight": 700
+      }
+    ]
+  },
+  "spacing": {
+    "unit": 4,
+    "values": {
+      "0": "0px",
+      "1": "4px",
+      "2": "8px",
+      "3": "12px",
+      "4": "16px",
+      "5": "20px",
+      "6": "24px",
+      "8": "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px",
+      "20": "80px",
+      "24": "96px",
+      "0.5": "2px",
+      "1.5": "6px",
+      "2.5": "10px"
+    }
+  },
+  "shadows": {
+    "levels": {
+      "none": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "blur": 0,
+        "spread": 0,
+        "color": "rgba(66, 36, 37, 0)",
+        "opacity": 0,
+        "cssValue": "none"
+      },
+      "sm": {
+        "offsetX": 0,
+        "offsetY": 1,
+        "blur": 2,
+        "spread": 0,
+        "color": "rgba(66, 36, 37, 0.05)",
+        "opacity": 0.05,
+        "cssValue": "1px 1px 2px 0px rgba(66, 36, 37, 0.05)"
+      },
+      "md": {
+        "offsetX": 0,
+        "offsetY": 2,
+        "blur": 4,
+        "spread": -1,
+        "color": "rgba(66, 36, 37, 0.08)",
+        "opacity": 0.08,
+        "cssValue": "2px 2px 4px -1px rgba(66, 36, 37, 0.08)"
+      },
+      "lg": {
+        "offsetX": 0,
+        "offsetY": 4,
+        "blur": 8,
+        "spread": -2,
+        "color": "rgba(66, 36, 37, 0.1)",
+        "opacity": 0.1,
+        "cssValue": "4px 4px 8px -2px rgba(66, 36, 37, 0.1)"
+      },
+      "xl": {
+        "offsetX": 0,
+        "offsetY": 8,
+        "blur": 16,
+        "spread": -4,
+        "color": "rgba(66, 36, 37, 0.12)",
+        "opacity": 0.12,
+        "cssValue": "8px 8px 16px -4px rgba(66, 36, 37, 0.12)"
+      },
+      "2xl": {
+        "offsetX": 0,
+        "offsetY": 16,
+        "blur": 32,
+        "spread": -8,
+        "color": "rgba(66, 36, 37, 0.15)",
+        "opacity": 0.15,
+        "cssValue": "16px 16px 32px -8px rgba(66, 36, 37, 0.15)"
+      }
+    }
+  },
+  "borders": {
+    "radii": {
+      "none": "0px",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "full": "9999px",
+      "circle": "9999px"
+    },
+    "widths": {
+      "thin": "2px",
+      "medium": "3px",
+      "thick": "4px"
+    }
+  },
+  "motion": {
+    "durations": {
+      "instant": "0ms",
+      "fast": "100ms",
+      "normal": "200ms",
+      "slow": "300ms",
+      "slower": "450ms"
+    },
+    "easings": {
+      "ease-in": "cubic-bezier(0.5, 0, 1, 1)",
+      "ease-out": "cubic-bezier(0, 0, 0.15, 1)",
+      "ease-in-out": "cubic-bezier(0.5, 0, 0.15, 1)",
+      "spring": "cubic-bezier(0.22, 1.8, 0.36, 1)",
+      "bounce": "cubic-bezier(0.22, 1.5, 0.36, 1)"
+    },
+    "transitions": {
+      "fade": "opacity 200ms cubic-bezier(0, 0, 0.15, 1)",
+      "slide": "transform 200ms cubic-bezier(0, 0, 0.15, 1)",
+      "scale": "transform 100ms cubic-bezier(0, 0, 0.15, 1)",
+      "color": "color 300ms cubic-bezier(0, 0, 0.15, 1), background-color 300ms cubic-bezier(0, 0, 0.15, 1)",
+      "all": "all 200ms cubic-bezier(0, 0, 0.15, 1)"
+    }
+  },
+  "gradients": {
+    "presets": {
+      "hero": {
+        "type": "linear",
+        "angle": 45,
+        "stops": [
+          {
+            "color": "#ff2934",
+            "position": 0
+          },
+          {
+            "color": "#ff6970",
+            "position": 50
+          },
+          {
+            "color": "#f64c54",
+            "position": 100
+          }
+        ],
+        "cssValue": "linear-gradient(45deg, #ff2934 0%, #ff6970 50%, #f64c54 100%)"
+      },
+      "button": {
+        "type": "linear",
+        "angle": 45,
+        "stops": [
+          {
+            "color": "#ff2934",
+            "position": 0
+          },
+          {
+            "color": "#ff6970",
+            "position": 50
+          },
+          {
+            "color": "#ff2934",
+            "position": 100
+          }
+        ],
+        "cssValue": "linear-gradient(45deg, #ff2934 0%, #ff6970 50%, #ff2934 100%)"
+      },
+      "card": {
+        "type": "linear",
+        "angle": 45,
+        "stops": [
+          {
+            "color": "#f3f2f2",
+            "position": 0
+          },
+          {
+            "color": "#b6afaf",
+            "position": 100
+          }
+        ],
+        "cssValue": "linear-gradient(45deg, #f3f2f2 0%, #b6afaf 100%)"
+      },
+      "text": {
+        "type": "linear",
+        "angle": 45,
+        "stops": [
+          {
+            "color": "#ff2934",
+            "position": 0
+          },
+          {
+            "color": "#ff6970",
+            "position": 50
+          },
+          {
+            "color": "#ff2934",
+            "position": 100
+          }
+        ],
+        "cssValue": "linear-gradient(45deg, #ff2934 0%, #ff6970 50%, #ff2934 100%)"
+      },
+      "background": {
+        "type": "linear",
+        "angle": 45,
+        "stops": [
+          {
+            "color": "#f3f2f2",
+            "position": 0
+          },
+          {
+            "color": "#0d0c0c",
+            "position": 100
+          }
+        ],
+        "cssValue": "linear-gradient(45deg, #f3f2f2 0%, #0d0c0c 100%)"
+      }
+    }
+  },
+  "logo": {
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"120\" viewBox=\"0 0 400 120\">\n  <circle cx=\"62\" cy=\"60\" r=\"42\" fill=\"#ff2934\"/>\n  <text x=\"62\" y=\"60\" fill=\"white\" font-size=\"33.599999999999994\" font-family=\"'Montserrat', sans-serif\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\">W</text>\n  <text x=\"120\" y=\"60\" fill=\"#ff2934\" font-size=\"48\" font-family=\"'Montserrat', sans-serif\" font-weight=\"600\" dominant-baseline=\"central\">wubba</text>\n</svg>",
+    "variants": {
+      "wordmark": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"120\" viewBox=\"0 0 400 120\">\n  <circle cx=\"62\" cy=\"60\" r=\"42\" fill=\"#ff2934\"/>\n  <text x=\"62\" y=\"60\" fill=\"white\" font-size=\"33.599999999999994\" font-family=\"'Montserrat', sans-serif\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\">W</text>\n  <text x=\"120\" y=\"60\" fill=\"#ff2934\" font-size=\"48\" font-family=\"'Montserrat', sans-serif\" font-weight=\"600\" dominant-baseline=\"central\">wubba</text>\n</svg>",
+      "monogram": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"120\" viewBox=\"0 0 120 120\">\n  <polygon points=\"60,5 110,30 110,90 60,115 10,90 10,30\" fill=\"#ff2934\"/>\n  <text x=\"60\" y=\"60\" fill=\"white\" font-size=\"56\" font-family=\"'Montserrat', sans-serif\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\">W</text>\n</svg>",
+      "abstract": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"120\" viewBox=\"0 0 120 120\">\n  <rect x=\"10\" y=\"10\" width=\"50\" height=\"50\" fill=\"#ff2934\" opacity=\"0.9\"/>\n  <rect x=\"40\" y=\"40\" width=\"50\" height=\"50\" fill=\"#ff2934\" opacity=\"0.6\"/>\n  <rect x=\"60\" y=\"20\" width=\"40\" height=\"40\" fill=\"#ff2934\" opacity=\"0.3\"/>\n</svg>",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"64\" viewBox=\"0 0 64 64\">\n  <circle cx=\"32\" cy=\"32\" r=\"28\" fill=\"#ff2934\"/>\n  <text x=\"32\" y=\"32\" fill=\"white\" font-size=\"32\" font-family=\"'Montserrat', sans-serif\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\">W</text>\n</svg>"
+    }
+  },
+  "createdAt": "2026-09-29T00:51:01.487Z"
+}

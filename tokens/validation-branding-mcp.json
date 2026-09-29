@@ -1,0 +1,18 @@
+{
+  "valid": true,
+  "score": 90,
+  "issues": [
+    {
+      "severity": "warning",
+      "element": "color.secondary",
+      "message": "secondary color (#f1f0ec) fails WCAG AA on white (ratio: 1.14)",
+      "suggestion": "Darken the color for better contrast on light backgrounds"
+    },
+    {
+      "severity": "warning",
+      "element": "color.accent",
+      "message": "accent color (#ff2a36) fails WCAG AA on white (ratio: 3.73)",
+      "suggestion": "Darken the color for better contrast on light backgrounds"
+    }
+  ]
+}

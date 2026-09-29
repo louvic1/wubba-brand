@@ -1,0 +1,166 @@
+/* Wubba — tokens de design. Généré par src/tokens.py : ne pas éditer à la main. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap");
+
+:root {
+  /* Marque */
+  --wb-ink: #0E0F12;
+  --wb-paper: #F1F0EC;
+  --wb-signal: #FF2A36;
+  --wb-signal-deep: #D4101E;
+
+  /* Neutres (encre -> papier) */
+  --wb-neutral-50: #FBFAF6;
+  --wb-neutral-100: #F1F0EC;
+  --wb-neutral-150: #E7E6E2;
+  --wb-neutral-200: #DAD9D6;
+  --wb-neutral-300: #BEBEBB;
+  --wb-neutral-400: #989897;
+  --wb-neutral-500: #787979;
+  --wb-neutral-600: #5C5C5D;
+  --wb-neutral-700: #434445;
+  --wb-neutral-800: #2D2E30;
+  --wb-neutral-850: #222325;
+  --wb-neutral-900: #18191C;
+  --wb-neutral-950: #0E0F12;
+
+  /* Signal */
+  --wb-signal-50: #FFF2F1;
+  --wb-signal-100: #FFE0DC;
+  --wb-signal-300: #FF9289;
+  --wb-signal-500: #FF2A36;
+  --wb-signal-600: #D4101E;
+  --wb-signal-800: #7C1216;
+  --wb-signal-900: #400C0C;
+
+  /* États */
+  --wb-positive: #3ABA6A;
+  --wb-positive-text: #007B2F;
+  --wb-caution: #F2B036;
+  --wb-caution-text: #9A5C00;
+  --wb-info: #468DE5;
+  --wb-info-text: #226BC0;
+
+  /* Typo */
+  --wb-font-display: "Archivo", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --wb-stretch-display: 125%;
+  --wb-font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --wb-stretch-body: 100%;
+  --wb-font-mono: "Martian Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --wb-stretch-mono: 100%;
+  --wb-text-label: 0.75rem;
+  --wb-leading-label: 1.3;
+  --wb-tracking-label: 0.08em;
+  --wb-text-small: 0.875rem;
+  --wb-leading-small: 1.45;
+  --wb-tracking-small: 0em;
+  --wb-text-body: 1rem;
+  --wb-leading-body: 1.55;
+  --wb-tracking-body: 0em;
+  --wb-text-lead: 1.312rem;
+  --wb-leading-lead: 1.45;
+  --wb-tracking-lead: -0.005em;
+  --wb-text-h4: 1.312rem;
+  --wb-leading-h4: 1.15;
+  --wb-tracking-h4: -0.005em;
+  --wb-text-h3: 1.75rem;
+  --wb-leading-h3: 1.1;
+  --wb-tracking-h3: -0.01em;
+  --wb-text-h2: 2.375rem;
+  --wb-leading-h2: 1.05;
+  --wb-tracking-h2: -0.01em;
+  --wb-text-h1: 3.125rem;
+  --wb-leading-h1: 1.02;
+  --wb-tracking-h1: -0.015em;
+  --wb-text-display: 4.188rem;
+  --wb-leading-display: 1.0;
+  --wb-tracking-display: -0.02em;
+  --wb-text-hero: 5.625rem;
+  --wb-leading-hero: 0.96;
+  --wb-tracking-hero: -0.025em;
+
+  /* Espace (base 8, demi-pas de 4) */
+  --wb-space-0: 0px;
+  --wb-space-1: 4px;
+  --wb-space-2: 8px;
+  --wb-space-3: 12px;
+  --wb-space-4: 16px;
+  --wb-space-5: 24px;
+  --wb-space-6: 32px;
+  --wb-space-7: 48px;
+  --wb-space-8: 64px;
+  --wb-space-9: 96px;
+  --wb-space-10: 128px;
+
+  /* Rayons */
+  --wb-radius-none: 0px;
+  --wb-radius-sm: 4px;
+  --wb-radius-md: 8px;
+  --wb-radius-lg: 14px;
+  --wb-radius-tile: 22%;
+  --wb-radius-full: 9999px;
+
+  /* Mouvement */
+  --wb-ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --wb-ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+  --wb-fast: 120ms;
+  --wb-base: 200ms;
+  --wb-slow: 320ms;
+  --wb-rec-blink: 1.2s steps(1, end) infinite;
+
+  /* Rôles, thème clair par défaut */
+  --wb-bg: #F1F0EC;
+  --wb-surface: #FBFAF6;
+  --wb-surface-2: #E7E6E2;
+  --wb-line: #DAD9D6;
+  --wb-line-strong: #BEBEBB;
+  --wb-text: #0E0F12;
+  --wb-text-muted: #5C5C5D;
+  --wb-text-faint: #787979;
+  --wb-accent: #FF2A36;
+  --wb-accent-text: #D4101E;
+  --wb-accent-tint: #FFF2F1;
+  --wb-on-accent: #0E0F12;
+  /* Alias génériques */
+  --brand-bg: var(--wb-bg);
+  --brand-text: var(--wb-text);
+  --brand-accent: var(--wb-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wb-bg: #0E0F12;
+    --wb-surface: #18191C;
+    --wb-surface-2: #222325;
+    --wb-line: #2D2E30;
+    --wb-line-strong: #434445;
+    --wb-text: #F1F0EC;
+    --wb-text-muted: #989897;
+    --wb-text-faint: #787979;
+    --wb-accent: #FF2A36;
+    --wb-accent-text: #FF2A36;
+    --wb-accent-tint: #400C0C;
+    --wb-on-accent: #0E0F12;
+  }
+}
+
+:root[data-theme="dark"] {
+  --wb-bg: #0E0F12;
+  --wb-surface: #18191C;
+  --wb-surface-2: #222325;
+  --wb-line: #2D2E30;
+  --wb-line-strong: #434445;
+  --wb-text: #F1F0EC;
+  --wb-text-muted: #989897;
+  --wb-text-faint: #787979;
+  --wb-accent: #FF2A36;
+  --wb-accent-text: #FF2A36;
+  --wb-accent-tint: #400C0C;
+  --wb-on-accent: #0E0F12;
+}
+
+/* Styles de base prêts à l'emploi */
+.wb-display { font-family: var(--wb-font-display); font-stretch: var(--wb-stretch-display); font-weight: 800; }
+.wb-label { font-family: var(--wb-font-mono); font-size: var(--wb-text-label); letter-spacing: var(--wb-tracking-label); text-transform: uppercase; }
+.wb-rec { width: .6em; height: .6em; border-radius: 50%; background: var(--wb-signal); display: inline-block; }
+@media (prefers-reduced-motion: no-preference) { .wb-rec.is-live { animation: wb-blink var(--wb-rec-blink); } }
+@keyframes wb-blink { 50% { opacity: 0; } }
