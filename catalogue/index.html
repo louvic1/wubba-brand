@@ -1,0 +1,695 @@
+<title>Options d'identité Wubba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Martian+Mono:wdth,wght@87.5,400;87.5,500&display=swap">
+<style>
+/* Catalogue d'options : une galerie de travail neutre, pour que la couleur vienne des propositions et pas de la page. */
+:root {
+  --bg:#EEEEEB; --panel:#F8F8F6; --fg:#141416; --muted:#5E5E5C; --faint:#8C8C88; --line:#D6D5D0;
+  --pick:#141416; --pick-fg:#F8F8F6; --ghost:rgba(20,20,22,.14);
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#121214; --panel:#1B1B1E; --fg:#EDEDEA; --muted:#A3A39E; --faint:#77776F; --line:#2E2E32;
+  --pick:#EDEDEA; --pick-fg:#121214; --ghost:rgba(237,237,234,.16); color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#121214; --panel:#1B1B1E; --fg:#EDEDEA; --muted:#A3A39E; --faint:#77776F; --line:#2E2E32;
+  --pick:#EDEDEA; --pick-fg:#121214; --ghost:rgba(237,237,234,.16); color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans);margin:0;padding-inline:max(16px,3vw);padding-block:0 64px}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1320px;margin:0 auto}
+.top{padding-block:40px 20px;border-bottom:1px solid var(--line)}
+.eyebrow,.kind,figcaption,.small,.code,th,.was,.of{font-family:var(--mono);letter-spacing:.02em}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+h1{font-size:clamp(34px,6vw,64px);line-height:1;margin:0 0 16px;letter-spacing:-.02em;font-weight:700;text-wrap:balance}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.1;margin:0 0 8px;letter-spacing:-.01em;font-weight:700;text-wrap:balance}
+h3{font-size:20px;line-height:1.2;margin:0;font-weight:600}
+h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 8px;font-weight:500}
+.lede{max-width:68ch;color:var(--muted);margin:0 0 16px}
+.counts{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.counts b{color:var(--fg);font-size:15px}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;gap:18px;overflow-x:auto;padding-block:12px;font-family:var(--mono);font-size:12px;white-space:nowrap}
+nav.toc a{text-decoration:none;color:var(--muted)} nav.toc a:hover,nav.toc a:focus-visible{color:var(--fg)}
+nav.toc .sel{margin-left:auto;color:var(--fg)}
+section{padding-block:44px 8px;border-bottom:1px solid var(--line)}
+.intro{max-width:72ch;color:var(--muted);margin:0 0 22px}
+.shortlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.short{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:14px}
+.short img{width:100%}
+.short-meta{display:flex;align-items:baseline;gap:10px;margin:12px 0 6px}
+.short-meta .s{margin-left:auto;font-family:var(--mono);font-size:13px}
+.short p{margin:0;color:var(--muted);font-size:15px}
+.reco{margin-top:22px;max-width:76ch}
+.reco p{margin:0 0 10px}
+.tablewrap{overflow-x:auto;margin-top:22px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.num{font-variant-numeric:tabular-nums;text-align:right;font-family:var(--mono);font-size:13px}
+.chip{display:inline-block;width:16px;height:16px;background:var(--c);border:1px solid var(--ghost);margin-right:3px;vertical-align:middle}
+.overview{margin-top:22px;border:1px solid var(--line)}
+.dir{padding-block:34px;border-top:1px solid var(--line)}
+.dir:first-of-type{border-top:0}
+.dir-head{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}
+.dir-id{display:flex;align-items:center;gap:14px;min-width:0}
+.dir-id .code{font-size:40px;line-height:1;font-weight:500}
+.kind{font-size:11px;color:var(--muted);margin:4px 0 0;text-transform:uppercase;letter-spacing:.06em}
+.dir-score{display:flex;align-items:baseline;gap:6px;margin-left:auto}
+.dir-score .big{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.dir-score .of{font-size:13px;color:var(--muted)} .dir-score .was{font-size:11px;color:var(--faint);margin-left:8px}
+.idea{font-size:19px;line-height:1.45;max-width:66ch;margin:14px 0 18px}
+.dir-logos{display:grid;grid-template-columns:1fr 1fr 150px;gap:12px}
+.dir-logos figure,.dir-banners figure,.opt{margin:0}
+.dir-logos .sq img{width:150px}
+.dir-banners{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;margin-top:12px}
+figcaption{font-size:11px;color:var(--muted);margin-top:6px}
+.dir-facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:8px}
+.dir-facts ul{margin:0;padding-left:18px} .dir-facts li{margin-bottom:4px}
+.dir-facts>div{min-width:0}
+.risk{margin:12px 0 0;color:var(--muted)} .risk b{color:var(--fg);margin-right:6px}
+.small{font-size:12px;color:var(--muted)}
+.fav{max-width:280px;image-rendering:pixelated}
+.board-link{font-family:var(--mono);font-size:12px}
+ul.score{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+ul.score li{display:grid;grid-template-columns:96px 1fr 18px 22px;align-items:center;gap:8px;font-size:13px}
+ul.score strong{font-family:var(--mono);font-size:12px;text-align:right}
+ul.score em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.bar{position:relative;height:8px;background:var(--ghost)}
+.bar b{position:absolute;inset:0 auto 0 0;background:var(--fg)}
+.bar s{position:absolute;inset:0 auto 0 0;border-right:2px solid var(--bg);text-decoration:none}
+.vh{margin:28px 0 12px;font-size:17px} .vh a{text-decoration:none}
+.opts{display:grid;gap:14px}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opts.one{grid-template-columns:minmax(0,1fr)}
+.opt{background:var(--panel);border:1px solid var(--line);padding:10px}
+.opt figcaption{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--fg)}
+.opt figcaption .pick{margin-left:auto}
+.pick{font:500 12px var(--mono);display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:transparent;color:var(--fg);
+  border:1px solid var(--line);padding:6px 10px;border-radius:999px;white-space:nowrap}
+.pick .box{width:12px;height:12px;border:1.5px solid currentColor;border-radius:3px;display:inline-block}
+.pick[aria-pressed="true"]{background:var(--pick);color:var(--pick-fg);border-color:var(--pick)}
+.pick[aria-pressed="true"] .box{background:currentColor}
+.pick:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.dir-head .pick{margin-left:0}
+#ma-selection ul{padding-left:18px;margin:8px 0 0}
+#picked-empty{color:var(--muted)}
+textarea{width:100%;min-height:140px;font:15px/1.5 var(--sans);padding:12px;background:var(--panel);color:var(--fg);border:1px solid var(--line)}
+.status{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px}
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.method ul{margin:0;padding-left:18px} .method li{margin-bottom:6px}
+code{font-family:var(--mono);font-size:.86em}
+footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:12px}
+@media (max-width:860px){
+  .dir-logos{grid-template-columns:1fr 1fr} .dir-logos .sq{grid-column:1/-1}
+  .dir-banners,.dir-facts{grid-template-columns:1fr}
+  .opts.two,.opts.three{grid-template-columns:1fr}
+  .dir-score{margin-left:0}
+  .hide-s{display:none}
+}
+@media (prefers-reduced-motion:no-preference){ .pick{transition:background .15s,color .15s} }
+</style>
+
+<div class="wrap">
+<header class="top">
+  <p class="eyebrow">wubba · identité visuelle · 29 septembre 2026</p>
+  <h1>Options d'identité Wubba</h1>
+  <p class="lede">Douze directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
+  <p class="counts"><span><b>12</b> directions</span><span><b>9</b> signes</span><span><b>25</b> palettes</span><span><b>48</b> bannières alternatives</span><span><b>5</b> paires typo</span></p>
+</header>
+<nav class="toc" aria-label="Sections">
+  <a href="#preselection">Présélection</a><a href="#ensemble">Vue d'ensemble</a><a href="#directions">Les 12 directions</a>
+  <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a>
+  <a href="#methode">Méthode</a><a class="sel" href="#ma-selection">Ma sélection · <span id="pick-count">0</span></a>
+</nav>
+
+<section id="preselection">
+  <h2>Présélection</h2>
+  <p class="intro">Les trois directions qui ont le mieux tenu la critique. Clique pour descendre à la direction.</p>
+  <div class="shortlist"><a class="short" href="#dir-A"><img src="img/A-logo-dark.webp" alt="Logo Le point de trop">
+<div class="short-meta"><span class="code">A</span><b>Le point de trop</b><span class="s">44/50</span></div>
+<p>La plus forte et la plus propre. L&#x27;idée du studio dite par la typo, lisible à 16 px, sérieuse devant un directeur marketing.</p></a><a class="short" href="#dir-D"><img src="img/D-logo-dark.webp" alt="Logo Horizon">
+<div class="short-meta"><span class="code">D</span><b>Horizon</b><span class="s">41/50</span></div>
+<p>La plus chaleureuse. Elle sort du noir néon du secteur et raconte les lieux impossibles sans dessiner de bateau.</p></a><a class="short" href="#dir-H"><img src="img/H-logo-dark.webp" alt="Logo Protocole">
+<div class="short-meta"><span class="code">H</span><b>Protocole</b><span class="s">41/50</span></div>
+<p>La plus pince-sans-rire. Un rapport de test qui s&#x27;écrit en direct ; le curseur clignote tout seul en vidéo.</p></a></div>
+  <div class="reco">
+    <h4>Ma recommandation</h4>
+    <p><b>A, Le point de trop.</b> C'est la seule direction où l'idée du studio (quelque chose placé là où il n'a pas d'affaire à être) est dite par le logo lui-même, sans explication. Elle tient à 16 px, en une couleur, en inversé, et elle a l'air d'une agence devant un directeur marketing. Le kit complet de production est déjà prêt dans le repo (<code>logo/</code>, <code>tokens/</code>, <code>palette/</code>).</p>
+    <p>Son risque : le rouge sur noir est partagé avec HyperX et ROG. Si ça te gêne, la palette <b>Rose direct</b> ou <b>Outremer</b> garde tout le reste (section Palettes).</p>
+    <p>Si tu veux plus d'audace : <b>E, Maison</b> (un logotype de maison de couture dans un secteur tout en néon) ou <b>F, Bulle</b> (les b qui regardent de côté). Plus risqués devant un acheteur à 8 000 $, plus mémorables dans un fil.</p>
+  </div>
+</section>
+
+<section id="ensemble">
+  <h2>Vue d'ensemble</h2>
+  <p class="intro">Toutes les directions côte à côte : logo clair, logo sombre, icône, favicon rendu à 16, 24, 32 et 48 px réels, bannière X. Le tableau est trié par note.</p>
+  <img class="overview" src="img/overview.webp" alt="Les 12 directions côte à côte" loading="lazy">
+  <div class="tablewrap"><table>
+    <thead><tr><th>Code</th><th>Direction</th><th class="hide-s">Type de marque</th><th>v1</th><th>v2</th><th>Palette</th><th>Garder</th></tr></thead>
+    <tbody><tr><td><a href="#dir-A">A</a></td><td>Le point de trop</td><td class="hide-s">Wordmark sur mesure + lettre-symbole</td>
+<td class="num">44</td><td class="num"><b>44</b></td><td class="chips"><span class="chip" style="--c:#0E0F12" title="Encre #0E0F12"></span><span class="chip" style="--c:#F1F0EC" title="Papier #F1F0EC"></span><span class="chip" style="--c:#FF2A36" title="Signal #FF2A36"></span></td><td><button class="pick" type="button" data-pick="dir-A" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-D">D</a></td><td>Horizon</td><td class="hide-s">Wordmark serif + symbole pictogramme</td>
+<td class="num">39</td><td class="num"><b>41</b></td><td class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="Corail #FF6B5B"></span></td><td><button class="pick" type="button" data-pick="dir-D" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-H">H</a></td><td>Protocole</td><td class="hide-s">Wordmark mono + symbole curseur (vidéo inverse)</td>
+<td class="num">40</td><td class="num"><b>41</b></td><td class="chips"><span class="chip" style="--c:#0C0C0A" title="Terminal #0C0C0A"></span><span class="chip" style="--c:#ECE8DC" title="Papier listing #ECE8DC"></span><span class="chip" style="--c:#FFB000" title="Ambre phosphore #FFB000"></span><span class="chip" style="--c:#7A7466" title="Gris console #7A7466"></span></td><td><button class="pick" type="button" data-pick="dir-H" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-E">E</a></td><td>Maison</td><td class="hide-s">Logotype serif Didone + monogramme</td>
+<td class="num">38</td><td class="num"><b>40</b></td><td class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F7F6F2" title="Blanc cassé #F7F6F2"></span><span class="chip" style="--c:#2340FF" title="Outremer #2340FF"></span></td><td><button class="pick" type="button" data-pick="dir-E" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-F">F</a></td><td>Bulle</td><td class="hide-s">Wordmark-personnage + symbole (les yeux)</td>
+<td class="num">38</td><td class="num"><b>40</b></td><td class="chips"><span class="chip" style="--c:#15122A" title="Nuit violette #15122A"></span><span class="chip" style="--c:#F4F1FF" title="Lilas #F4F1FF"></span><span class="chip" style="--c:#7B5CFF" title="Violet #7B5CFF"></span><span class="chip" style="--c:#C8FF3A" title="Lime #C8FF3A"></span></td><td><button class="pick" type="button" data-pick="dir-F" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-J">J</a></td><td>Signal</td><td class="hide-s">Lettrage monoline sur mesure + lettre-symbole trace</td>
+<td class="num">28</td><td class="num"><b>40</b></td><td class="chips"><span class="chip" style="--c:#0E1022" title="Minuit #0E1022"></span><span class="chip" style="--c:#F3F4FA" title="Givre #F3F4FA"></span><span class="chip" style="--c:#2B3DFF" title="Outremer #2B3DFF"></span><span class="chip" style="--c:#1ED6F0" title="Cyan liaison #1ED6F0"></span></td><td><button class="pick" type="button" data-pick="dir-J" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-B">B</a></td><td>Pixel mort</td><td class="hide-s">Lettrage pixel sur mesure + lettre-symbole</td>
+<td class="num">38</td><td class="num"><b>39</b></td><td class="chips"><span class="chip" style="--c:#0B0B0C" title="Écran #0B0B0C"></span><span class="chip" style="--c:#F2F2EE" title="Blanc #F2F2EE"></span><span class="chip" style="--c:#FF2BD1" title="Pixel mort #FF2BD1"></span></td><td><button class="pick" type="button" data-pick="dir-B" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-C">C</a></td><td>Incrustation</td><td class="hide-s">Wordmark en réserve dans une plaque + symbole plaque</td>
+<td class="num">38</td><td class="num"><b>38</b></td><td class="chips"><span class="chip" style="--c:#0C120F" title="Studio #0C120F"></span><span class="chip" style="--c:#F2F4F1" title="Blanc #F2F4F1"></span><span class="chip" style="--c:#00B140" title="Fond vert #00B140"></span><span class="chip" style="--c:#0047BB" title="Fond bleu #0047BB"></span></td><td><button class="pick" type="button" data-pick="dir-C" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-G">G</a></td><td>Vitesse</td><td class="hide-s">Wordmark capitales + symbole W chevrons</td>
+<td class="num">35</td><td class="num"><b>37</b></td><td class="chips"><span class="chip" style="--c:#0A0B0D" title="Carbone #0A0B0D"></span><span class="chip" style="--c:#F2F3F5" title="Blanc #F2F3F5"></span><span class="chip" style="--c:#D4FF00" title="Volt #D4FF00"></span><span class="chip" style="--c:#8A93A6" title="Acier #8A93A6"></span></td><td><button class="pick" type="button" data-pick="dir-G" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-I">I</a></td><td>Terrain</td><td class="hide-s">Wordmark pochoir en plaque + symbole caisse</td>
+<td class="num">35</td><td class="num"><b>36</b></td><td class="chips"><span class="chip" style="--c:#1B1C1A" title="Graphite #1B1C1A"></span><span class="chip" style="--c:#EFEDE6" title="Os #EFEDE6"></span><span class="chip" style="--c:#FFD60A" title="Haute visibilité #FFD60A"></span><span class="chip" style="--c:#FF5F1F" title="Orange secours #FF5F1F"></span></td><td><button class="pick" type="button" data-pick="dir-I" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-K">K</a></td><td>Réticule</td><td class="hide-s">Symbole abstrait + wordmark large</td>
+<td class="num">34</td><td class="num"><b>34</b></td><td class="chips"><span class="chip" style="--c:#0D1117" title="Ardoise #0D1117"></span><span class="chip" style="--c:#EEF1F5" title="Brume #EEF1F5"></span><span class="chip" style="--c:#19E3FF" title="Cyan viseur #19E3FF"></span><span class="chip" style="--c:#FF4D6D" title="Rouge impact #FF4D6D"></span></td><td><button class="pick" type="button" data-pick="dir-K" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-L">L</a></td><td>Tranche</td><td class="hide-s">Wordmark tranché + lettre-symbole</td>
+<td class="num">29</td><td class="num"><b>31</b></td><td class="chips"><span class="chip" style="--c:#0F0F10" title="Noir #0F0F10"></span><span class="chip" style="--c:#F4F4F2" title="Blanc #F4F4F2"></span><span class="chip" style="--c:#00D2FF" title="Cyan tranche #00D2FF"></span></td><td><button class="pick" type="button" data-pick="dir-L" aria-pressed="false"><span class="box"></span></button></td></tr></tbody></table></div>
+</section>
+
+<section id="directions">
+  <h2>Les 12 directions</h2>
+  <p class="intro">Chaque direction avec son idée, ses raisons, son risque honnête, sa note sur la grille du skill logo-design (10 dimensions, la barre claire est la v1) et ce que l'itération a changé.</p>
+  
+<article class="dir" id="dir-A">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">A</span><div><h3>Le point de trop</h3><p class="kind">Wordmark sur mesure + lettre-symbole</p></div></div>
+    <div class="dir-score"><span class="big">44</span><span class="of">/50</span><span class="was">v1 : 44</span></div>
+    <button class="pick" type="button" data-pick="dir-A" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Un point posé là où aucun w n&#x27;en porte : le voyant REC d&#x27;un live, et la tête d&#x27;un joueur qui lève les bras.</p>
+  <div class="dir-logos">
+    <figure><img src="img/A-logo-light.webp" alt="Logo Le point de trop sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/A-logo-dark.webp" alt="Logo Le point de trop sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/A-icon.webp" alt="Icône Le point de trop" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/A-x.webp" alt="Bannière X Le point de trop" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/A-og.webp" alt="Aperçu de lien Le point de trop" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>L&#x27;idée du studio, dite par la typo : un élément placé là où il n&#x27;a pas d&#x27;affaire à être.</li><li>Le point rouge se lit « en direct » sans un mot, dans toutes les langues.</li><li>Lettres dessinées à la main en superellipses : impossibles à retaper avec une police.</li></ul><p class="risk"><b>Risque</b> Le rouge sur noir est partagé par plusieurs marques gaming (HyperX, ROG). La forme porte la distinction, pas la couleur.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Ton</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Domaine qui touche le coin du viseur dans la bannière X</li><li>Bannières propres mais sages : un carton-titre centré</li><li>Rouge sur noir partagé avec HyperX et ROG : la forme doit porter seule</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Domaine replacé à l&#x27;intérieur du cadre de viseur (plus de collision)</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0E0F12" title="Encre #0E0F12"></span><span class="chip" style="--c:#F1F0EC" title="Papier #F1F0EC"></span><span class="chip" style="--c:#FF2A36" title="Signal #FF2A36"></span></p><h4>Typo</h4><p class="small">Archivo · Instrument Sans · Martian Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/A-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/A-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-B">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">B</span><div><h3>Pixel mort</h3><p class="kind">Lettrage pixel sur mesure + lettre-symbole</p></div></div>
+    <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    <button class="pick" type="button" data-pick="dir-B" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le nom écrit en pixels, avec un seul pixel coincé en magenta : l&#x27;erreur d&#x27;écran que personne ne voit, sauf toi.</p>
+  <div class="dir-logos">
+    <figure><img src="img/B-logo-light.webp" alt="Logo Pixel mort sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/B-logo-dark.webp" alt="Logo Pixel mort sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/B-icon.webp" alt="Icône Pixel mort" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/B-x.webp" alt="Bannière X Pixel mort" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/B-og.webp" alt="Aperçu de lien Pixel mort" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Natif du jeu vidéo et de l&#x27;écran, sans tomber dans le rétro : grille stricte, pas de dégradé.</li><li>Le pixel mort dit « généré » et « détail qui cloche » : ce que le studio fabrique.</li><li>Parfait au pixel près en favicon (grille alignée sur 16, 24, 32, 48 px).</li></ul><p class="risk"><b>Risque</b> Le pixel art peut sembler « indie game » plutôt que studio B2B ; il faut une typo de texte très sobre pour compenser.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Durée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Le « a » pixel à une panse se lisait « o » (wubbo) : corrigé en a à deux étages</li><li>Ligne de texte en Silkscreen trop petite dans les bannières</li><li>Le pixel art peut tirer vers « jeu indé » : garder une typo de texte sobre</li></ul><h4>Ce que la v2 a changé</h4><ul><li>« a » pixel refait à deux étages : le mot se lit « wubba », plus « wubbo »</li><li>Ligne de texte agrandie de 30 %</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0B0B0C" title="Écran #0B0B0C"></span><span class="chip" style="--c:#F2F2EE" title="Blanc #F2F2EE"></span><span class="chip" style="--c:#FF2BD1" title="Pixel mort #FF2BD1"></span></p><h4>Typo</h4><p class="small">Schibsted Grotesk · Inter · Silkscreen</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/B-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/B-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-C">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">C</span><div><h3>Incrustation</h3><p class="kind">Wordmark en réserve dans une plaque + symbole plaque</p></div></div>
+    <div class="dir-score"><span class="big">38</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    <button class="pick" type="button" data-pick="dir-C" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le nom découpé dans une plaque de fond vert : ce qui apparaît dans les lettres dépend de l&#x27;endroit où on la pose.</p>
+  <div class="dir-logos">
+    <figure><img src="img/C-logo-light.webp" alt="Logo Incrustation sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/C-logo-dark.webp" alt="Logo Incrustation sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/C-icon.webp" alt="Icône Incrustation" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/C-x.webp" alt="Bannière X Incrustation" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/C-og.webp" alt="Aperçu de lien Incrustation" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>C&#x27;est le métier en une image : incruster quelqu&#x27;un là où il n&#x27;est pas.</li><li>Le vert d&#x27;incrustation est une norme de tournage (#00B140), pas une couleur de mode.</li><li>La réserve fait que le logo prend la couleur du support : photo, vidéo, fond de marque.</li></ul><p class="risk"><b>Risque</b> Vert + noir évoque Razer ou Spotify au premier coup d&#x27;œil ; le vert d&#x27;incrustation est plus bleuté, mais il faut le tenir exactement.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Ligne de texte vert foncé sur vert : illisible</li><li>Domaine sur une croix de repère</li><li>Le vert rappelle Spotify et Razer au premier regard</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Ligne de texte passée à 68 % d&#x27;encre : lisible sur le vert</li><li>Croix de repère retirées de la bande du bas</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0C120F" title="Studio #0C120F"></span><span class="chip" style="--c:#F2F4F1" title="Blanc #F2F4F1"></span><span class="chip" style="--c:#00B140" title="Fond vert #00B140"></span><span class="chip" style="--c:#0047BB" title="Fond bleu #0047BB"></span></p><h4>Typo</h4><p class="small">Anybody · Hanken Grotesk · DM Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/C-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/C-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-D">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">D</span><div><h3>Horizon</h3><p class="kind">Wordmark serif + symbole pictogramme</p></div></div>
+    <div class="dir-score"><span class="big">41</span><span class="of">/50</span><span class="was">v1 : 39</span></div>
+    <button class="pick" type="button" data-pick="dir-D" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le point final du mot est un soleil couché sur la ligne de base : chaque test a lieu quelque part, au bout du monde.</p>
+  <div class="dir-logos">
+    <figure><img src="img/D-logo-light.webp" alt="Logo Horizon sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/D-logo-dark.webp" alt="Logo Horizon sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/D-icon.webp" alt="Icône Horizon" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/D-x.webp" alt="Bannière X Horizon" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/D-og.webp" alt="Aperçu de lien Horizon" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Parle des lieux impossibles (mer, sommet, désert) sans dessiner un bateau.</li><li>La seule direction chaleureuse et cinématographique : elle se démarque d&#x27;un secteur tout en noir néon.</li><li>Le soleil-point marche comme ponctuation dans les titres, les vidéos, les signatures.</li></ul><p class="risk"><b>Risque</b> Peut se lire « voyage » ou « voile » plutôt que « gaming » ; il faut le gameplay dans les visuels pour ancrer.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:100%"></b><s style="width:80%"></s></i><strong>5</strong><em>+1</em></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Exécution</span><i class="bar"><b style="width:100%"></b><s style="width:80%"></s></i><strong>5</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Grand disque de fond qui vire au brun boueux</li><li>Symbole coucher de soleil + reflets : pictogramme générique</li><li>Peut se lire « voyage » plutôt que « gaming »</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Le grand disque brun supprimé ; l&#x27;horizon traverse la bannière à la hauteur exacte de la ligne de base</li><li>Symbole refait : le même demi-soleil que dans le mot, posé sur sa ligne</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="Corail #FF6B5B"></span></p><h4>Typo</h4><p class="small">Fraunces · Figtree · Red Hat Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/D-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/D-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-E">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">E</span><div><h3>Maison</h3><p class="kind">Logotype serif Didone + monogramme</p></div></div>
+    <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    <button class="pick" type="button" data-pick="dir-E" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Un logotype de maison de couture pour un studio qui fait tester du matériel gaming : la marque est elle-même hors de son contexte.</p>
+  <div class="dir-logos">
+    <figure><img src="img/E-logo-light.webp" alt="Logo Maison sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/E-logo-dark.webp" alt="Logo Maison sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/E-icon.webp" alt="Icône Maison" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/E-x.webp" alt="Bannière X Maison" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/E-og.webp" alt="Aperçu de lien Maison" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Dans un secteur où tout le monde est noir néon et sans-serif, un Didone se remarque à 3 mètres.</li><li>Signale « agence premium » à un directeur marketing avant la première ligne.</li><li>L&#x27;outremer électrique empêche le cliché crème et terracotta des marques de luxe génériques.</li></ul><p class="risk"><b>Risque</b> Les déliés du Didone disparaissent sous 24 px : l&#x27;icône et le favicon utilisent une coupe plus grasse.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:60%"></b><s style="width:40%"></s></i><strong>3</strong><em>+1</em></li><li><span>Durée</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Déliés du Didone invisibles sous 24 px (icône, favicon, page LinkedIn)</li><li>Domaine posé sur le filet du bas</li><li>L&#x27;outremer n&#x27;apparaît presque nulle part</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Icône et favicon en coupe optique « petit corps » (déliés épaissis)</li><li>Filet du bas en outremer, filets écartés du domaine</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F7F6F2" title="Blanc cassé #F7F6F2"></span><span class="chip" style="--c:#2340FF" title="Outremer #2340FF"></span></p><h4>Typo</h4><p class="small">Bodoni Moda · Epilogue · IBM Plex Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/E-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/E-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-F">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">F</span><div><h3>Bulle</h3><p class="kind">Wordmark-personnage + symbole (les yeux)</p></div></div>
+    <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    <button class="pick" type="button" data-pick="dir-F" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Un mot rond comme son nom ; les deux b ont des pupilles et regardent de côté, l&#x27;air de rien. Le deadpan a un visage.</p>
+  <div class="dir-logos">
+    <figure><img src="img/F-logo-light.webp" alt="Logo Bulle sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/F-logo-dark.webp" alt="Logo Bulle sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/F-icon.webp" alt="Icône Bulle" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/F-x.webp" alt="Bannière X Bulle" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/F-og.webp" alt="Aperçu de lien Bulle" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>« wubba » sonne rond et drôle : cette direction l&#x27;assume au lieu de le cacher.</li><li>Les yeux de côté font un personnage sans dessiner de mascotte ; il peut s&#x27;animer en vidéo.</li><li>Violet et lime sortent complètement du noir-rouge-vert du matériel gaming.</li></ul><p class="risk"><b>Risque</b> Le plus joueur de tous : il peut faire « app pour ados » face à un directeur marketing à 8 000 $.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Ton</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Durée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Couleur</span><i class="bar"><b style="width:100%"></b><s style="width:80%"></s></i><strong>5</strong><em>+1</em></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Pupilles collées au bord de la panse : la contreforme devient un croissant</li><li>La lime de la palette n&#x27;est utilisée nulle part</li><li>Le symbole « bb » peut se lire BB</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Pupilles inscrites dans la contreforme, avec un jour : les b regardent vraiment de côté</li><li>Ligne de texte en lime sur le violet</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#15122A" title="Nuit violette #15122A"></span><span class="chip" style="--c:#F4F1FF" title="Lilas #F4F1FF"></span><span class="chip" style="--c:#7B5CFF" title="Violet #7B5CFF"></span><span class="chip" style="--c:#C8FF3A" title="Lime #C8FF3A"></span></p><h4>Typo</h4><p class="small">Fredoka · Nunito · Space Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/F-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/F-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-G">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">G</span><div><h3>Vitesse</h3><p class="kind">Wordmark capitales + symbole W chevrons</p></div></div>
+    <div class="dir-score"><span class="big">37</span><span class="of">/50</span><span class="was">v1 : 35</span></div>
+    <button class="pick" type="button" data-pick="dir-G" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le langage de l&#x27;esport, dit sans détour : capitales larges penchées à 12°, et un W en deux chevrons dont le second est volt.</p>
+  <div class="dir-logos">
+    <figure><img src="img/G-logo-light.webp" alt="Logo Vitesse sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/G-logo-dark.webp" alt="Logo Vitesse sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/G-icon.webp" alt="Icône Vitesse" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/G-x.webp" alt="Bannière X Vitesse" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/G-og.webp" alt="Aperçu de lien Vitesse" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Parle la langue visuelle des équipes et des tournois : zéro traduction pour un public CS2.</li><li>Le volt tranche sur le noir et ne ressemble à aucune marque de périphérique majeure.</li><li>Le symbole en chevrons tient à 16 px et se lit comme un W et comme une flèche.</li></ul><p class="risk"><b>Risque</b> Le plus codé « esport » : il peut sembler générique face aux orgs, et moins « agence » face aux marques.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Durée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>La barre volt finale se lit « I » : WUBBAI</li><li>Le W du logo et le W du symbole n&#x27;ont aucun lien</li><li>Codes esport génériques : peu propriétaire</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Le W du mot remplacé par le W en chevrons du symbole : mot et icône parlent la même langue</li><li>Barre volt finale supprimée (elle se lisait « I »)</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0A0B0D" title="Carbone #0A0B0D"></span><span class="chip" style="--c:#F2F3F5" title="Blanc #F2F3F5"></span><span class="chip" style="--c:#D4FF00" title="Volt #D4FF00"></span><span class="chip" style="--c:#8A93A6" title="Acier #8A93A6"></span></p><h4>Typo</h4><p class="small">Unbounded · Barlow · JetBrains Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/G-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/G-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-H">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">H</span><div><h3>Protocole</h3><p class="kind">Wordmark mono + symbole curseur (vidéo inverse)</p></div></div>
+    <div class="dir-score"><span class="big">41</span><span class="of">/50</span><span class="was">v1 : 40</span></div>
+    <button class="pick" type="button" data-pick="dir-H" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le nom tapé en chasse fixe, suivi d&#x27;un curseur ambre qui clignote : le ton d&#x27;un rapport de test, pince-sans-rire et exact.</p>
+  <div class="dir-logos">
+    <figure><img src="img/H-logo-light.webp" alt="Logo Protocole sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/H-logo-dark.webp" alt="Logo Protocole sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/H-icon.webp" alt="Icône Protocole" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/H-x.webp" alt="Bannière X Protocole" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/H-og.webp" alt="Aperçu de lien Protocole" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Le deadpan en forme pure : un protocole, des mesures, pas d&#x27;adjectifs.</li><li>Le curseur est vivant par nature : il clignote en vidéo, sur le site, dans les bannières animées.</li><li>L&#x27;ambre phosphore est rare dans le gaming et se lit « instrument » plutôt que « néon ».</li></ul><p class="risk"><b>Risque</b> L&#x27;esthétique terminal est courante chez les outils pour développeurs ; il faut l&#x27;ambre et le papier chaud pour s&#x27;en distinguer.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Icône bloc jaune + W noir : rappelle Western Union</li><li>Balayage d&#x27;écran à peine visible en vignette</li><li>Rien d&#x27;autre à reprocher au wordmark</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Icône refaite en « w + curseur » : fini la ressemblance avec Western Union</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0C0C0A" title="Terminal #0C0C0A"></span><span class="chip" style="--c:#ECE8DC" title="Papier listing #ECE8DC"></span><span class="chip" style="--c:#FFB000" title="Ambre phosphore #FFB000"></span><span class="chip" style="--c:#7A7466" title="Gris console #7A7466"></span></p><h4>Typo</h4><p class="small">Azeret Mono · IBM Plex Sans · Azeret Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/H-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/H-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-I">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">I</span><div><h3>Terrain</h3><p class="kind">Wordmark pochoir en plaque + symbole caisse</p></div></div>
+    <div class="dir-score"><span class="big">36</span><span class="of">/50</span><span class="was">v1 : 35</span></div>
+    <button class="pick" type="button" data-pick="dir-I" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le nom au pochoir sur une plaque jaune haute visibilité, comme sur une caisse de matériel envoyée là où il n&#x27;a rien à faire.</p>
+  <div class="dir-logos">
+    <figure><img src="img/I-logo-light.webp" alt="Logo Terrain sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/I-logo-dark.webp" alt="Logo Terrain sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/I-icon.webp" alt="Icône Terrain" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/I-x.webp" alt="Bannière X Terrain" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/I-og.webp" alt="Aperçu de lien Terrain" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Évoque les lieux impossibles par le matériel qu&#x27;on y envoie, pas par un paysage.</li><li>Le jaune haute visibilité est la couleur des environnements extrêmes : plateformes, bateaux, stations polaires.</li><li>Le pochoir est robuste, se reproduit partout (vinyle, caisse, t-shirt) et tient petit.</li></ul><p class="risk"><b>Risque</b> Jaune et noir rappellent Corsair et la signalétique de danger ; à tenir en aplat franc, jamais en rayures partout.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Durée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:40%"></s></i><strong>3</strong><em>+1</em></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Rayures de danger trop littérales : chantier, pas studio</li><li>Rayures qui chevauchent le domaine sur l&#x27;aperçu de lien</li><li>Jaune et noir : Corsair et signalétique de danger</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Rayures de danger supprimées, remplacées par des coins de caisse jaunes</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#1B1C1A" title="Graphite #1B1C1A"></span><span class="chip" style="--c:#EFEDE6" title="Os #EFEDE6"></span><span class="chip" style="--c:#FFD60A" title="Haute visibilité #FFD60A"></span><span class="chip" style="--c:#FF5F1F" title="Orange secours #FF5F1F"></span></p><h4>Typo</h4><p class="small">Big Shoulders Display · Barlow · Chivo Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/I-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/I-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-J">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">J</span><div><h3>Signal</h3><p class="kind">Lettrage monoline sur mesure + lettre-symbole trace</p></div></div>
+    <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 28</span></div>
+    <button class="pick" type="button" data-pick="dir-J" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le w est une trace d&#x27;oscilloscope, un seul trait qui monte et descend : le signal qui passe, même au milieu de l&#x27;océan.</p>
+  <div class="dir-logos">
+    <figure><img src="img/J-logo-light.webp" alt="Logo Signal sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/J-logo-dark.webp" alt="Logo Signal sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/J-icon.webp" alt="Icône Signal" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/J-x.webp" alt="Bannière X Signal" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/J-og.webp" alt="Aperçu de lien Signal" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Un zigzag régulier se lit instantanément comme un w et comme un signal.</li><li>Monoline rond : doux, net et parfaitement régulier à toutes les tailles.</li><li>Le symbole s&#x27;anime tout seul en vidéo : la trace se dessine de gauche à droite.</li></ul><p class="risk"><b>Risque</b> Le zigzag est un motif courant (audio, santé connectée) ; l&#x27;outremer frôle le territoire des outils SaaS.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Simplicité</span><i class="bar"><b style="width:100%"></b><s style="width:40%"></s></i><strong>5</strong><em>+3</em></li><li><span>Distinction</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:40%"></s></i><strong>4</strong><em>+2</em></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:40%"></s></i><strong>4</strong><em>+2</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:100%"></b><s style="width:40%"></s></i><strong>5</strong><em>+3</em></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>L&#x27;entrelacs ne se lit pas : un peigne à quatre dents</li><li>Un w à fond rond suivi d&#x27;un u se lit « uuubba »</li><li>Les lettres monolines ubba sont très réussies : à garder</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Concept remplacé : le double-u entrelacé ne se lisait pas (et donnait « uuubba »)</li><li>Le w devient une trace d&#x27;oscilloscope monoline ; les lettres ubba monolines sont gardées</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0E1022" title="Minuit #0E1022"></span><span class="chip" style="--c:#F3F4FA" title="Givre #F3F4FA"></span><span class="chip" style="--c:#2B3DFF" title="Outremer #2B3DFF"></span><span class="chip" style="--c:#1ED6F0" title="Cyan liaison #1ED6F0"></span></p><h4>Typo</h4><p class="small">Sora · Manrope · Geist Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/J-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/J-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-K">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">K</span><div><h3>Réticule</h3><p class="kind">Symbole abstrait + wordmark large</p></div></div>
+    <div class="dir-score"><span class="big">34</span><span class="of">/50</span><span class="was">v1 : 34</span></div>
+    <button class="pick" type="button" data-pick="dir-K" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Le réticule d&#x27;un jeu de tir, quatre branches et un centre : le seul point coloré est la cible, le produit du client.</p>
+  <div class="dir-logos">
+    <figure><img src="img/K-logo-light.webp" alt="Logo Réticule sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/K-logo-dark.webp" alt="Logo Réticule sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/K-icon.webp" alt="Icône Réticule" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/K-x.webp" alt="Bannière X Réticule" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/K-og.webp" alt="Aperçu de lien Réticule" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Lisible en un quart de seconde par n&#x27;importe quel joueur de CS2 : c&#x27;est l&#x27;objet qu&#x27;il regarde 10 000 heures.</li><li>Le centre coloré dit « on vise juste » et place le produit du client au milieu de l&#x27;image.</li><li>Construction à angles droits, parfaite en pixel, indestructible en favicon.</li></ul><p class="risk"><b>Risque</b> Le viseur est un cliché du gaming ; ce qui le sauve est la sobriété (pas de cercle, pas de lueur).</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Distinction</span><i class="bar"><b style="width:40%"></b><s style="width:40%"></s></i><strong>2</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Durée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Typo</span><i class="bar"><b style="width:40%"></b><s style="width:40%"></s></i><strong>2</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Réticule trop petit devant le mot : il devient une puce « + »</li><li>Un « + » dans une tuile peut se lire bouton « ajouter »</li><li>Saira large : choix esport très courant</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Réticule agrandi à 118 % de la hauteur d&#x27;x : il ne se lit plus comme une puce</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0D1117" title="Ardoise #0D1117"></span><span class="chip" style="--c:#EEF1F5" title="Brume #EEF1F5"></span><span class="chip" style="--c:#19E3FF" title="Cyan viseur #19E3FF"></span><span class="chip" style="--c:#FF4D6D" title="Rouge impact #FF4D6D"></span></p><h4>Typo</h4><p class="small">Saira · Onest · Red Hat Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/K-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/K-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+<article class="dir" id="dir-L">
+  <header class="dir-head">
+    <div class="dir-id"><span class="code">L</span><div><h3>Tranche</h3><p class="kind">Wordmark tranché + lettre-symbole</p></div></div>
+    <div class="dir-score"><span class="big">31</span><span class="of">/50</span><span class="was">v1 : 29</span></div>
+    <button class="pick" type="button" data-pick="dir-L" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
+  </header>
+  <p class="idea">Une seule coupure dans le mot, la moitié du bas glissée d&#x27;un cran et passée au cyan : l&#x27;image générée qui trahit sa fabrication.</p>
+  <div class="dir-logos">
+    <figure><img src="img/L-logo-light.webp" alt="Logo Tranche sur fond clair" loading="lazy"></figure>
+    <figure><img src="img/L-logo-dark.webp" alt="Logo Tranche sur fond sombre" loading="lazy"></figure>
+    <figure class="sq"><img src="img/L-icon.webp" alt="Icône Tranche" loading="lazy"></figure>
+  </div>
+  <div class="dir-banners">
+    <figure><img src="img/L-x.webp" alt="Bannière X Tranche" loading="lazy"><figcaption>X · 1500 × 500</figcaption></figure>
+    <figure><img src="img/L-og.webp" alt="Aperçu de lien Tranche" loading="lazy"><figcaption>Aperçu de lien · 1200 × 630</figcaption></figure>
+  </div>
+  <div class="dir-facts">
+    <div><h4>Pourquoi</h4><ul><li>Dit « image générée » sans les clichés du glitch (pas de bruit, pas de RVB baveux) : une seule coupe nette.</li><li>Le décalage donne du mouvement au logo immobile ; en vidéo, la tranche glisse et revient.</li><li>Grotesque très noir, très serré : lisible et sérieux, le détail fait le reste.</li></ul><p class="risk"><b>Risque</b> L&#x27;effet « tranché » est populaire depuis 2020 ; tenu à une seule coupe fine, il reste propre mais peu propriétaire.</p></div>
+    <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Distinction</span><i class="bar"><b style="width:40%"></b><s style="width:40%"></s></i><strong>2</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Durée</span><i class="bar"><b style="width:40%"></b><s style="width:40%"></s></i><strong>2</strong></li><li><span>Couleur</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Typo</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li></ul></div>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Coupe trop basse et trop décalée : « bb » et « a » deviennent difficiles à lire</li><li>Bicolore très bruyant</li><li>Effet tranché populaire depuis 2020 : peu propriétaire</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Coupe remontée à 58 % de la hauteur d&#x27;x, décalage divisé par deux : le mot redevient lisible</li></ul>
+      <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0F0F10" title="Noir #0F0F10"></span><span class="chip" style="--c:#F4F4F2" title="Blanc #F4F4F2"></span><span class="chip" style="--c:#00D2FF" title="Cyan tranche #00D2FF"></span></p><h4>Typo</h4><p class="small">Inter Tight · Red Hat Display · Chivo Mono</p>
+      <h4>Favicon réel</h4><img class="fav" src="img/L-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
+      <p><a class="board-link" href="img/L-board.webp">Ouvrir la planche complète</a></p></div>
+  </div>
+</article>
+</section>
+
+<section id="signes">
+  <h2>Signes de la direction A</h2>
+  <p class="intro">Même idée, dessins différents : la forme du point, la graisse, la rondeur des panses. Chaque variante a son icône.</p>
+  <div class="opts two"><figure class="opt"><img src="img/A-signe-rond.webp" alt="Point rond (référence)" loading="lazy">
+<figcaption><b>A1</b> Point rond (référence)<button class="pick" type="button" data-pick="sign-A1" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-carre.webp" alt="Point carré : le pixel" loading="lazy">
+<figcaption><b>A2</b> Point carré : le pixel<button class="pick" type="button" data-pick="sign-A2" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-anneau.webp" alt="Anneau : le voyant REC éteint" loading="lazy">
+<figcaption><b>A3</b> Anneau : le voyant REC éteint<button class="pick" type="button" data-pick="sign-A3" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-reticule.webp" alt="Réticule à la place du point" loading="lazy">
+<figcaption><b>A4</b> Réticule à la place du point<button class="pick" type="button" data-pick="sign-A4" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-leger.webp" alt="Graisse légère" loading="lazy">
+<figcaption><b>A5</b> Graisse légère<button class="pick" type="button" data-pick="sign-A5" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-noir.webp" alt="Graisse noire" loading="lazy">
+<figcaption><b>A6</b> Graisse noire<button class="pick" type="button" data-pick="sign-A6" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-rondes.webp" alt="Panses rondes (géométrique classique)" loading="lazy">
+<figcaption><b>A7</b> Panses rondes (géométrique classique)<button class="pick" type="button" data-pick="sign-A7" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-carrees.webp" alt="Panses carrées (plus « matériel »)" loading="lazy">
+<figcaption><b>A8</b> Panses carrées (plus « matériel »)<button class="pick" type="button" data-pick="sign-A8" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-signe-tiret.webp" alt="Sommet plein, point au-dessus" loading="lazy">
+<figcaption><b>A9</b> Sommet plein, point au-dessus<button class="pick" type="button" data-pick="sign-A9" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div>
+</section>
+
+<section id="palettes">
+  <h2>Palettes</h2>
+  <p class="intro">Le même dessin dans d'autres couleurs, pour les six meilleures directions. La forme se choisit à part : on peut prendre le signe de A avec la palette Outremer.</p>
+  <h3 class="vh"><a href="#dir-A">A</a> · Le point de trop</h3><div class="opts one"><figure class="opt wide"><img src="img/A-pal-signal.webp" alt="Le point de trop en palette Signal (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0E0F12" title="Encre #0E0F12"></span><span class="chip" style="--c:#F1F0EC" title="Papier #F1F0EC"></span><span class="chip" style="--c:#FF2A36" title="Signal #FF2A36"></span></span><b>Signal (référence)</b><button class="pick" type="button" data-pick="pal-A-signal" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-magenta.webp" alt="Le point de trop en palette Rose direct" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0E0D12" title="Encre #0E0D12"></span><span class="chip" style="--c:#F3F1F4" title="Papier #F3F1F4"></span><span class="chip" style="--c:#FF2E93" title="Rose direct #FF2E93"></span></span><b>Rose direct</b><button class="pick" type="button" data-pick="pal-A-magenta" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-outremer.webp" alt="Le point de trop en palette Outremer" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0B0D1A" title="Nuit #0B0D1A"></span><span class="chip" style="--c:#F1F2F7" title="Givre #F1F2F7"></span><span class="chip" style="--c:#3346FF" title="Outremer #3346FF"></span></span><b>Outremer</b><button class="pick" type="button" data-pick="pal-A-outremer" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-vert.webp" alt="Le point de trop en palette Vert en ligne" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0C120F" title="Encre verte #0C120F"></span><span class="chip" style="--c:#F1F4F1" title="Papier #F1F4F1"></span><span class="chip" style="--c:#00C45A" title="En ligne #00C45A"></span></span><b>Vert en ligne</b><button class="pick" type="button" data-pick="pal-A-vert" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-ambre.webp" alt="Le point de trop en palette Ambre REC" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#12100C" title="Encre chaude #12100C"></span><span class="chip" style="--c:#F3EFE6" title="Papier #F3EFE6"></span><span class="chip" style="--c:#FF9F1C" title="Ambre #FF9F1C"></span></span><b>Ambre REC</b><button class="pick" type="button" data-pick="pal-A-ambre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-volt.webp" alt="Le point de trop en palette Volt" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0B0C0E" title="Carbone #0B0C0E"></span><span class="chip" style="--c:#F2F3F0" title="Blanc #F2F3F0"></span><span class="chip" style="--c:#C8F500" title="Volt #C8F500"></span></span><b>Volt</b><button class="pick" type="button" data-pick="pal-A-volt" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-pal-mono.webp" alt="Le point de trop en palette Monochrome pur" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#000000" title="Noir #000000"></span><span class="chip" style="--c:#FFFFFF" title="Blanc #FFFFFF"></span><span class="chip" style="--c:#000000" title="Noir #000000"></span></span><b>Monochrome pur</b><button class="pick" type="button" data-pick="pal-A-mono" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-D">D</a> · Horizon</h3><div class="opts one"><figure class="opt wide"><img src="img/D-pal-nuit.webp" alt="Horizon en palette Nuit et ambre (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="accent2 #FF6B5B"></span></span><b>Nuit et ambre (référence)</b><button class="pick" type="button" data-pick="pal-D-nuit" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/D-pal-polaire.webp" alt="Horizon en palette Polaire" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0A2233" title="Glace profonde #0A2233"></span><span class="chip" style="--c:#EEF6F8" title="Glace #EEF6F8"></span><span class="chip" style="--c:#FF5A36" title="Fusée de détresse #FF5A36"></span></span><b>Polaire</b><button class="pick" type="button" data-pick="pal-D-polaire" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/D-pal-crepuscule.webp" alt="Horizon en palette Crépuscule" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#1B1330" title="Crépuscule #1B1330"></span><span class="chip" style="--c:#F3EEF6" title="Brume #F3EEF6"></span><span class="chip" style="--c:#FF8A5B" title="Pêche #FF8A5B"></span></span><b>Crépuscule</b><button class="pick" type="button" data-pick="pal-D-crepuscule" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/D-pal-pleine-mer.webp" alt="Horizon en palette Pleine mer" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#06283D" title="Abysse #06283D"></span><span class="chip" style="--c:#E9F1F4" title="Écume #E9F1F4"></span><span class="chip" style="--c:#F2C14E" title="Or #F2C14E"></span></span><b>Pleine mer</b><button class="pick" type="button" data-pick="pal-D-pleine-mer" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-H">H</a> · Protocole</h3><div class="opts one"><figure class="opt wide"><img src="img/H-pal-ambre.webp" alt="Protocole en palette Ambre phosphore (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0C0C0A" title="Terminal #0C0C0A"></span><span class="chip" style="--c:#ECE8DC" title="Listing #ECE8DC"></span><span class="chip" style="--c:#FFB000" title="Ambre #FFB000"></span></span><b>Ambre phosphore (référence)</b><button class="pick" type="button" data-pick="pal-H-ambre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/H-pal-vert.webp" alt="Protocole en palette Vert phosphore" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#07110A" title="Terminal #07110A"></span><span class="chip" style="--c:#E6EFE4" title="Listing #E6EFE4"></span><span class="chip" style="--c:#33FF66" title="Phosphore #33FF66"></span></span><b>Vert phosphore</b><button class="pick" type="button" data-pick="pal-H-vert" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/H-pal-rapport.webp" alt="Protocole en palette Rapport (curseur rouge)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#111111" title="Noir #111111"></span><span class="chip" style="--c:#F2F2F0" title="Blanc #F2F2F0"></span><span class="chip" style="--c:#FF3B30" title="Rouge #FF3B30"></span></span><b>Rapport (curseur rouge)</b><button class="pick" type="button" data-pick="pal-H-rapport" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/H-pal-ecran-bleu.webp" alt="Protocole en palette Écran bleu" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#1532C2" title="Bleu écran #1532C2"></span><span class="chip" style="--c:#EEF1FF" title="Blanc #EEF1FF"></span><span class="chip" style="--c:#FFD400" title="Jaune #FFD400"></span></span><b>Écran bleu</b><button class="pick" type="button" data-pick="pal-H-ecran-bleu" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-E">E</a> · Maison</h3><div class="opts one"><figure class="opt wide"><img src="img/E-pal-outremer.webp" alt="Maison en palette Outremer (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F7F6F2" title="Blanc cassé #F7F6F2"></span><span class="chip" style="--c:#2340FF" title="Outremer #2340FF"></span></span><b>Outremer (référence)</b><button class="pick" type="button" data-pick="pal-E-outremer" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/E-pal-laque.webp" alt="Maison en palette Laque rouge" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F7F6F2" title="Blanc cassé #F7F6F2"></span><span class="chip" style="--c:#E3262F" title="Laque #E3262F"></span></span><b>Laque rouge</b><button class="pick" type="button" data-pick="pal-E-laque" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/E-pal-emeraude.webp" alt="Maison en palette Émeraude" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F5F6F2" title="Blanc #F5F6F2"></span><span class="chip" style="--c:#0E8A5F" title="Émeraude #0E8A5F"></span></span><b>Émeraude</b><button class="pick" type="button" data-pick="pal-E-emeraude" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/E-pal-noir.webp" alt="Maison en palette Noir seul" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#FFFFFF" title="Blanc #FFFFFF"></span><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span></span><b>Noir seul</b><button class="pick" type="button" data-pick="pal-E-noir" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-F">F</a> · Bulle</h3><div class="opts one"><figure class="opt wide"><img src="img/F-pal-violet.webp" alt="Bulle en palette Violet et lime (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#15122A" title="Nuit violette #15122A"></span><span class="chip" style="--c:#F4F1FF" title="Lilas #F4F1FF"></span><span class="chip" style="--c:#7B5CFF" title="Violet #7B5CFF"></span><span class="chip" style="--c:#C8FF3A" title="Lime #C8FF3A"></span></span><b>Violet et lime (référence)</b><button class="pick" type="button" data-pick="pal-F-violet" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/F-pal-bonbon.webp" alt="Bulle en palette Bonbon" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#1E0B1A" title="Réglisse #1E0B1A"></span><span class="chip" style="--c:#FFF0F7" title="Guimauve #FFF0F7"></span><span class="chip" style="--c:#FF4FA3" title="Bonbon #FF4FA3"></span><span class="chip" style="--c:#FFE14F" title="Citron #FFE14F"></span></span><b>Bonbon</b><button class="pick" type="button" data-pick="pal-F-bonbon" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/F-pal-orange.webp" alt="Bulle en palette Orange et ciel" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0F1B3D" title="Marine #0F1B3D"></span><span class="chip" style="--c:#FFF4E8" title="Crème #FFF4E8"></span><span class="chip" style="--c:#FF6B2C" title="Orange #FF6B2C"></span><span class="chip" style="--c:#8FD3FF" title="Ciel #8FD3FF"></span></span><b>Orange et ciel</b><button class="pick" type="button" data-pick="pal-F-orange" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-J">J</a> · Signal</h3><div class="opts one"><figure class="opt wide"><img src="img/J-pal-outremer.webp" alt="Signal en palette Outremer et cyan (référence)" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#0E1022" title="Minuit #0E1022"></span><span class="chip" style="--c:#F3F4FA" title="Givre #F3F4FA"></span><span class="chip" style="--c:#2B3DFF" title="Outremer #2B3DFF"></span><span class="chip" style="--c:#1ED6F0" title="Cyan #1ED6F0"></span></span><b>Outremer et cyan (référence)</b><button class="pick" type="button" data-pick="pal-J-outremer" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/J-pal-oscillo.webp" alt="Signal en palette Oscilloscope" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#07120D" title="Écran #07120D"></span><span class="chip" style="--c:#EEF5F0" title="Papier #EEF5F0"></span><span class="chip" style="--c:#19E68C" title="Trace verte #19E68C"></span></span><b>Oscilloscope</b><button class="pick" type="button" data-pick="pal-J-oscillo" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/J-pal-corail.webp" alt="Signal en palette Ardoise et corail" loading="lazy">
+<figcaption><span class="chips"><span class="chip" style="--c:#111827" title="Ardoise #111827"></span><span class="chip" style="--c:#F5F5F4" title="Blanc #F5F5F4"></span><span class="chip" style="--c:#FF5A5F" title="Corail #FF5A5F"></span></span><b>Ardoise et corail</b><button class="pick" type="button" data-pick="pal-J-corail" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div>
+</section>
+
+<section id="mises-en-page">
+  <h2>Mises en page des bannières</h2>
+  <p class="intro">Quatre mises en page pour X et quatre pour l'aperçu de lien (quand quelqu'un colle wubba.studio dans un message).</p>
+  <h3 class="vh"><a href="#dir-A">A</a> · Le point de trop</h3><div class="opts two"><figure class="opt"><img src="img/A-lay-x-carton.webp" alt="Le point de trop : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-A-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-x-geant.webp" alt="Le point de trop : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-A-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-x-clair.webp" alt="Le point de trop : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-A-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-x-manchette.webp" alt="Le point de trop : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-A-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-og-centre.webp" alt="Le point de trop : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-A-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-og-gauche.webp" alt="Le point de trop : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-A-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-og-accent.webp" alt="Le point de trop : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-A-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/A-lay-og-symbole.webp" alt="Le point de trop : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-A-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-D">D</a> · Horizon</h3><div class="opts two"><figure class="opt"><img src="img/D-lay-x-carton.webp" alt="Horizon : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-D-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-x-geant.webp" alt="Horizon : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-D-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-x-clair.webp" alt="Horizon : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-D-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-x-manchette.webp" alt="Horizon : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-D-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-og-centre.webp" alt="Horizon : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-D-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-og-gauche.webp" alt="Horizon : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-D-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-og-accent.webp" alt="Horizon : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-D-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/D-lay-og-symbole.webp" alt="Horizon : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-D-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-H">H</a> · Protocole</h3><div class="opts two"><figure class="opt"><img src="img/H-lay-x-carton.webp" alt="Protocole : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-H-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-x-geant.webp" alt="Protocole : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-H-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-x-clair.webp" alt="Protocole : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-H-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-x-manchette.webp" alt="Protocole : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-H-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-og-centre.webp" alt="Protocole : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-H-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-og-gauche.webp" alt="Protocole : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-H-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-og-accent.webp" alt="Protocole : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-H-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/H-lay-og-symbole.webp" alt="Protocole : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-H-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-E">E</a> · Maison</h3><div class="opts two"><figure class="opt"><img src="img/E-lay-x-carton.webp" alt="Maison : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-E-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-x-geant.webp" alt="Maison : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-E-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-x-clair.webp" alt="Maison : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-E-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-x-manchette.webp" alt="Maison : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-E-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-og-centre.webp" alt="Maison : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-E-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-og-gauche.webp" alt="Maison : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-E-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-og-accent.webp" alt="Maison : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-E-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/E-lay-og-symbole.webp" alt="Maison : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-E-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-F">F</a> · Bulle</h3><div class="opts two"><figure class="opt"><img src="img/F-lay-x-carton.webp" alt="Bulle : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-F-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-x-geant.webp" alt="Bulle : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-F-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-x-clair.webp" alt="Bulle : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-F-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-x-manchette.webp" alt="Bulle : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-F-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-og-centre.webp" alt="Bulle : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-F-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-og-gauche.webp" alt="Bulle : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-F-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-og-accent.webp" alt="Bulle : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-F-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/F-lay-og-symbole.webp" alt="Bulle : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-F-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div><h3 class="vh"><a href="#dir-J">J</a> · Signal</h3><div class="opts two"><figure class="opt"><img src="img/J-lay-x-carton.webp" alt="Signal : X · Carton-titre" loading="lazy">
+<figcaption><b>X · Carton-titre</b><button class="pick" type="button" data-pick="lay-J-x-carton" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-x-geant.webp" alt="Signal : X · Symbole géant" loading="lazy">
+<figcaption><b>X · Symbole géant</b><button class="pick" type="button" data-pick="lay-J-x-geant" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-x-clair.webp" alt="Signal : X · Version claire" loading="lazy">
+<figcaption><b>X · Version claire</b><button class="pick" type="button" data-pick="lay-J-x-clair" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-x-manchette.webp" alt="Signal : X · Manchette" loading="lazy">
+<figcaption><b>X · Manchette</b><button class="pick" type="button" data-pick="lay-J-x-manchette" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-og-centre.webp" alt="Signal : Lien · Centré" loading="lazy">
+<figcaption><b>Lien · Centré</b><button class="pick" type="button" data-pick="lay-J-og-centre" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-og-gauche.webp" alt="Signal : Lien · Éditorial à gauche" loading="lazy">
+<figcaption><b>Lien · Éditorial à gauche</b><button class="pick" type="button" data-pick="lay-J-og-gauche" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-og-accent.webp" alt="Signal : Lien · Fond d&#x27;accent" loading="lazy">
+<figcaption><b>Lien · Fond d&#x27;accent</b><button class="pick" type="button" data-pick="lay-J-og-accent" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt"><img src="img/J-lay-og-symbole.webp" alt="Signal : Lien · Icône + nom" loading="lazy">
+<figcaption><b>Lien · Icône + nom</b><button class="pick" type="button" data-pick="lay-J-og-symbole" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div>
+</section>
+
+<section id="typo">
+  <h2>Paires typographiques</h2>
+  <p class="intro">Cinq combinaisons titres, texte et étiquettes pour la direction A, toutes sur Google Fonts sous licence libre. Le logo reste dessiné à la main : la typo sert aux titres, aux documents et au site.</p>
+  <div class="opts one"><figure class="opt wide"><img src="img/A-type-T1.webp" alt="Archivo Expanded · Instrument Sans · Martian Mono (référence)" loading="lazy">
+<figcaption><b>T1</b> Archivo Expanded · Instrument Sans · Martian Mono (référence)<button class="pick" type="button" data-pick="type-A-T1" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-type-T2.webp" alt="Bricolage Grotesque condensée · Inter · JetBrains Mono" loading="lazy">
+<figcaption><b>T2</b> Bricolage Grotesque condensée · Inter · JetBrains Mono<button class="pick" type="button" data-pick="type-A-T2" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-type-T3.webp" alt="Familjen Grotesk · IBM Plex Sans · IBM Plex Mono" loading="lazy">
+<figcaption><b>T3</b> Familjen Grotesk · IBM Plex Sans · IBM Plex Mono<button class="pick" type="button" data-pick="type-A-T3" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-type-T4.webp" alt="Syne · Hanken Grotesk · DM Mono" loading="lazy">
+<figcaption><b>T4</b> Syne · Hanken Grotesk · DM Mono<button class="pick" type="button" data-pick="type-A-T4" aria-pressed="false"><span class="box"></span></button></figcaption></figure><figure class="opt wide"><img src="img/A-type-T5.webp" alt="Anybody étendue · Onest · Geist Mono" loading="lazy">
+<figcaption><b>T5</b> Anybody étendue · Onest · Geist Mono<button class="pick" type="button" data-pick="type-A-T5" aria-pressed="false"><span class="box"></span></button></figcaption></figure></div>
+</section>
+
+<section id="ma-selection">
+  <h2>Ma sélection</h2>
+  <p class="intro">Ce que tu as coché, et un espace pour tes commentaires. Dis-moi ensuite « lis ma sélection » : je la retrouve dans la page et je sors le kit complet de ce que tu as choisi.</p>
+  <p id="picked-empty">Rien de coché pour l'instant.</p>
+  <ul id="picked"></ul>
+  <h4><label for="notes">Tes notes pour Claude</label></h4>
+  <textarea id="notes" placeholder="Ex. : A mais en Outremer, bannière Symbole géant, typo T2."></textarea>
+  <p class="status" id="save-status" role="status"></p>
+</section>
+
+<section id="methode">
+  <h2>Méthode</h2>
+  <div class="method">
+    <div><h4>Les skills utilisés</h4><ul>
+      <li><b>logo-design</b> : concepts, construction SVG, grille de critique /50, tests 16 px, audit des fichiers (98 à 100/100).</li>
+      <li><b>visual-identity-designer</b> : structure couleur et typo ; la phase d'interrogatoire est remplacée par ton vault.</li>
+      <li><b>brand-kit</b> : couche d'alias sémantiques dans <code>tokens.css</code>, jetons de mouvement, base 8 px.</li>
+      <li><b>design-logo</b> (logoloom) : planche claire et sombre systématique, liste des tailles d'icônes.</li>
+      <li><b>brand-design-skill</b> : standard des planches VI (grilles, fonds, icônes) ; ses étapes d'approbation sautées à ta demande.</li>
+      <li><b>ai-graphic-design</b> : formats de livraison (SVG, PDF vectoriel, PNG), nettoyage des tracés au minimum d'ancres.</li>
+    </ul></div>
+    <div><h4>Les deux MCP</h4><ul>
+      <li><b>branding-mcp</b> : validation WCAG de la palette (90/100) et exports Tailwind, Figma, Sass, Style Dictionary, React.</li>
+      <li><b>logoloom</b> : optimiseur SVGO testé et écarté (2 % de gain, il supprimait le titre accessible) ; son kit automatique écarté (son icône écrasait le mot entier dans un carré).</li>
+    </ul>
+    <h4>Comment c'est fabriqué</h4><ul>
+      <li>Lettres construites en géométrie (unions booléennes), ou vectorisées depuis des polices libres avec HarfBuzz.</li>
+      <li>Aucun texte vivant, aucun filtre, aucune image dans les SVG.</li>
+      <li>Tout se régénère avec <code>python3 src/build_options.py</code>.</li>
+    </ul></div>
+    <div><h4>Ce qui est prêt maintenant</h4><ul>
+      <li>Kit complet de A : 22 SVG, PNG à toutes les tailles, favicons, avatars, PDF, filigrane pour les previews client.</li>
+      <li>Tokens : CSS, JSON W3C, Tailwind, Figma, Sass, React, palettes .ase et .gpl.</li>
+      <li>Pour une autre direction : dis-moi la lettre et je sors le même kit.</li>
+    </ul>
+    <h4>À faire de ton côté</h4><ul>
+      <li>Recherche de marque déposée avant le lancement (je ne peux pas la garantir).</li>
+      <li>Épreuve papier si tu imprimes : les rouges vifs bougent en CMJN.</li>
+    </ul></div>
+  </div>
+</section>
+<footer>wubba · identité visuelle · options · 29 septembre 2026</footer>
+</div>
+
+<script>
+const LABELS = {"dir-A": "Direction A · Le point de trop", "dir-B": "Direction B · Pixel mort", "dir-C": "Direction C · Incrustation", "dir-D": "Direction D · Horizon", "dir-E": "Direction E · Maison", "dir-F": "Direction F · Bulle", "dir-G": "Direction G · Vitesse", "dir-H": "Direction H · Protocole", "dir-I": "Direction I · Terrain", "dir-J": "Direction J · Signal", "dir-K": "Direction K · Réticule", "dir-L": "Direction L · Tranche", "sign-A1": "Signe A1 · Point rond (référence)", "sign-A2": "Signe A2 · Point carré : le pixel", "sign-A3": "Signe A3 · Anneau : le voyant REC éteint", "sign-A4": "Signe A4 · Réticule à la place du point", "sign-A5": "Signe A5 · Graisse légère", "sign-A6": "Signe A6 · Graisse noire", "sign-A7": "Signe A7 · Panses rondes (géométrique classique)", "sign-A8": "Signe A8 · Panses carrées (plus « matériel »)", "sign-A9": "Signe A9 · Sommet plein, point au-dessus", "pal-A-signal": "A · palette Signal (référence)", "pal-A-magenta": "A · palette Rose direct", "pal-A-outremer": "A · palette Outremer", "pal-A-vert": "A · palette Vert en ligne", "pal-A-ambre": "A · palette Ambre REC", "pal-A-volt": "A · palette Volt", "pal-A-mono": "A · palette Monochrome pur", "pal-D-nuit": "D · palette Nuit et ambre (référence)", "pal-D-polaire": "D · palette Polaire", "pal-D-crepuscule": "D · palette Crépuscule", "pal-D-pleine-mer": "D · palette Pleine mer", "pal-H-ambre": "H · palette Ambre phosphore (référence)", "pal-H-vert": "H · palette Vert phosphore", "pal-H-rapport": "H · palette Rapport (curseur rouge)", "pal-H-ecran-bleu": "H · palette Écran bleu", "pal-E-outremer": "E · palette Outremer (référence)", "pal-E-laque": "E · palette Laque rouge", "pal-E-emeraude": "E · palette Émeraude", "pal-E-noir": "E · palette Noir seul", "pal-F-violet": "F · palette Violet et lime (référence)", "pal-F-bonbon": "F · palette Bonbon", "pal-F-orange": "F · palette Orange et ciel", "pal-J-outremer": "J · palette Outremer et cyan (référence)", "pal-J-oscillo": "J · palette Oscilloscope", "pal-J-corail": "J · palette Ardoise et corail", "lay-A-x-carton": "A · X · Carton-titre", "lay-A-x-geant": "A · X · Symbole géant", "lay-A-x-clair": "A · X · Version claire", "lay-A-x-manchette": "A · X · Manchette", "lay-A-og-centre": "A · Lien · Centré", "lay-A-og-gauche": "A · Lien · Éditorial à gauche", "lay-A-og-accent": "A · Lien · Fond d'accent", "lay-A-og-symbole": "A · Lien · Icône + nom", "lay-D-x-carton": "D · X · Carton-titre", "lay-D-x-geant": "D · X · Symbole géant", "lay-D-x-clair": "D · X · Version claire", "lay-D-x-manchette": "D · X · Manchette", "lay-D-og-centre": "D · Lien · Centré", "lay-D-og-gauche": "D · Lien · Éditorial à gauche", "lay-D-og-accent": "D · Lien · Fond d'accent", "lay-D-og-symbole": "D · Lien · Icône + nom", "lay-H-x-carton": "H · X · Carton-titre", "lay-H-x-geant": "H · X · Symbole géant", "lay-H-x-clair": "H · X · Version claire", "lay-H-x-manchette": "H · X · Manchette", "lay-H-og-centre": "H · Lien · Centré", "lay-H-og-gauche": "H · Lien · Éditorial à gauche", "lay-H-og-accent": "H · Lien · Fond d'accent", "lay-H-og-symbole": "H · Lien · Icône + nom", "lay-E-x-carton": "E · X · Carton-titre", "lay-E-x-geant": "E · X · Symbole géant", "lay-E-x-clair": "E · X · Version claire", "lay-E-x-manchette": "E · X · Manchette", "lay-E-og-centre": "E · Lien · Centré", "lay-E-og-gauche": "E · Lien · Éditorial à gauche", "lay-E-og-accent": "E · Lien · Fond d'accent", "lay-E-og-symbole": "E · Lien · Icône + nom", "lay-F-x-carton": "F · X · Carton-titre", "lay-F-x-geant": "F · X · Symbole géant", "lay-F-x-clair": "F · X · Version claire", "lay-F-x-manchette": "F · X · Manchette", "lay-F-og-centre": "F · Lien · Centré", "lay-F-og-gauche": "F · Lien · Éditorial à gauche", "lay-F-og-accent": "F · Lien · Fond d'accent", "lay-F-og-symbole": "F · Lien · Icône + nom", "lay-J-x-carton": "J · X · Carton-titre", "lay-J-x-geant": "J · X · Symbole géant", "lay-J-x-clair": "J · X · Version claire", "lay-J-x-manchette": "J · X · Manchette", "lay-J-og-centre": "J · Lien · Centré", "lay-J-og-gauche": "J · Lien · Éditorial à gauche", "lay-J-og-accent": "J · Lien · Fond d'accent", "lay-J-og-symbole": "J · Lien · Icône + nom", "type-A-T1": "Typo T1 · Archivo Expanded · Instrument Sans · Martian Mono (référence)", "type-A-T2": "Typo T2 · Bricolage Grotesque condensée · Inter · JetBrains Mono", "type-A-T3": "Typo T3 · Familjen Grotesk · IBM Plex Sans · IBM Plex Mono", "type-A-T4": "Typo T4 · Syne · Hanken Grotesk · DM Mono", "type-A-T5": "Typo T5 · Anybody étendue · Onest · Geist Mono"};
+const picks = new Set();
+let db = null, notesTimer = null, lastNotes = "";
+const $ = (s, r = document) => r.querySelector(s);
+const status = (t) => { $("#save-status").textContent = t; };
+
+function paint() {
+  document.querySelectorAll("[data-pick]").forEach((b) => b.setAttribute("aria-pressed", picks.has(b.dataset.pick) ? "true" : "false"));
+  $("#pick-count").textContent = picks.size;
+  const list = $("#picked");
+  list.textContent = "";
+  [...picks].sort().forEach((id) => { const li = document.createElement("li"); li.textContent = LABELS[id] || id; list.appendChild(li); });
+  $("#picked-empty").hidden = picks.size > 0;
+}
+
+function localLoad() {
+  try { JSON.parse(localStorage.getItem("wubba-picks") || "[]").forEach((p) => picks.add(p)); $("#notes").value = localStorage.getItem("wubba-notes") || ""; } catch (e) {}
+}
+function localSave() {
+  try { localStorage.setItem("wubba-picks", JSON.stringify([...picks])); localStorage.setItem("wubba-notes", $("#notes").value); } catch (e) {}
+}
+
+async function toggle(id) {
+  const on = !picks.has(id);
+  on ? picks.add(id) : picks.delete(id);
+  paint(); localSave();
+  if (!db) return;
+  try {
+    const ref = db.collection("picks").doc(id);
+    if (on) await ref.set({ kept: true, label: LABELS[id] || id, at: new Date().toISOString() });
+    else await ref.delete();
+    status("Sélection enregistrée.");
+  } catch (e) { status("Pas pu enregistrer dans la page : ton choix reste dans ce navigateur."); }
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-pick]");
+  if (b) toggle(b.dataset.pick);
+});
+
+$("#notes").addEventListener("input", () => {
+  localSave();
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(async () => {
+    const text = $("#notes").value;
+    if (!db || text === lastNotes) return;
+    try { await db.doc("notes/main").set({ text, at: new Date().toISOString() }); lastNotes = text; status("Notes enregistrées."); }
+    catch (e) { status("Pas pu enregistrer les notes dans la page : elles restent dans ce navigateur."); }
+  }, 900);
+});
+
+localLoad(); paint();
+
+(async () => {
+  try { db = window.claude && (await window.claude.use("db")); } catch (e) { db = null; }
+  if (!db) { status("Tes choix restent dans ce navigateur."); return; }
+  db.collection("picks").onSnapshot((snap) => {
+    picks.clear();
+    snap.docs.forEach((d) => { if (d.exists) picks.add(d.id); });
+    paint(); localSave();
+  }, () => status("Lecture de la sélection impossible : ce navigateur garde la sienne."));
+  db.doc("notes/main").onSnapshot((d) => {
+    if (d.exists && document.activeElement !== $("#notes")) { lastNotes = d.data().text || ""; $("#notes").value = lastNotes; }
+  }, () => {});
+})();
+</script>

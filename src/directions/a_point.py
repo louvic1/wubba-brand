@@ -46,7 +46,7 @@ class Point(Direction):
         L = {"x-header": 46, "og": 46, "linkedin": 38, "linkedin-company": 22}[fmt]
         out = [(dv.hud_corners(W, H, inset, L, 2.5 if H > 250 else 2), line)]
         if fmt != "linkedin-company":
-            cx0, cx1 = W * 0.2, W * 0.8
+            cx0, cx1 = W * 0.13, W * 0.87
             grid = dv.cross_grid(W, H, step=100 if H >= 400 else 80, size=9, thick=1.4,
                                  keep=lambda x, y: (x < cx0 or x > cx1) and inset + 30 < y < H - inset - 30)
             if grid:

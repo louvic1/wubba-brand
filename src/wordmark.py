@@ -117,8 +117,20 @@ def glyph_w(p):
 
 
 def dot(p, cx):
+    """Le point. Forme au choix : rond (référence), carré (pixel), anneau (REC), réticule."""
     r = p["dot_d"] / 2
-    return g.circle(cx, p["w_hm"] + p["dot_gap"] + r, r)
+    base = p["w_hm"] if p["w_hm"] < p["X"] else p["X"]
+    cy = base + p["dot_gap"] + r
+    shape = p.get("dot_shape", "circle")
+    if shape == "square":
+        a = r * 0.9
+        return g.rect(cx - a, cy - a, cx + a, cy + a)
+    if shape == "ring":
+        return g.diff(g.circle(cx, cy, r * 1.06), g.circle(cx, cy, r * 1.06 - p["S"] * 0.42))
+    if shape == "cross":
+        t, L = p["S"] * 0.40, r * 1.25
+        return g.union(g.rect(cx - t / 2, cy - L, cx + t / 2, cy + L), g.rect(cx - L, cy - t / 2, cx + L, cy + t / 2))
+    return g.circle(cx, cy, r)
 
 
 # ---------------------------------------------------------------- assemblages

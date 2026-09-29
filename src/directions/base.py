@@ -41,9 +41,12 @@ class Palette:
             return dict(self.custom[kind])
         a2 = self.accent2 or self.accent
         if kind == "light":
-            return {"bg": self.paper, "fg": self.ink, "accent": self.accent, "fg2": a2}
+            acc = self.ink if self.accent.lower() == self.paper.lower() else self.accent
+            return {"bg": self.paper, "fg": self.ink, "accent": acc, "fg2": a2}
         if kind == "dark":
-            return {"bg": self.ink, "fg": self.paper, "accent": self.accent, "fg2": a2}
+            # un accent identique au fond disparaîtrait : il prend alors la couleur des lettres
+            acc = self.paper if self.accent.lower() == self.ink.lower() else self.accent
+            return {"bg": self.ink, "fg": self.paper, "accent": acc, "fg2": a2 if a2.lower() != self.ink.lower() else self.paper}
         if kind == "accent":
             return {"bg": self.accent, "fg": self.ink, "accent": self.paper, "fg2": self.paper}
         if kind == "mono-black":
