@@ -24,6 +24,11 @@ OUT = ROOT / "catalogue"
 IMG = OUT / "img"
 DATE = "29 septembre 2026"
 SHORTLIST = ["A", "O", "D", "H"]
+# directions gardées pour mémoire mais déconseillées : la faille qui les disqualifie
+WEAK = {
+    "K": "Le réticule est le symbole le plus courant du jeu de tir : rien ici n'appartient à Wubba, et un « + » dans une tuile se lit bouton « ajouter ».",
+    "L": "L'effet tranché est partout depuis 2020 ; même tenu à une seule coupe propre, il ne devient jamais propriétaire.",
+}
 
 
 # ------------------------------------------------------------------ images
@@ -95,9 +100,11 @@ def direction_block(d, imgs):
   <header class="dir-head">
     <div class="dir-id"><span class="code">{code}</span><div><h3>{esc(d.name)}</h3><p class="kind">{esc(d.mark_type)}</p></div></div>
     <div class="dir-score"><span class="big">{sum(v2)}</span><span class="of">/50</span><span class="was">v1 : {sum(v1)}</span></div>
+    {'<span class="weak-badge">Écartée</span>' if code in WEAK else ''}
     {pick_btn(f"dir-{code}", "Je garde cette direction")}
   </header>
   <p class="idea">{esc(d.idea)}</p>
+  {f'<p class="weak-note"><b>Je ne la recommande pas.</b> {esc(WEAK[code])}</p>' if code in WEAK else ''}
   <div class="dir-logos">
     <figure><img src="{i['light']}" alt="Logo {esc(d.name)} sur fond clair" loading="lazy"></figure>
     <figure><img src="{i['dark']}" alt="Logo {esc(d.name)} sur fond sombre" loading="lazy"></figure>
@@ -226,7 +233,7 @@ def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
     for d in ranked:
         v1 = sum(critique.V1[d.code][0])
         v2 = sum(critique.V2.get(d.code, critique.V1[d.code][0]))
-        table_rows.append(f"""<tr><td><a href="#dir-{d.code}">{d.code}</a></td><td>{esc(d.name)}</td><td class="hide-s">{esc(d.mark_type)}</td>
+        table_rows.append(f"""<tr><td><a href="#dir-{d.code}">{d.code}</a></td><td>{esc(d.name)}{' <span class="weak-badge">écartée</span>' if d.code in WEAK else ''}</td><td class="hide-s">{esc(d.mark_type)}</td>
 <td class="num">{v1}</td><td class="num"><b>{v2}</b></td><td class="chips">{chips(d.palette)}</td><td>{pick_btn(f"dir-{d.code}", "")}</td></tr>""")
 
     dirs = "".join(direction_block(d, imgs) for d in ALL)
@@ -372,6 +379,8 @@ ul.score em{{font-style:normal;font-family:var(--mono);font-size:11px;color:var(
 .mv{{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);gap:10px;align-items:center}}
 .mv video{{width:100%;aspect-ratio:9/16;display:block;background:#000}}
 .opt img.sig{{margin-top:10px}}
+.weak-badge{{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);padding:3px 8px;color:var(--muted)}}
+.weak-note{{max-width:72ch;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin:0 0 14px}}
 .pick{{font:500 12px var(--mono);display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:transparent;color:var(--fg);
   border:1px solid var(--line);padding:6px 10px;border-radius:999px;white-space:nowrap}}
 .pick .box{{width:12px;height:12px;border:1.5px solid currentColor;border-radius:3px;display:inline-block}}

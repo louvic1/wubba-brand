@@ -12,7 +12,7 @@ class Protocole(Direction):
     key = "protocole"
     name = "Protocole"
     idea = "Le nom tapé en chasse fixe, suivi d'un curseur ambre qui clignote : le ton d'un rapport de test, pince-sans-rire et exact."
-    mark_type = "Wordmark mono + symbole curseur (vidéo inverse)"
+    mark_type = "Wordmark mono + symbole w et curseur"
     why = [
         "Le deadpan en forme pure : un protocole, des mesures, pas d'adjectifs.",
         "Le curseur est vivant par nature : il clignote en vidéo, sur le site, dans les bannières animées.",
@@ -27,7 +27,7 @@ class Protocole(Direction):
     display = Font("Azeret Mono", FONT[0], {"wght": 700})
     body = Font("IBM Plex Sans", "IBMPlexSans[wdth,wght].ttf", {"wght": 400, "wdth": 100})
     mono = Font("Azeret Mono", FONT[0], {"wght": 500})
-    version = "v2"
+    version = "v3"
 
     def wordmark(self):
         gl = tp.glyphs("wubba", FONT[0], 200, FONT[1])
@@ -40,14 +40,8 @@ class Protocole(Direction):
         return [(t, "fg"), (cursor, "accent")]
 
     def symbol(self):
-        gl = tp.glyphs("w", FONT[0], 200, FONT[1])
-        _, p, _, adv = gl[0]
-        m = tp.metrics(FONT[0], FONT[1])
-        xh = m["x"] * 200 / m["upem"]
-        x0, y0, x1, y1 = p.bounds
-        pad = xh * 0.28
-        block = g.rect(x0 - pad, -pad, x1 + pad, xh + pad)
-        return [(g.diff(block, p), "accent")]
+        # v3 : le symbole suit l'icône (w + curseur). Le bloc ambre en vidéo inverse rappelait Western Union.
+        return self.icon_symbol()
 
     def icon_symbol(self, small=False):
         gl = tp.glyphs("w", FONT[0], 200, FONT[1])

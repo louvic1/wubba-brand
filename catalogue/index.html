@@ -91,6 +91,8 @@ ul.score em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(-
 .mv{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);gap:10px;align-items:center}
 .mv video{width:100%;aspect-ratio:9/16;display:block;background:#000}
 .opt img.sig{margin-top:10px}
+.weak-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);padding:3px 8px;color:var(--muted)}
+.weak-note{max-width:72ch;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin:0 0 14px}
 .pick{font:500 12px var(--mono);display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:transparent;color:var(--fg);
   border:1px solid var(--line);padding:6px 10px;border-radius:999px;white-space:nowrap}
 .pick .box{width:12px;height:12px;border:1.5px solid currentColor;border-radius:3px;display:inline-block}
@@ -160,7 +162,7 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
     <tbody><tr><td><a href="#dir-A">A</a></td><td>Le point de trop</td><td class="hide-s">Wordmark sur mesure + lettre-symbole</td>
 <td class="num">44</td><td class="num"><b>44</b></td><td class="chips"><span class="chip" style="--c:#0E0F12" title="Encre #0E0F12"></span><span class="chip" style="--c:#F1F0EC" title="Papier #F1F0EC"></span><span class="chip" style="--c:#FF2A36" title="Signal #FF2A36"></span></td><td><button class="pick" type="button" data-pick="dir-A" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-O">O</a></td><td>Touche W</td><td class="hide-s">Logotype en touches + symbole touche</td>
 <td class="num">42</td><td class="num"><b>43</b></td><td class="chips"><span class="chip" style="--c:#141518" title="Châssis #141518"></span><span class="chip" style="--c:#ECEAE6" title="Touche claire #ECEAE6"></span><span class="chip" style="--c:#A98BFF" title="Touche W #A98BFF"></span><span class="chip" style="--c:#2A2C31" title="Touche sombre #2A2C31"></span></td><td><button class="pick" type="button" data-pick="dir-O" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-D">D</a></td><td>Horizon</td><td class="hide-s">Wordmark serif + symbole pictogramme</td>
-<td class="num">39</td><td class="num"><b>41</b></td><td class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="Corail #FF6B5B"></span></td><td><button class="pick" type="button" data-pick="dir-D" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-H">H</a></td><td>Protocole</td><td class="hide-s">Wordmark mono + symbole curseur (vidéo inverse)</td>
+<td class="num">39</td><td class="num"><b>41</b></td><td class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="Corail #FF6B5B"></span></td><td><button class="pick" type="button" data-pick="dir-D" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-H">H</a></td><td>Protocole</td><td class="hide-s">Wordmark mono + symbole w et curseur</td>
 <td class="num">40</td><td class="num"><b>41</b></td><td class="chips"><span class="chip" style="--c:#0C0C0A" title="Terminal #0C0C0A"></span><span class="chip" style="--c:#ECE8DC" title="Papier listing #ECE8DC"></span><span class="chip" style="--c:#FFB000" title="Ambre phosphore #FFB000"></span><span class="chip" style="--c:#7A7466" title="Gris console #7A7466"></span></td><td><button class="pick" type="button" data-pick="dir-H" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-E">E</a></td><td>Maison</td><td class="hide-s">Logotype serif Didone + monogramme</td>
 <td class="num">38</td><td class="num"><b>40</b></td><td class="chips"><span class="chip" style="--c:#0A0A0A" title="Noir #0A0A0A"></span><span class="chip" style="--c:#F7F6F2" title="Blanc cassé #F7F6F2"></span><span class="chip" style="--c:#2340FF" title="Outremer #2340FF"></span></td><td><button class="pick" type="button" data-pick="dir-E" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-F">F</a></td><td>Bulle</td><td class="hide-s">Wordmark-personnage + symbole (les yeux)</td>
 <td class="num">38</td><td class="num"><b>40</b></td><td class="chips"><span class="chip" style="--c:#15122A" title="Nuit violette #15122A"></span><span class="chip" style="--c:#F4F1FF" title="Lilas #F4F1FF"></span><span class="chip" style="--c:#7B5CFF" title="Violet #7B5CFF"></span><span class="chip" style="--c:#C8FF3A" title="Lime #C8FF3A"></span></td><td><button class="pick" type="button" data-pick="dir-F" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-J">J</a></td><td>Signal</td><td class="hide-s">Lettrage monoline sur mesure + lettre-symbole trace</td>
@@ -172,8 +174,8 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
 <td class="num">38</td><td class="num"><b>39</b></td><td class="chips"><span class="chip" style="--c:#0E0E10" title="Écran éteint #0E0E10"></span><span class="chip" style="--c:#F3F2EE" title="Blanc de mire #F3F2EE"></span><span class="chip" style="--c:#F2D22E" title="Jaune de barre #F2D22E"></span><span class="chip" style="--c:#2F4FD8" title="Bleu de barre #2F4FD8"></span></td><td><button class="pick" type="button" data-pick="dir-Q" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-C">C</a></td><td>Incrustation</td><td class="hide-s">Wordmark en réserve dans une plaque + symbole plaque</td>
 <td class="num">38</td><td class="num"><b>38</b></td><td class="chips"><span class="chip" style="--c:#0C120F" title="Studio #0C120F"></span><span class="chip" style="--c:#F2F4F1" title="Blanc #F2F4F1"></span><span class="chip" style="--c:#00B140" title="Fond vert #00B140"></span><span class="chip" style="--c:#0047BB" title="Fond bleu #0047BB"></span></td><td><button class="pick" type="button" data-pick="dir-C" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-G">G</a></td><td>Vitesse</td><td class="hide-s">Wordmark capitales + symbole W chevrons</td>
 <td class="num">35</td><td class="num"><b>37</b></td><td class="chips"><span class="chip" style="--c:#0A0B0D" title="Carbone #0A0B0D"></span><span class="chip" style="--c:#F2F3F5" title="Blanc #F2F3F5"></span><span class="chip" style="--c:#D4FF00" title="Volt #D4FF00"></span><span class="chip" style="--c:#8A93A6" title="Acier #8A93A6"></span></td><td><button class="pick" type="button" data-pick="dir-G" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-I">I</a></td><td>Terrain</td><td class="hide-s">Wordmark pochoir en plaque + symbole caisse</td>
-<td class="num">35</td><td class="num"><b>36</b></td><td class="chips"><span class="chip" style="--c:#1B1C1A" title="Graphite #1B1C1A"></span><span class="chip" style="--c:#EFEDE6" title="Os #EFEDE6"></span><span class="chip" style="--c:#FFD60A" title="Haute visibilité #FFD60A"></span><span class="chip" style="--c:#FF5F1F" title="Orange secours #FF5F1F"></span></td><td><button class="pick" type="button" data-pick="dir-I" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-K">K</a></td><td>Réticule</td><td class="hide-s">Symbole abstrait + wordmark large</td>
-<td class="num">34</td><td class="num"><b>34</b></td><td class="chips"><span class="chip" style="--c:#0D1117" title="Ardoise #0D1117"></span><span class="chip" style="--c:#EEF1F5" title="Brume #EEF1F5"></span><span class="chip" style="--c:#19E3FF" title="Cyan viseur #19E3FF"></span><span class="chip" style="--c:#FF4D6D" title="Rouge impact #FF4D6D"></span></td><td><button class="pick" type="button" data-pick="dir-K" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-L">L</a></td><td>Tranche</td><td class="hide-s">Wordmark tranché + lettre-symbole</td>
+<td class="num">35</td><td class="num"><b>36</b></td><td class="chips"><span class="chip" style="--c:#1B1C1A" title="Graphite #1B1C1A"></span><span class="chip" style="--c:#EFEDE6" title="Os #EFEDE6"></span><span class="chip" style="--c:#FFD60A" title="Haute visibilité #FFD60A"></span><span class="chip" style="--c:#FF5F1F" title="Orange secours #FF5F1F"></span></td><td><button class="pick" type="button" data-pick="dir-I" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-K">K</a></td><td>Réticule <span class="weak-badge">écartée</span></td><td class="hide-s">Symbole abstrait + wordmark large</td>
+<td class="num">34</td><td class="num"><b>34</b></td><td class="chips"><span class="chip" style="--c:#0D1117" title="Ardoise #0D1117"></span><span class="chip" style="--c:#EEF1F5" title="Brume #EEF1F5"></span><span class="chip" style="--c:#19E3FF" title="Cyan viseur #19E3FF"></span><span class="chip" style="--c:#FF4D6D" title="Rouge impact #FF4D6D"></span></td><td><button class="pick" type="button" data-pick="dir-K" aria-pressed="false"><span class="box"></span></button></td></tr><tr><td><a href="#dir-L">L</a></td><td>Tranche <span class="weak-badge">écartée</span></td><td class="hide-s">Wordmark tranché + lettre-symbole</td>
 <td class="num">29</td><td class="num"><b>31</b></td><td class="chips"><span class="chip" style="--c:#0F0F10" title="Noir #0F0F10"></span><span class="chip" style="--c:#F4F4F2" title="Blanc #F4F4F2"></span><span class="chip" style="--c:#00D2FF" title="Cyan tranche #00D2FF"></span></td><td><button class="pick" type="button" data-pick="dir-L" aria-pressed="false"><span class="box"></span></button></td></tr></tbody></table></div>
 </section>
 
@@ -185,9 +187,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">A</span><div><h3>Le point de trop</h3><p class="kind">Wordmark sur mesure + lettre-symbole</p></div></div>
     <div class="dir-score"><span class="big">44</span><span class="of">/50</span><span class="was">v1 : 44</span></div>
+    
     <button class="pick" type="button" data-pick="dir-A" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Un point posé là où aucun w n&#x27;en porte : le voyant REC d&#x27;un live, et la tête d&#x27;un joueur qui lève les bras.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/A-logo-light.webp" alt="Logo Le point de trop sur fond clair" loading="lazy"></figure>
     <figure><img src="img/A-logo-dark.webp" alt="Logo Le point de trop sur fond sombre" loading="lazy"></figure>
@@ -210,9 +214,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">B</span><div><h3>Pixel mort</h3><p class="kind">Lettrage pixel sur mesure + lettre-symbole</p></div></div>
     <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    
     <button class="pick" type="button" data-pick="dir-B" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom écrit en pixels, avec un seul pixel coincé en magenta : l&#x27;erreur d&#x27;écran que personne ne voit, sauf toi.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/B-logo-light.webp" alt="Logo Pixel mort sur fond clair" loading="lazy"></figure>
     <figure><img src="img/B-logo-dark.webp" alt="Logo Pixel mort sur fond sombre" loading="lazy"></figure>
@@ -235,9 +241,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">C</span><div><h3>Incrustation</h3><p class="kind">Wordmark en réserve dans une plaque + symbole plaque</p></div></div>
     <div class="dir-score"><span class="big">38</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    
     <button class="pick" type="button" data-pick="dir-C" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom découpé dans une plaque de fond vert : ce qui apparaît dans les lettres dépend de l&#x27;endroit où on la pose.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/C-logo-light.webp" alt="Logo Incrustation sur fond clair" loading="lazy"></figure>
     <figure><img src="img/C-logo-dark.webp" alt="Logo Incrustation sur fond sombre" loading="lazy"></figure>
@@ -260,9 +268,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">D</span><div><h3>Horizon</h3><p class="kind">Wordmark serif + symbole pictogramme</p></div></div>
     <div class="dir-score"><span class="big">41</span><span class="of">/50</span><span class="was">v1 : 39</span></div>
+    
     <button class="pick" type="button" data-pick="dir-D" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le point final du mot est un soleil couché sur la ligne de base : chaque test a lieu quelque part, au bout du monde.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/D-logo-light.webp" alt="Logo Horizon sur fond clair" loading="lazy"></figure>
     <figure><img src="img/D-logo-dark.webp" alt="Logo Horizon sur fond sombre" loading="lazy"></figure>
@@ -275,7 +285,7 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <div class="dir-facts">
     <div><h4>Pourquoi</h4><ul><li>Parle des lieux impossibles (mer, sommet, désert) sans dessiner un bateau.</li><li>La seule direction chaleureuse et cinématographique : elle se démarque d&#x27;un secteur tout en noir néon.</li><li>Le soleil-point marche comme ponctuation dans les titres, les vidéos, les signatures.</li></ul><p class="risk"><b>Risque</b> Peut se lire « voyage » ou « voile » plutôt que « gaming » ; il faut le gameplay dans les visuels pour ancrer.</p></div>
     <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:100%"></b><s style="width:80%"></s></i><strong>5</strong><em>+1</em></li><li><span>Simplicité</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:60%"></b><s style="width:60%"></s></i><strong>3</strong></li><li><span>Exécution</span><i class="bar"><b style="width:100%"></b><s style="width:80%"></s></i><strong>5</strong><em>+1</em></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
-    <div><h4>Ce qui clochait en v1</h4><ul><li>Grand disque de fond qui vire au brun boueux</li><li>Symbole coucher de soleil + reflets : pictogramme générique</li><li>Peut se lire « voyage » plutôt que « gaming »</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Le grand disque brun supprimé ; l&#x27;horizon traverse la bannière à la hauteur exacte de la ligne de base</li><li>Symbole refait : le même demi-soleil que dans le mot, posé sur sa ligne</li></ul>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Grand disque de fond qui vire au brun boueux</li><li>Symbole coucher de soleil + reflets : pictogramme générique</li><li>Peut se lire « voyage » plutôt que « gaming »</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Le grand disque brun supprimé ; l&#x27;horizon traverse la bannière à la hauteur exacte de la ligne de base</li><li>Symbole refait : le même demi-soleil que dans le mot, posé sur sa ligne</li><li>Essai v3 : un w découpé dans le soleil. Rejeté : un W à empattements dans un disque rappelle le logo WordPress</li></ul>
       <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0B1A2B" title="Nuit #0B1A2B"></span><span class="chip" style="--c:#EFF2EE" title="Écume #EFF2EE"></span><span class="chip" style="--c:#FFB23F" title="Ambre #FFB23F"></span><span class="chip" style="--c:#FF6B5B" title="Corail #FF6B5B"></span></p><h4>Typo</h4><p class="small">Fraunces · Figtree · Red Hat Mono</p>
       <h4>Favicon réel</h4><img class="fav" src="img/D-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
       <p><a class="board-link" href="img/D-board.webp">Ouvrir la planche complète</a></p></div>
@@ -285,9 +295,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">E</span><div><h3>Maison</h3><p class="kind">Logotype serif Didone + monogramme</p></div></div>
     <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    
     <button class="pick" type="button" data-pick="dir-E" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Un logotype de maison de couture pour un studio qui fait tester du matériel gaming : la marque est elle-même hors de son contexte.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/E-logo-light.webp" alt="Logo Maison sur fond clair" loading="lazy"></figure>
     <figure><img src="img/E-logo-dark.webp" alt="Logo Maison sur fond sombre" loading="lazy"></figure>
@@ -310,9 +322,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">F</span><div><h3>Bulle</h3><p class="kind">Wordmark-personnage + symbole (les yeux)</p></div></div>
     <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    
     <button class="pick" type="button" data-pick="dir-F" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Un mot rond comme son nom ; les deux b ont des pupilles et regardent de côté, l&#x27;air de rien. Le deadpan a un visage.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/F-logo-light.webp" alt="Logo Bulle sur fond clair" loading="lazy"></figure>
     <figure><img src="img/F-logo-dark.webp" alt="Logo Bulle sur fond sombre" loading="lazy"></figure>
@@ -335,9 +349,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">G</span><div><h3>Vitesse</h3><p class="kind">Wordmark capitales + symbole W chevrons</p></div></div>
     <div class="dir-score"><span class="big">37</span><span class="of">/50</span><span class="was">v1 : 35</span></div>
+    
     <button class="pick" type="button" data-pick="dir-G" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le langage de l&#x27;esport, dit sans détour : capitales larges penchées à 12°, et un W en deux chevrons dont le second est volt.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/G-logo-light.webp" alt="Logo Vitesse sur fond clair" loading="lazy"></figure>
     <figure><img src="img/G-logo-dark.webp" alt="Logo Vitesse sur fond sombre" loading="lazy"></figure>
@@ -358,11 +374,13 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
 </article>
 <article class="dir" id="dir-H">
   <header class="dir-head">
-    <div class="dir-id"><span class="code">H</span><div><h3>Protocole</h3><p class="kind">Wordmark mono + symbole curseur (vidéo inverse)</p></div></div>
+    <div class="dir-id"><span class="code">H</span><div><h3>Protocole</h3><p class="kind">Wordmark mono + symbole w et curseur</p></div></div>
     <div class="dir-score"><span class="big">41</span><span class="of">/50</span><span class="was">v1 : 40</span></div>
+    
     <button class="pick" type="button" data-pick="dir-H" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom tapé en chasse fixe, suivi d&#x27;un curseur ambre qui clignote : le ton d&#x27;un rapport de test, pince-sans-rire et exact.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/H-logo-light.webp" alt="Logo Protocole sur fond clair" loading="lazy"></figure>
     <figure><img src="img/H-logo-dark.webp" alt="Logo Protocole sur fond sombre" loading="lazy"></figure>
@@ -375,7 +393,7 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <div class="dir-facts">
     <div><h4>Pourquoi</h4><ul><li>Le deadpan en forme pure : un protocole, des mesures, pas d&#x27;adjectifs.</li><li>Le curseur est vivant par nature : il clignote en vidéo, sur le site, dans les bannières animées.</li><li>L&#x27;ambre phosphore est rare dans le gaming et se lit « instrument » plutôt que « néon ».</li></ul><p class="risk"><b>Risque</b> L&#x27;esthétique terminal est courante chez les outils pour développeurs ; il faut l&#x27;ambre et le papier chaud pour s&#x27;en distinguer.</p></div>
     <div><h4>Critique v1 → v2</h4><ul class="score"><li><span>Idée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Simplicité</span><i class="bar"><b style="width:100%"></b><s style="width:100%"></s></i><strong>5</strong></li><li><span>Distinction</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Mémorisation</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Ton</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Exécution</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Polyvalence</span><i class="bar"><b style="width:80%"></b><s style="width:60%"></s></i><strong>4</strong><em>+1</em></li><li><span>Durée</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Couleur</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li><li><span>Typo</span><i class="bar"><b style="width:80%"></b><s style="width:80%"></s></i><strong>4</strong></li></ul></div>
-    <div><h4>Ce qui clochait en v1</h4><ul><li>Icône bloc jaune + W noir : rappelle Western Union</li><li>Balayage d&#x27;écran à peine visible en vignette</li><li>Rien d&#x27;autre à reprocher au wordmark</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Icône refaite en « w + curseur » : fini la ressemblance avec Western Union</li></ul>
+    <div><h4>Ce qui clochait en v1</h4><ul><li>Icône bloc jaune + W noir : rappelle Western Union</li><li>Balayage d&#x27;écran à peine visible en vignette</li><li>Rien d&#x27;autre à reprocher au wordmark</li></ul><h4>Ce que la v2 a changé</h4><ul><li>Icône refaite en « w + curseur » : fini la ressemblance avec Western Union</li><li>v3 : le symbole suit l&#x27;icône ; le bloc ambre en vidéo inverse n&#x27;apparaît plus nulle part</li></ul>
       <h4>Palette</h4><p class="chips"><span class="chip" style="--c:#0C0C0A" title="Terminal #0C0C0A"></span><span class="chip" style="--c:#ECE8DC" title="Papier listing #ECE8DC"></span><span class="chip" style="--c:#FFB000" title="Ambre phosphore #FFB000"></span><span class="chip" style="--c:#7A7466" title="Gris console #7A7466"></span></p><h4>Typo</h4><p class="small">Azeret Mono · IBM Plex Sans · Azeret Mono</p>
       <h4>Favicon réel</h4><img class="fav" src="img/H-favicon.webp" alt="Favicon à 16, 24, 32 et 48 px" loading="lazy">
       <p><a class="board-link" href="img/H-board.webp">Ouvrir la planche complète</a></p></div>
@@ -385,9 +403,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">I</span><div><h3>Terrain</h3><p class="kind">Wordmark pochoir en plaque + symbole caisse</p></div></div>
     <div class="dir-score"><span class="big">36</span><span class="of">/50</span><span class="was">v1 : 35</span></div>
+    
     <button class="pick" type="button" data-pick="dir-I" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom au pochoir sur une plaque jaune haute visibilité, comme sur une caisse de matériel envoyée là où il n&#x27;a rien à faire.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/I-logo-light.webp" alt="Logo Terrain sur fond clair" loading="lazy"></figure>
     <figure><img src="img/I-logo-dark.webp" alt="Logo Terrain sur fond sombre" loading="lazy"></figure>
@@ -410,9 +430,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">J</span><div><h3>Signal</h3><p class="kind">Lettrage monoline sur mesure + lettre-symbole trace</p></div></div>
     <div class="dir-score"><span class="big">40</span><span class="of">/50</span><span class="was">v1 : 28</span></div>
+    
     <button class="pick" type="button" data-pick="dir-J" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le w est une trace d&#x27;oscilloscope, un seul trait qui monte et descend : le signal qui passe, même au milieu de l&#x27;océan.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/J-logo-light.webp" alt="Logo Signal sur fond clair" loading="lazy"></figure>
     <figure><img src="img/J-logo-dark.webp" alt="Logo Signal sur fond sombre" loading="lazy"></figure>
@@ -435,9 +457,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">K</span><div><h3>Réticule</h3><p class="kind">Symbole abstrait + wordmark large</p></div></div>
     <div class="dir-score"><span class="big">34</span><span class="of">/50</span><span class="was">v1 : 34</span></div>
+    <span class="weak-badge">Écartée</span>
     <button class="pick" type="button" data-pick="dir-K" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le réticule d&#x27;un jeu de tir, quatre branches et un centre : le seul point coloré est la cible, le produit du client.</p>
+  <p class="weak-note"><b>Je ne la recommande pas.</b> Le réticule est le symbole le plus courant du jeu de tir : rien ici n&#x27;appartient à Wubba, et un « + » dans une tuile se lit bouton « ajouter ».</p>
   <div class="dir-logos">
     <figure><img src="img/K-logo-light.webp" alt="Logo Réticule sur fond clair" loading="lazy"></figure>
     <figure><img src="img/K-logo-dark.webp" alt="Logo Réticule sur fond sombre" loading="lazy"></figure>
@@ -460,9 +484,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">L</span><div><h3>Tranche</h3><p class="kind">Wordmark tranché + lettre-symbole</p></div></div>
     <div class="dir-score"><span class="big">31</span><span class="of">/50</span><span class="was">v1 : 29</span></div>
+    <span class="weak-badge">Écartée</span>
     <button class="pick" type="button" data-pick="dir-L" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Une seule coupure dans le mot, la moitié du bas glissée d&#x27;un cran et passée au cyan : l&#x27;image générée qui trahit sa fabrication.</p>
+  <p class="weak-note"><b>Je ne la recommande pas.</b> L&#x27;effet tranché est partout depuis 2020 ; même tenu à une seule coupe propre, il ne devient jamais propriétaire.</p>
   <div class="dir-logos">
     <figure><img src="img/L-logo-light.webp" alt="Logo Tranche sur fond clair" loading="lazy"></figure>
     <figure><img src="img/L-logo-dark.webp" alt="Logo Tranche sur fond sombre" loading="lazy"></figure>
@@ -485,9 +511,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">M</span><div><h3>Sceau</h3><p class="kind">Emblème (sceau) + symbole centre</p></div></div>
     <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 37</span></div>
+    
     <button class="pick" type="button" data-pick="dir-M" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Un tampon d&#x27;inspection très officiel qui certifie des tests absurdes : la ligne tourne autour du cercle, un w au centre.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/M-logo-light.webp" alt="Logo Sceau sur fond clair" loading="lazy"></figure>
     <figure><img src="img/M-logo-dark.webp" alt="Logo Sceau sur fond sombre" loading="lazy"></figure>
@@ -510,9 +538,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">N</span><div><h3>Autographe</h3><p class="kind">Signature manuscrite + lettre-symbole</p></div></div>
     <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 36</span></div>
+    
     <button class="pick" type="button" data-pick="dir-N" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom signé au marqueur sur le carton du matériel : l&#x27;autographe d&#x27;un streamer qui n&#x27;existe pas. La blague est dans le geste.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/N-logo-light.webp" alt="Logo Autographe sur fond clair" loading="lazy"></figure>
     <figure><img src="img/N-logo-dark.webp" alt="Logo Autographe sur fond sombre" loading="lazy"></figure>
@@ -535,9 +565,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">O</span><div><h3>Touche W</h3><p class="kind">Logotype en touches + symbole touche</p></div></div>
     <div class="dir-score"><span class="big">43</span><span class="of">/50</span><span class="was">v1 : 42</span></div>
+    
     <button class="pick" type="button" data-pick="dir-O" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le nom tapé sur cinq touches de clavier. La touche W est en couleur : dans tous les jeux de tir, W, c&#x27;est avancer.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/O-logo-light.webp" alt="Logo Touche W sur fond clair" loading="lazy"></figure>
     <figure><img src="img/O-logo-dark.webp" alt="Logo Touche W sur fond sombre" loading="lazy"></figure>
@@ -560,9 +592,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">P</span><div><h3>Topo</h3><p class="kind">Wordmark + courbes de niveau, symbole w en relief</p></div></div>
     <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 37</span></div>
+    
     <button class="pick" type="button" data-pick="dir-P" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">Le mot posé comme une île sur une carte, entouré de ses courbes de niveau. Le terrain où le matériel n&#x27;a rien à faire devient le décor.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/P-logo-light.webp" alt="Logo Topo sur fond clair" loading="lazy"></figure>
     <figure><img src="img/P-logo-dark.webp" alt="Logo Topo sur fond sombre" loading="lazy"></figure>
@@ -585,9 +619,11 @@ footer{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:1
   <header class="dir-head">
     <div class="dir-id"><span class="code">Q</span><div><h3>Mire</h3><p class="kind">Wordmark + barre de mire, symbole mire ronde</p></div></div>
     <div class="dir-score"><span class="big">39</span><span class="of">/50</span><span class="was">v1 : 38</span></div>
+    
     <button class="pick" type="button" data-pick="dir-Q" aria-pressed="false"><span class="box"></span>Je garde cette direction</button>
   </header>
   <p class="idea">La mire de test des chaînes de télé : sept barres de couleur, un cercle, le w au centre. Ici, c&#x27;est le matériel qui passe le test.</p>
+  
   <div class="dir-logos">
     <figure><img src="img/Q-logo-light.webp" alt="Logo Mire sur fond clair" loading="lazy"></figure>
     <figure><img src="img/Q-logo-dark.webp" alt="Logo Mire sur fond sombre" loading="lazy"></figure>
