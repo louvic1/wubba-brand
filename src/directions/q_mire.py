@@ -8,12 +8,18 @@ FONT = ("Unbounded[wght].ttf", {"wght": 700})
 BARS = ["#D9D9D5", "#F2D22E", "#2EC4D6", "#3CC45A", "#D23CA8", "#E0362F", "#2F4FD8"]
 
 
-def bar_color(i, bg):
-    """Une barre trop proche du fond (le gris sur le papier, le jaune sur le jaune) fonce d'un cran pour rester visible."""
+def bar_color(i, bg, fg="#0E0E10"):
+    """Une barre identique au fond (le jaune sur le jaune) passe à mi-chemin de l'encre ;
+    la barre grise fonce d'un cran sur fond clair. Les autres gardent leur teinte : c'est la mire."""
     import palette as pal
     from compose import mix
     c = BARS[i]
-    return mix(c, "#000000", 0.30) if pal.contrast(c, bg) < 1.35 else c
+    k = pal.contrast(c, bg)
+    if k < 1.08:
+        return mix(c, fg, 0.55)
+    if i == 0 and k < 1.35:
+        return mix(c, "#000000", 0.25)
+    return c
 
 
 def bars(x0, y0, x1, y1):
@@ -44,7 +50,8 @@ class Mire(Direction):
     icon_ratio = 0.80
     icon_hfactor = 1.0
     favicon_ratio = 0.86
-    version = "v1"
+    giant_full_color = True
+    version = "v2"
 
     def wordmark(self):
         t, w = tp.text("wubba", FONT[0], 200, FONT[1], tracking=-0.01)
@@ -81,7 +88,7 @@ class Mire(Direction):
         for p, role in layers:
             if role.startswith("b") and role[1:].isdigit():
                 i = int(role[1:])
-                c = (fg if i % 2 == 0 else bg) if mono else bar_color(i, bg)
+                c = (fg if i % 2 == 0 else bg) if mono else bar_color(i, bg, fg)
             elif role == "disc":
                 c = bg if mono else "#F3F2EE"
             elif role == "wmark":

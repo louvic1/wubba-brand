@@ -136,7 +136,8 @@ CHANGES = {
           "Relief calculé (distance au mot, bruit lisse, collines cachées) : de vraies courbes de niveau",
           "Fermeture morphologique : les courbes enjambent le haut du u et les creux du w",
           "Seules les deux courbes du mot restent orange"],
-    "Q": ["Une barre trop proche du fond fonce d'un cran : contraste de 1,35 au minimum, partout"],
+    "Q": ["La barre grise fonce d'un cran sur fond clair ; une barre identique au fond passe à mi-chemin de l'encre",
+          "Symbole géant des bannières en couleurs : en fantôme, la mire n'était plus qu'un disque"],
 }
 
 

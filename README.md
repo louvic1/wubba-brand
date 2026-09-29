@@ -38,7 +38,7 @@ La grille de notation, les défauts de chaque v1 et ce que chaque itération a c
 | --- | --- |
 | `options/<direction>/` | logos (SVG et PNG, clair, sombre, mono, sur accent), symbole, icônes, avatar, favicon testé, bannières X, aperçu de lien, LinkedIn, planche |
 | `options/<direction>/palettes/` | la même direction dans d'autres couleurs (10 directions, 44 palettes) |
-| `options/<direction>/layouts/` | 8 mises en page de bannières (7 directions) |
+| `options/<direction>/layouts/` | 8 mises en page de bannières (9 directions) |
 | `options/<direction>/motion/` | animation de fin de vidéo 16:9 (MP4), version transparente (WebM, pour OBS), carton vertical 9:16, aperçu animé (8 directions) |
 | `options/<direction>/mockups/` | planche d'autocollants et signature courriel (toutes les directions) |
 | `options/A-point/signes/`, `typo/` | 9 variantes du signe de A, 5 paires typographiques |

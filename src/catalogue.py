@@ -163,7 +163,7 @@ def build():
         palettes[code] = rows
     # -------- variantes : mises en page
     lays = {}
-    for code in ["A", "O", "D", "H", "E", "F", "J"]:
+    for code in ["A", "O", "D", "H", "E", "F", "J", "P", "Q"]:
         d = BY_CODE[code]
         o = compose.OPT / f"{d.code}-{d.key}" / "layouts"
         items = []
