@@ -1,4 +1,4 @@
-Le logo est le mot `wubba` en minuscules, avec un point rouge posé au-dessus du w, là où aucune lettre n'en porte. Tout le système suit cette règle : de l'encre, du papier, et un seul point de `wb-signal` par composition.
+Le logo est le mot `wubba` en minuscules, avec un point rouge niché dans le creux du w, là où aucune lettre n'en porte. Tout le système suit cette règle : de l'encre, du papier, et un seul point de `wb-signal` par composition.
 
 ## Texte public autorisé
 
@@ -63,7 +63,8 @@ Utilise seulement ces textes dans les visuels publics, tels quels :
 
 ## Bannières
 
-- Les quatre formats livrés sont dans le groupe Social : X 1500 × 500, aperçu de lien 1200 × 630, LinkedIn 1584 × 396 et page LinkedIn 1128 × 191.
+- Les formats livrés sont dans le groupe Social : X 1500 × 500, aperçu de lien 1200 × 630, LinkedIn 1584 × 396, page LinkedIn 1128 × 191, couverture YouTube 2560 × 1440 et bannière Twitch 1200 × 480.
+- Sur YouTube, tout ce qui doit se lire tient dans le centre de 1546 × 423 (ce que montre un téléphone) ; les coins de viseur encadrent exactement cette zone et les repères de suivi remplissent le reste.
 - Sur X, garde le coin bas gauche vide (environ 350 × 150 px) : l'avatar le recouvre.
 - Fond `wb-ink`, logo inversé, ligne en `label`, domaine en Martian Mono à 15 px.
 

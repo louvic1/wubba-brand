@@ -208,7 +208,9 @@
         "x-header.png",
         "og.png",
         "linkedin.png",
-        "linkedin-company.png"
+        "linkedin-company.png",
+        "youtube.png",
+        "twitch.png"
       ],
       "files": {
         "x-header.png": {
@@ -234,6 +236,18 @@
           "blob": "d55512cf8358d3ba2d153c0d485c8f75",
           "size": 14914,
           "type": "image/png"
+        },
+        "youtube.png": {
+          "name": "youtube.png",
+          "blob": "abf6e52c48e89a64802a55b4c1fbe407",
+          "size": 62097,
+          "type": "image/png"
+        },
+        "twitch.png": {
+          "name": "twitch.png",
+          "blob": "e62e07bcd1ef4badea0e6365b0a325ae",
+          "size": 31805,
+          "type": "image/png"
         }
       }
     }
@@ -244,8 +258,8 @@
   },
   "lastChange": {
     "by": "Claude",
-    "at": "2026-09-29T02:01:40Z",
+    "at": "2026-09-29T02:47:13Z",
     "via": "Claude Code",
-    "note": "Premier jet : direction A, Le point de trop (tokens, guide, logos, tuiles, bannières)"
+    "note": "Couverture YouTube et bannière Twitch ; position du point précisée"
   }
 }
