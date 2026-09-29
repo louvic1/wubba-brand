@@ -126,5 +126,5 @@ figure{{margin:0}} img{{width:100%;display:block}} figcaption{{margin-top:6px;co
 
 
 if __name__ == "__main__":
-    for c in sys.argv[1:] or ["A", "D", "H", "E", "F", "J"]:
+    for c in sys.argv[1:] or ["A", "O", "D", "H", "E", "F", "J"]:
         build(c)
