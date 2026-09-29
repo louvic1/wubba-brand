@@ -57,6 +57,18 @@ V1 = {
           ["Coupe trop basse et trop décalée : « bb » et « a » deviennent difficiles à lire",
            "Bicolore très bruyant",
            "Effet tranché populaire depuis 2020 : peu propriétaire"]),
+    "M": ([4, 3, 4, 4, 5, 4, 2, 4, 3, 4],
+          ["Bleu encre à 2,7:1 sur l'encre : le sceau s'éteint sur fond sombre",
+           "Dans les bannières, le sceau n'est qu'un badge : la ligne circulaire devient illisible",
+           "Comme tout emblème, illisible sous 64 px : l'icône doit se limiter au w"]),
+    "N": ([4, 4, 3, 4, 5, 3, 3, 2, 5, 3],
+          ["La police choisie fait du lettrage en capitales, pas une signature : le concept ne se lit pas",
+           "Ligne de texte en Courier minuscule, perdue sur le kraft",
+           "Le style marqueur-graffiti date vite"]),
+    "O": ([5, 4, 4, 5, 4, 4, 4, 4, 4, 4],
+          ["Légende du W à 40 % de la touche : elle se bouche en favicon",
+           "Bannières génériques : le mot centré, le clavier réduit à une grille décorative",
+           "Le relief à trois tons demande une version au trait pour la gravure et le tampon"]),
 }
 
 # v2 : notes après corrections, relues sur la planche d'ensemble et en zoom.
@@ -73,6 +85,9 @@ V2 = {
     "J": [4, 5, 3, 4, 4, 4, 5, 4, 3, 4],
     "K": [3, 5, 2, 3, 4, 4, 5, 3, 3, 2],
     "L": [3, 4, 2, 3, 4, 4, 3, 2, 3, 3],
+    "M": [4, 3, 4, 4, 5, 4, 3, 4, 4, 4],
+    "N": [4, 4, 3, 4, 5, 4, 3, 3, 5, 4],
+    "O": [5, 4, 4, 5, 4, 5, 4, 4, 4, 4],
 }
 
 # Ce que l'itération a changé, direction par direction.
@@ -95,6 +110,16 @@ CHANGES = {
           "Le w devient une trace d'oscilloscope monoline ; les lettres ubba monolines sont gardées"],
     "K": ["Réticule agrandi à 118 % de la hauteur d'x : il ne se lit plus comme une puce"],
     "L": ["Coupe remontée à 58 % de la hauteur d'x, décalage divisé par deux : le mot redevient lisible"],
+    "M": ["Sur fond sombre, le sceau passe au bleu clair #8E96FF : contraste 7,2:1 au lieu de 2,7:1",
+          "Bannières refaites : le nom à gauche, le sceau grand et incliné à droite, comme tamponné",
+          "Domaine remonté en haut sur X : l'avatar couvre le coin bas gauche"],
+    "N": ["Signature refaite en Mr Dafoe : une vraie écriture liée au marqueur, fini le lettrage en capitales",
+          "Soulignement effilé, appuyé au départ et fin à l'arrivée, au lieu d'un trait d'épaisseur constante",
+          "Bannières X et aperçu de lien : une étiquette d'expédition scotchée porte domaine, identifiant et courriel",
+          "Ligne de texte passée de 11 à 19 px"],
+    "O": ["Bannières refaites : un clavier fantôme au trait où seule la grappe WASD est allumée, le W en lilas",
+          "Légende du W agrandie à 56 % de la touche pour l'icône et le favicon",
+          "Grappe WASD livrée comme élément graphique réutilisable"],
 }
 
 

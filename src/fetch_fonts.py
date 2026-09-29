@@ -67,6 +67,15 @@ FILES = [
     "ofl/figtree/Figtree[wght].ttf",
     "ofl/redhatmono/RedHatMono[wght].ttf",
     "ofl/redhatdisplay/RedHatDisplay[wght].ttf",
+    "apache/permanentmarker/PermanentMarker-Regular.ttf",
+    "ofl/sedgwickavedisplay/SedgwickAveDisplay-Regular.ttf",
+    "ofl/barlowcondensed/BarlowCondensed-Bold.ttf",
+    "ofl/barlowcondensed/BarlowCondensed-ExtraBold.ttf",
+    "ofl/courierprime/CourierPrime-Regular.ttf",
+    "ofl/courierprime/CourierPrime-Bold.ttf",
+    "ofl/rubik/Rubik[wght].ttf",
+    "ofl/lexend/Lexend[wght].ttf",
+    "ofl/mrdafoe/MrDafoe-Regular.ttf",
 ]
 
 

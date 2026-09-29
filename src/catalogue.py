@@ -23,7 +23,7 @@ ROOT = compose.ROOT
 OUT = ROOT / "catalogue"
 IMG = OUT / "img"
 DATE = "29 septembre 2026"
-SHORTLIST = ["A", "D", "H"]
+SHORTLIST = ["A", "O", "D", "H"]
 
 
 # ------------------------------------------------------------------ images
@@ -144,7 +144,8 @@ def build():
         signs.append((f"sign-A{n}", f"A{n}", label, src))
     # -------- variantes : palettes
     palettes = {}
-    for code, items in variants.PALETTES.items():
+    by_score = lambda c: -sum(critique.V2.get(c, critique.V1[c][0]))  # noqa: E731
+    for code, items in sorted(variants.PALETTES.items(), key=lambda kv: by_score(kv[0])):
         d = BY_CODE[code]
         rows = []
         for slug, label, pal in items:
@@ -155,7 +156,7 @@ def build():
         palettes[code] = rows
     # -------- variantes : mises en page
     lays = {}
-    for code in ["A", "D", "H", "E", "F", "J"]:
+    for code in ["A", "O", "D", "H", "E", "F", "J"]:
         d = BY_CODE[code]
         o = compose.OPT / f"{d.code}-{d.key}" / "layouts"
         items = []
@@ -186,6 +187,7 @@ def render(imgs, overview, signs, palettes, lays, types):
         "A": "La plus forte et la plus propre. L'idée du studio dite par la typo, lisible à 16 px, sérieuse devant un directeur marketing.",
         "D": "La plus chaleureuse. Elle sort du noir néon du secteur et raconte les lieux impossibles sans dessiner de bateau.",
         "H": "La plus pince-sans-rire. Un rapport de test qui s'écrit en direct ; le curseur clignote tout seul en vidéo.",
+        "O": "La plus gaming sans cliché. Le nom tapé sur des touches, le W allumé : dans tous les jeux de tir, W veut dire avancer.",
     }
     for code in SHORTLIST:
         d = BY_CODE[code]
@@ -359,23 +361,24 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 <header class="top">
   <p class="eyebrow">wubba · identité visuelle · {date}</p>
   <h1>Options d'identité Wubba</h1>
-  <p class="lede">Douze directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
+  <p class="lede">Quinze directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées au moins une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
   <p class="counts"><span><b>{n_dir}</b> directions</span><span><b>{n_sign}</b> signes</span><span><b>{n_pal}</b> palettes</span><span><b>{n_lay}</b> bannières alternatives</span><span><b>{n_type}</b> paires typo</span></p>
 </header>
 <nav class="toc" aria-label="Sections">
-  <a href="#preselection">Présélection</a><a href="#ensemble">Vue d'ensemble</a><a href="#directions">Les 12 directions</a>
+  <a href="#preselection">Présélection</a><a href="#ensemble">Vue d'ensemble</a><a href="#directions">Les {n_dir} directions</a>
   <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a>
   <a href="#methode">Méthode</a><a class="sel" href="#ma-selection">Ma sélection · <span id="pick-count">0</span></a>
 </nav>
 
 <section id="preselection">
   <h2>Présélection</h2>
-  <p class="intro">Les trois directions qui ont le mieux tenu la critique. Clique pour descendre à la direction.</p>
+  <p class="intro">Les quatre directions qui ont le mieux tenu la critique. Clique pour descendre à la direction.</p>
   <div class="shortlist">{shortlist}</div>
   <div class="reco">
     <h4>Ma recommandation</h4>
     <p><b>A, Le point de trop.</b> C'est la seule direction où l'idée du studio (quelque chose placé là où il n'a pas d'affaire à être) est dite par le logo lui-même, sans explication. Elle tient à 16 px, en une couleur, en inversé, et elle a l'air d'une agence devant un directeur marketing. Le kit complet de production est déjà prêt dans le repo (<code>logo/</code>, <code>tokens/</code>, <code>palette/</code>).</p>
     <p>Son risque : le rouge sur noir est partagé avec HyperX et ROG. Si ça te gêne, la palette <b>Rose direct</b> ou <b>Outremer</b> garde tout le reste (section Palettes).</p>
+    <p>Mon deuxième choix, très proche : <b>O, Touche W</b>. Le nom tapé sur cinq touches, le W allumé en lilas, parce que W veut dire avancer dans tous les jeux de tir. C'est la plus « gaming » du lot sans néon ni flamme, et la bannière (un clavier fantôme où seule la grappe WASD est allumée) se comprend en une seconde. Moins sobre que A devant un acheteur, plus attachante pour les joueurs.</p>
     <p>Si tu veux plus d'audace : <b>E, Maison</b> (un logotype de maison de couture dans un secteur tout en néon) ou <b>F, Bulle</b> (les b qui regardent de côté). Plus risqués devant un acheteur à 8 000 $, plus mémorables dans un fil.</p>
   </div>
 </section>
@@ -383,14 +386,14 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 <section id="ensemble">
   <h2>Vue d'ensemble</h2>
   <p class="intro">Toutes les directions côte à côte : logo clair, logo sombre, icône, favicon rendu à 16, 24, 32 et 48 px réels, bannière X. Le tableau est trié par note.</p>
-  <img class="overview" src="{overview}" alt="Les 12 directions côte à côte" loading="lazy">
+  <img class="overview" src="{overview}" alt="Les {n_dir} directions côte à côte" loading="lazy">
   <div class="tablewrap"><table>
     <thead><tr><th>Code</th><th>Direction</th><th class="hide-s">Type de marque</th><th>v1</th><th>v2</th><th>Palette</th><th>Garder</th></tr></thead>
     <tbody>{table}</tbody></table></div>
 </section>
 
 <section id="directions">
-  <h2>Les 12 directions</h2>
+  <h2>Les {n_dir} directions</h2>
   <p class="intro">Chaque direction avec son idée, ses raisons, son risque honnête, sa note sur la grille du skill logo-design (10 dimensions, la barre claire est la v1) et ce que l'itération a changé.</p>
   {dirs}
 </section>
@@ -403,7 +406,7 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 
 <section id="palettes">
   <h2>Palettes</h2>
-  <p class="intro">Le même dessin dans d'autres couleurs, pour les six meilleures directions. La forme se choisit à part : on peut prendre le signe de A avec la palette Outremer.</p>
+  <p class="intro">Le même dessin dans d'autres couleurs, pour neuf directions. La forme se choisit à part : on peut prendre le signe de A avec la palette Outremer.</p>
   {palettes}
 </section>
 

@@ -33,10 +33,11 @@ def x_layout(d, name):
         faint = mix(sch["bg"], sch["fg"], 0.09)
         sym = d.symbol()
         sp, s, _ = d.place_t(sym, (W * 0.60, -H * 0.18, W * 1.12, H * 1.18))
-        colored = []
-        for p, role in sp:
-            colored.append((p, sch["accent"] if role == "accent" else faint))
-        layers += colored
+        if getattr(d, "giant_full_color", False):
+            # un symbole fait de plusieurs tons (la touche de O) ne survit pas au fantôme : on le garde en couleurs
+            layers += d.color(sp, sch)
+        else:
+            layers += [(p, sch["accent"] if role == "accent" else faint) for p, role in sp]
         wmp, _, _ = d.place_t(d.wordmark(), (80, 250, 600, 350), align="left")
         layers += d.color(wmp, sch)
         wb = d.bounds(wmp)

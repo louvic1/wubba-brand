@@ -63,6 +63,50 @@ PALETTES = {
                                            custom={"banner": {"bg": "#111827", "fg": "#F5F5F4", "accent": "#FF5A5F", "fg2": "#FF5A5F"}},
                                            names={"ink": "Ardoise", "paper": "Blanc", "accent": "Corail"})),
     ],
+    # O : la couleur de la touche W est l'axe naturel de variation (comme une keycap artisan)
+    "O": [
+        ("lilas", "Lilas (référence)", P("#141518", "#ECEAE6", "#A98BFF", accent2="#2A2C31",
+                                          names={"ink": "Châssis", "paper": "Touche claire", "accent": "Touche W", "accent2": "Touche sombre"})),
+        ("echap", "Rouge Échap", P("#121214", "#EDEBE7", "#FF4D3A", accent2="#2A2B30",
+                                    names={"ink": "Châssis", "paper": "Touche claire", "accent": "Rouge Échap", "accent2": "Touche sombre"})),
+        ("jaune", "Jaune", P("#141414", "#EEEBE3", "#FFC933", accent2="#2B2B2E",
+                              names={"ink": "Châssis", "paper": "Touche claire", "accent": "Jaune", "accent2": "Touche sombre"})),
+        ("menthe", "Menthe", P("#101614", "#EAEEEB", "#4FE0A6", accent2="#26302C",
+                                names={"ink": "Châssis", "paper": "Touche claire", "accent": "Menthe", "accent2": "Touche sombre"})),
+        ("cyan", "Cyan", P("#0F1418", "#E8EDEF", "#34D6F5", accent2="#27303A",
+                            names={"ink": "Châssis", "paper": "Touche claire", "accent": "Cyan", "accent2": "Touche sombre"})),
+        ("retro", "Beige rétro", P("#221F1A", "#E9E2D0", "#E8572A", accent2="#3A3630",
+                                    names={"ink": "Brun", "paper": "Beige", "accent": "Orange", "accent2": "Touche brune"})),
+    ],
+    # M : l'encre du tampon ; chaque encre a sa version claire pour les fonds sombres
+    "M": [
+        ("bleu", "Bleu tampon (référence)", P("#101014", "#EFEFEC", "#3A45D8",
+                                               custom={"dark": {"bg": "#101014", "fg": "#EFEFEC", "accent": "#8E96FF", "fg2": "#8E96FF"}},
+                                               names={"ink": "Encre", "paper": "Papier", "accent": "Encre à tampon"})),
+        ("rouge", "Rouge « conforme »", P("#141011", "#F2EFEC", "#D7263D",
+                                          custom={"dark": {"bg": "#141011", "fg": "#F2EFEC", "accent": "#FF6B7A", "fg2": "#FF6B7A"}},
+                                          names={"ink": "Encre", "paper": "Papier", "accent": "Rouge tampon"})),
+        ("vert", "Vert administratif", P("#0F1411", "#EEF0EC", "#1E7A4C",
+                                          custom={"dark": {"bg": "#0F1411", "fg": "#EEF0EC", "accent": "#5FD39A", "fg2": "#5FD39A"}},
+                                          names={"ink": "Encre", "paper": "Papier", "accent": "Vert tampon"})),
+        ("violet", "Violet encre", P("#121016", "#F0EEF2", "#6B3FC4",
+                                      custom={"dark": {"bg": "#121016", "fg": "#F0EEF2", "accent": "#B59BFF", "fg2": "#B59BFF"}},
+                                      names={"ink": "Encre", "paper": "Papier", "accent": "Violet tampon"})),
+        ("noir", "Encre noire", P("#101010", "#F2F1ED", "#101010", names={"ink": "Encre", "paper": "Papier", "accent": "Noir"})),
+    ],
+    # N : le carton et la couleur du trait
+    "N": [
+        ("kraft", "Kraft et rouge (référence)", P("#161412", "#D6B98A", "#E0442F", accent2="#F3EBDD",
+                                                   names={"ink": "Marqueur", "paper": "Kraft", "accent": "Rouge", "accent2": "Étiquette"})),
+        ("rose", "Kraft et rose fluo", P("#161412", "#D6B98A", "#FF3EA5", accent2="#F3EBDD",
+                                          names={"ink": "Marqueur", "paper": "Kraft", "accent": "Rose fluo", "accent2": "Étiquette"})),
+        ("blanc", "Carton blanc et bleu stylo", P("#141414", "#ECE9E2", "#2F5BFF", accent2="#FFFFFF",
+                                                   names={"ink": "Marqueur", "paper": "Carton blanc", "accent": "Bleu stylo", "accent2": "Étiquette"})),
+        ("noir", "Boîte noire, marqueur argent", P("#151515", "#D9DCE1", "#E0442F", accent2="#F3EBDD",
+                                                    custom={"light": {"bg": "#151515", "fg": "#D9DCE1", "accent": "#E0442F", "fg2": "#F3EBDD"},
+                                                            "dark": {"bg": "#D9DCE1", "fg": "#151515", "accent": "#E0442F", "fg2": "#F3EBDD"}},
+                                                    names={"ink": "Boîte noire", "paper": "Argent", "accent": "Rouge", "accent2": "Étiquette"})),
+    ],
 }
 
 

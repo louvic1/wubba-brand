@@ -48,7 +48,9 @@ class Palette:
             acc = self.paper if self.accent.lower() == self.ink.lower() else self.accent
             return {"bg": self.ink, "fg": self.paper, "accent": acc, "fg2": a2 if a2.lower() != self.ink.lower() else self.paper}
         if kind == "accent":
-            return {"bg": self.accent, "fg": self.ink, "accent": self.paper, "fg2": self.paper}
+            # accent noir : le dessin passe en papier, sinon il se fond dans le fond
+            fg = self.paper if self.accent.lower() == self.ink.lower() else self.ink
+            return {"bg": self.accent, "fg": fg, "accent": self.paper, "fg2": self.paper}
         if kind == "mono-black":
             return {"bg": "#FFFFFF", "fg": "#000000", "accent": "#000000", "fg2": "#000000"}
         if kind == "mono-white":
