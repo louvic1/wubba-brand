@@ -203,7 +203,17 @@ def build():
             mocks.append((d, webp(m / "stickers.png", f"{d.code}-stickers", 1200)[0],
                           webp(m / "signature.png", f"{d.code}-signature", 900, 90)[0]))
 
-    page = render(imgs, overview, signs, palettes, lays, types, motions, mocks)
+    # -------- couvertures de chaîne
+    import covers as cv
+    chans = []
+    for d in sorted(ALL, key=lambda d: -sum(critique.V2.get(d.code, critique.V1[d.code][0]))):
+        o = compose.OPT / f"{d.code}-{d.key}"
+        if d.code in cv.COVERS and (o / "youtube.png").exists():
+            chans.append((d, webp(o / "youtube.png", f"{d.code}-youtube", 1600)[0],
+                          webp(o / "youtube-zones.png", f"{d.code}-youtube-zones", 900)[0],
+                          webp(o / "twitch.png", f"{d.code}-twitch", 1200)[0]))
+
+    page = render(imgs, overview, signs, palettes, lays, types, motions, mocks, chans)
     (OUT / "index.html").write_text(page)
     files = list(IMG.glob("*.webp")) + list(IMG.glob("*.mp4"))
     n = len(files)
@@ -213,7 +223,7 @@ def build():
 
 # ------------------------------------------------------------------ page
 
-def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
+def render(imgs, overview, signs, palettes, lays, types, motions, mocks, chans):
     ranked = sorted(ALL, key=lambda d: -sum(critique.V2.get(d.code, critique.V1[d.code][0])))
     short = []
     reasons = {
@@ -265,7 +275,12 @@ def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
 <img class="sig" src="{sg}" alt="Signature courriel {esc(d.name)}" loading="lazy">
 <figcaption><b>{d.code}</b> {esc(d.name)}{pick_btn(f"mock-{d.code}", "")}</figcaption></figure>""" for d, st, sg in mocks)
 
+    chan_cards = "".join(f"""<figure class="opt"><img src="{yt}" alt="Couverture YouTube {esc(d.name)}" loading="lazy">
+<div class="chan"><img src="{tw}" alt="Bannière Twitch {esc(d.name)}" loading="lazy"><img src="{zn}" alt="Zones de recadrage YouTube {esc(d.name)}" loading="lazy"></div>
+<figcaption><b>{d.code}</b> {esc(d.name)} · YouTube 2560 × 1440, Twitch 1200 × 480, zones de recadrage{pick_btn(f"chan-{d.code}", "")}</figcaption></figure>""" for d, yt, zn, tw in chans)
+
     labels = {f"dir-{d.code}": f"Direction {d.code} · {d.name}" for d in ALL}
+    labels.update({f"chan-{d.code}": f"Chaînes {d.code} · {d.name}" for d, *_ in chans})
     labels.update({f"anim-{d.code}": f"Animation {d.code} · {d.name}" for d, *_ in motions})
     labels.update({f"mock-{d.code}": f"En situation {d.code} · {d.name}" for d, _, _ in mocks})
     labels.update({pid: f"Signe {code} · {label}" for pid, code, label, _ in signs})
@@ -282,7 +297,7 @@ def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
     return TEMPLATE.format(
         date=DATE, overview=overview, shortlist="".join(short), table="".join(table_rows), dirs=dirs,
         signs=sign_cards, palettes="".join(pal_blocks), layouts="".join(lay_blocks), types=type_cards,
-        motions=motion_cards, mocks=mock_cards,
+        motions=motion_cards, mocks=mock_cards, chans=chan_cards,
         labels=json.dumps(labels, ensure_ascii=False), **counts)
 
 
@@ -379,6 +394,7 @@ ul.score em{{font-style:normal;font-family:var(--mono);font-size:11px;color:var(
 .mv{{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);gap:10px;align-items:center}}
 .mv video{{width:100%;aspect-ratio:9/16;display:block;background:#000}}
 .opt img.sig{{margin-top:10px}}
+.chan{{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:10px;align-items:start}}
 .weak-badge{{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);padding:3px 8px;color:var(--muted)}}
 .weak-note{{max-width:72ch;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin:0 0 14px}}
 .pick{{font:500 12px var(--mono);display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:transparent;color:var(--fg);
@@ -415,7 +431,7 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 </header>
 <nav class="toc" aria-label="Sections">
   <a href="#preselection">Présélection</a><a href="#ensemble">Vue d'ensemble</a><a href="#directions">Les {n_dir} directions</a>
-  <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a><a href="#animations">Animations</a><a href="#situation">En situation</a>
+  <a href="#signes">Signes A</a><a href="#palettes">Palettes</a><a href="#mises-en-page">Mises en page</a><a href="#typo">Typo</a><a href="#animations">Animations</a><a href="#chaines">Chaînes</a><a href="#situation">En situation</a>
   <a href="#methode">Méthode</a><a class="sel" href="#ma-selection">Ma sélection · <span id="pick-count">0</span></a>
 </nav>
 
@@ -476,6 +492,12 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
   <h2>Animations</h2>
   <p class="intro">Le logo en mouvement, pour la fin des vidéos : à gauche le sting 16:9 (3 secondes), à droite le carton vertical pour Shorts, TikTok et Reels. Chaque animation existe aussi en WebM à fond transparent pour OBS, dans <code>options/&lt;direction&gt;/motion/</code>.</p>
   <div class="opts two">{motions}</div>
+</section>
+
+<section id="chaines">
+  <h2>Chaînes YouTube et Twitch</h2>
+  <p class="intro">La couverture YouTube fait 2560 × 1440, mais un téléphone n'en montre que le centre (1546 × 423) et un ordinateur une bande de 2560 × 423 : le nom, la ligne et les coordonnées tiennent dans le centre, le motif remplit le reste. La petite vue avec les cadres montre ces recadrages (cyan : téléphone, rose : ordinateur). À côté, la bannière Twitch.</p>
+  <div class="opts two">{chans}</div>
 </section>
 
 <section id="situation">
