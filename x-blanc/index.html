@@ -1,0 +1,112 @@
+<title>Bannière et typo wubba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&family=Instrument+Sans:wght@400;600&family=Martian+Mono:wdth,wght@87.5,500&display=swap">
+<style>
+/* Deux listes numérotées à parcourir au téléphone : les bannières (B1 à B5), puis les typographies (T1 à T6). */
+:root {
+  --bg:#F3F4F1; --panel:#FFFFFF; --fg:#0E2B22; --muted:#56655F; --line:#DCE0DA; --lime:#A6DB1F;
+  --display:"Archivo","Arial Black",system-ui,sans-serif; --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Martian Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#0B1A15; --panel:#12241D; --fg:#EEF2EC; --muted:#A5B3AB; --line:#24382F; color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#0B1A15; --panel:#12241D; --fg:#EEF2EC; --muted:#A5B3AB; --line:#24382F; color-scheme:dark }
+body { background:var(--bg); color:var(--fg); font:16px/1.5 var(--sans); }
+.wrap { max-width:1080px; margin:0 auto; padding-inline:16px; padding-block:28px 64px; }
+h1 { font-family:var(--display); font-stretch:125%; font-weight:800; font-size:clamp(28px,5.6vw,48px); line-height:1.04; margin:0 0 12px; letter-spacing:-.015em; text-wrap:balance }
+h2 { font-family:var(--display); font-stretch:125%; font-weight:800; font-size:24px; margin:40px 0 6px }
+.lede, .intro { max-width:62ch; color:var(--muted); margin:0 0 18px }
+.eyebrow, .num, code, figcaption { font-family:var(--mono); letter-spacing:.02em }
+.eyebrow { font-size:12px; text-transform:uppercase; color:var(--muted); margin:0 0 10px }
+.opt { background:var(--panel); border:1px solid var(--line); padding:14px; margin:0 0 16px; display:grid; gap:12px }
+.opt header { display:flex; align-items:baseline; gap:12px }
+.num { font-size:22px; font-weight:500; min-width:2.2em }
+.opt h3 { font-size:18px; margin:0; line-height:1.25 }
+.opt img { display:block; width:100%; height:auto; border:1px solid var(--line) }
+.opt p { margin:0; max-width:70ch }
+.pv { margin:0; max-width:560px }
+figcaption { font-size:11px; color:var(--muted); margin-top:6px }
+.link code { font-size:11px; color:var(--muted); word-break:break-all }
+.dot { display:inline-block; width:.6em; height:.6em; border-radius:50%; background:var(--lime); vertical-align:.05em; margin-right:.35em }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">wubba · direction A · forêt et lime sur blanc</p>
+  <h1>Bannière et typo wubba</h1>
+  <p class="lede">Cinq bannières X sur fond blanc, avec seulement « wubba » et « AI streamers », puis six typographies. Réponds avec un numéro de chaque liste, par exemple B2 et T3.</p>
+
+  <h2>Bannières X</h2>
+  <p class="intro">1500 × 500, sans coins ni slogan. Sous chaque bannière, la même vue sur un profil X, pour vérifier que l'avatar ne cache rien. La mention prendra la typo que tu choisiras plus bas.</p>
+  
+<article class="opt" id="b1">
+  <header><span class="num">B1</span><h3>Centré</h3></header>
+  <img src="img/b1.webp" alt="Bannière X 1, Centré" loading="lazy">
+  <figure class="pv"><img src="img/b1-profil.webp" alt="Bannière 1 sur un profil X, avec l'avatar" loading="lazy"><figcaption>Sur un profil X, avec l'avatar</figcaption></figure>
+  <p>Le logo au milieu, la mention dessous. La plus sûre : elle tient sur tous les écrans, l&#x27;avatar ne touche rien.</p>
+</article>
+<article class="opt" id="b2">
+  <header><span class="num">B2</span><h3>Géant</h3></header>
+  <img src="img/b2.webp" alt="Bannière X 2, Géant" loading="lazy">
+  <figure class="pv"><img src="img/b2-profil.webp" alt="Bannière 2 sur un profil X, avec l'avatar" loading="lazy"><figcaption>Sur un profil X, avec l'avatar</figcaption></figure>
+  <p>Le logo aussi grand que possible, calé à droite pour laisser la place à l&#x27;avatar. La plus forte dans un fil.</p>
+</article>
+<article class="opt" id="b3">
+  <header><span class="num">B3</span><h3>Éditorial à droite</h3></header>
+  <img src="img/b3.webp" alt="Bannière X 3, Éditorial à droite" loading="lazy">
+  <figure class="pv"><img src="img/b3-profil.webp" alt="Bannière 3 sur un profil X, avec l'avatar" loading="lazy"><figcaption>Sur un profil X, avec l'avatar</figcaption></figure>
+  <p>La mention en petit au-dessus, le logo dessous, tout aligné à droite. Calme, très « studio ».</p>
+</article>
+<article class="opt" id="b4">
+  <header><span class="num">B4</span><h3>Le point</h3></header>
+  <img src="img/b4.webp" alt="Bannière X 4, Le point" loading="lazy">
+  <figure class="pv"><img src="img/b4-profil.webp" alt="Bannière 4 sur un profil X, avec l'avatar" loading="lazy"><figcaption>Sur un profil X, avec l'avatar</figcaption></figure>
+  <p>Un grand disque lime reprend le point du w et déborde du cadre. La seule avec un vrai aplat de couleur.</p>
+</article>
+<article class="opt" id="b5">
+  <header><span class="num">B5</span><h3>En ligne</h3></header>
+  <img src="img/b5.webp" alt="Bannière X 5, En ligne" loading="lazy">
+  <figure class="pv"><img src="img/b5-profil.webp" alt="Bannière 5 sur un profil X, avec l'avatar" loading="lazy"><figcaption>Sur un profil X, avec l'avatar</figcaption></figure>
+  <p>Le logo et « AI streamers » sur une seule ligne, séparés par un filet. Se lit d&#x27;un coup, comme une signature.</p>
+</article>
+
+  <h2>Typographies</h2>
+  <p class="intro">Chaque planche montre le titre, le texte et les petites étiquettes, avec le logo et la bannière centrée dans cette typo. Le logo, lui, ne change pas : il est dessiné. Les trois familles de chaque paire sont gratuites sur Google Fonts.</p>
+  
+<article class="opt" id="t1">
+  <header><span class="num">T1</span><h3>Archivo Expanded, Instrument Sans, Martian Mono</h3></header>
+  <img src="img/T1.webp" alt="Planche typographique T1 : Archivo Expanded, Instrument Sans, Martian Mono" loading="lazy">
+  <p>Actuelle : large et solide comme le logo.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&amp;family=Instrument+Sans:wght@400;600&amp;family=Martian+Mono:wght@500&amp;display=swap</code></p>
+</article>
+<article class="opt" id="t2">
+  <header><span class="num">T2</span><h3>Sora, Figtree, JetBrains Mono</h3></header>
+  <img src="img/T2.webp" alt="Planche typographique T2 : Sora, Figtree, JetBrains Mono" loading="lazy">
+  <p>Géométrique et technique ; la plus proche du dessin rond du logo.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Sora:wght@700&amp;family=Figtree:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap</code></p>
+</article>
+<article class="opt" id="t3">
+  <header><span class="num">T3</span><h3>Outfit, IBM Plex Sans, IBM Plex Mono</h3></header>
+  <img src="img/T3.webp" alt="Planche typographique T3 : Outfit, IBM Plex Sans, IBM Plex Mono" loading="lazy">
+  <p>Ronde et amicale en titre, rigoureuse en texte : le labo de test.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Outfit:wght@700&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap</code></p>
+</article>
+<article class="opt" id="t4">
+  <header><span class="num">T4</span><h3>Bricolage Grotesque, Bricolage Grotesque, Azeret Mono</h3></header>
+  <img src="img/T4.webp" alt="Planche typographique T4 : Bricolage Grotesque, Bricolage Grotesque, Azeret Mono" loading="lazy">
+  <p>Une seule famille pleine de caractère : plus créateur, moins corporate.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&amp;family=Azeret+Mono:wght@500&amp;display=swap</code></p>
+</article>
+<article class="opt" id="t5">
+  <header><span class="num">T5</span><h3>Epilogue, Epilogue, Red Hat Mono</h3></header>
+  <img src="img/T5.webp" alt="Planche typographique T5 : Epilogue, Epilogue, Red Hat Mono" loading="lazy">
+  <p>Un grotesque éditorial, net et dense : le ton d&#x27;un rapport de test.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Epilogue:wght@400;800&amp;family=Red+Hat+Mono:wght@500&amp;display=swap</code></p>
+</article>
+<article class="opt" id="t6">
+  <header><span class="num">T6</span><h3>Unbounded, Onest, Space Mono</h3></header>
+  <img src="img/T6.webp" alt="Planche typographique T6 : Unbounded, Onest, Space Mono" loading="lazy">
+  <p>Large et arrondie, la plus joueuse ; forte en titre, à doser.</p>
+  <p class="link"><code>https://fonts.googleapis.com/css2?family=Unbounded:wght@700&amp;family=Onest:wght@400;600&amp;family=Space+Mono:wght@700&amp;display=swap</code></p>
+</article>
+</div>
