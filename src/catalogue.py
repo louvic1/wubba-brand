@@ -270,7 +270,7 @@ def render(imgs, overview, signs, palettes, lays, types, motions, mocks):
 
     counts = {"n_dir": len(ALL), "n_pal": sum(len(r) for r in palettes.values()), "n_sign": len(signs),
               "n_lay": sum(len(i) for i in lays.values()), "n_type": len(types), "n_anim": len(motions),
-              "n_mock": 2 * len(mocks)}
+              "n_mock": 2 * len(mocks), "n_pal_dirs": len(palettes)}
 
     return TEMPLATE.format(
         date=DATE, overview=overview, shortlist="".join(short), table="".join(table_rows), dirs=dirs,
@@ -401,7 +401,7 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 <header class="top">
   <p class="eyebrow">wubba · identité visuelle · {date}</p>
   <h1>Options d'identité Wubba</h1>
-  <p class="lede">Quinze directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées au moins une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
+  <p class="lede">Dix-sept directions complètes, chacune avec son logo, son icône, sa palette, sa typo et ses bannières, notées sur 50 et retravaillées au moins une fois. Puis les variantes des meilleures. Coche « Je garde » sur ce qui te parle : tes choix restent enregistrés dans cette page.</p>
   <p class="counts"><span><b>{n_dir}</b> directions</span><span><b>{n_sign}</b> signes</span><span><b>{n_pal}</b> palettes</span><span><b>{n_lay}</b> bannières alternatives</span><span><b>{n_type}</b> paires typo</span><span><b>{n_anim}</b> animations</span><span><b>{n_mock}</b> mises en situation</span></p>
 </header>
 <nav class="toc" aria-label="Sections">
@@ -420,6 +420,7 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
     <p>Son risque : le rouge sur noir est partagé avec HyperX et ROG. Si ça te gêne, la palette <b>Rose direct</b> ou <b>Outremer</b> garde tout le reste (section Palettes).</p>
     <p>Mon deuxième choix, très proche : <b>O, Touche W</b>. Le nom tapé sur cinq touches, le W allumé en lilas, parce que W veut dire avancer dans tous les jeux de tir. C'est la plus « gaming » du lot sans néon ni flamme, et la bannière (un clavier fantôme où seule la grappe WASD est allumée) se comprend en une seconde. Moins sobre que A devant un acheteur, plus attachante pour les joueurs.</p>
     <p>Si tu veux plus d'audace : <b>E, Maison</b> (un logotype de maison de couture dans un secteur tout en néon) ou <b>F, Bulle</b> (les b qui regardent de côté). Plus risqués devant un acheteur à 8 000 $, plus mémorables dans un fil.</p>
+    <p>Pour sortir complètement des codes du gaming : <b>P, Topo</b> (le mot posé comme une île sur une carte, entouré de ses courbes de niveau) ou <b>Q, Mire</b> (la mire de test des télés : « test », dit sans un mot).</p>
   </div>
 </section>
 
@@ -446,7 +447,7 @@ footer{{padding-block:28px;color:var(--faint);font-family:var(--mono);font-size:
 
 <section id="palettes">
   <h2>Palettes</h2>
-  <p class="intro">Le même dessin dans d'autres couleurs, pour neuf directions. La forme se choisit à part : on peut prendre le signe de A avec la palette Outremer.</p>
+  <p class="intro">Le même dessin dans d'autres couleurs, pour {n_pal_dirs} directions. La forme se choisit à part : on peut prendre le signe de A avec la palette Outremer.</p>
   {palettes}
 </section>
 

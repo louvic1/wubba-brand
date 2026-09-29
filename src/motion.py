@@ -222,7 +222,43 @@ def scene_N(d, box, sch, t, W, H):
     return out, 1.7
 
 
-SCENES = {"A": scene_A, "O": scene_O, "D": scene_D, "H": scene_H, "M": scene_M, "N": scene_N}
+_ISLANDS = {}
+
+
+def scene_P(d, box, sch, t, W, H):
+    """Le mot se pose, puis ses deux courbes de niveau s'écartent l'une après l'autre, comme un relief qui se dessine."""
+    from directions.p_topo import contours, island
+    placed, s, _ = d.place_t(d.wordmark_plain(), box)
+    word = placed[0][0]
+    a = ease_out(seg(t, 0.0, 0.45))
+    out = [(g.translate(word, dy=-24 * (1 - a)), sch["fg"], a)]
+    key = (id(d), box)
+    if key not in _ISLANDS:
+        _ISLANDS[key] = island(word, 34 * s)
+    base = _ISLANDS[key]
+    for k in range(2):
+        u = ease_out(seg(t, 0.45 + 0.25 * k, 0.95 + 0.25 * k))
+        if u > 0:
+            out.append((contours(base, 16 * s * (k + 1) * (0.55 + 0.45 * u), 16 * s, 1, 5 * s), sch["accent"], u))
+    return out, 1.3
+
+
+def scene_Q(d, box, sch, t, W, H):
+    """Les sept barres tombent une à une, puis le nom s'allume au-dessus en scintillant, comme un signal qui se cale."""
+    placed, s, _ = d.place_t(d.wordmark(), box)
+    word, bars = placed[0], placed[1:]
+    out = []
+    for i, (p, role) in enumerate(bars):
+        u = ease_out(seg(t, 0.10 + 0.08 * i, 0.38 + 0.08 * i))
+        if u > 0:
+            out += [(pp, c, u) for pp, c in d.color([(g.translate(p, dy=140 * (1 - u)), role)], sch)]
+    a = seg(t, 0.85, 1.25)
+    flick = 0.0 if a <= 0 else 1.0 if a >= 1 else (0.3 if int(a * 12) % 3 == 1 else 1.0)
+    out += [(p, c, flick) for p, c in d.color([word], sch)]
+    return out, 1.3
+
+
+SCENES = {"A": scene_A, "O": scene_O, "D": scene_D, "H": scene_H, "M": scene_M, "N": scene_N, "P": scene_P, "Q": scene_Q}
 
 
 # ------------------------------------------------------------------ légendes

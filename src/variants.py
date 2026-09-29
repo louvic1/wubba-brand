@@ -63,6 +63,17 @@ PALETTES = {
                                            custom={"banner": {"bg": "#111827", "fg": "#F5F5F4", "accent": "#FF5A5F", "fg2": "#FF5A5F"}},
                                            names={"ink": "Ardoise", "paper": "Blanc", "accent": "Corail"})),
     ],
+    # P : le type de carte
+    "P": [
+        ("carte", "Carte (référence)", P("#17231D", "#EEEADF", "#E0662F", accent2="#8FA895",
+                                          names={"ink": "Forêt", "paper": "Carte", "accent": "Courbe", "accent2": "Lichen"})),
+        ("desert", "Désert", P("#2A1D14", "#F1E6D2", "#D2542D", accent2="#C9A27E",
+                                names={"ink": "Roche", "paper": "Sable", "accent": "Latérite", "accent2": "Dune"})),
+        ("glacier", "Glacier", P("#0F2233", "#EAF1F4", "#2F7FD8", accent2="#9DB7C9",
+                                  names={"ink": "Profondeur", "paper": "Névé", "accent": "Crevasse", "accent2": "Givre"})),
+        ("marais", "Marais", P("#1B2416", "#E9ECDC", "#7A9A2E", accent2="#B5BE93",
+                                names={"ink": "Tourbe", "paper": "Brume", "accent": "Mousse", "accent2": "Roseau"})),
+    ],
     # O : la couleur de la touche W est l'axe naturel de variation (comme une keycap artisan)
     "O": [
         ("lilas", "Lilas (référence)", P("#141518", "#ECEAE6", "#A98BFF", accent2="#2A2C31",

@@ -69,6 +69,14 @@ V1 = {
           ["Légende du W à 40 % de la touche : elle se bouche en favicon",
            "Bannières génériques : le mot centré, le clavier réduit à une grille décorative",
            "Le relief à trois tons demande une version au trait pour la gravure et le tampon"]),
+    "P": ([4, 4, 4, 4, 3, 3, 3, 4, 4, 4],
+          ["Courbes dans les contreformes des b et du a : on lit presque « wuobba »",
+           "Anneaux concentriques trop réguliers : une empreinte digitale plutôt qu'une carte",
+           "Les courbes orange des collines cachées se confondent avec celles du mot"]),
+    "Q": ([4, 4, 3, 5, 4, 3, 4, 3, 4, 4],
+          ["Barre grise invisible sur fond clair : le souligné semble commencer au jaune",
+           "Barre jaune invisible sur le fond jaune",
+           "Sept couleurs : à discipliner hors du logo, sinon tout devient arc-en-ciel"]),
 }
 
 # v2 : notes après corrections, relues sur la planche d'ensemble et en zoom.
@@ -88,6 +96,8 @@ V2 = {
     "M": [4, 3, 4, 4, 5, 4, 3, 4, 4, 4],
     "N": [4, 4, 3, 4, 5, 4, 3, 3, 5, 4],
     "O": [5, 4, 4, 5, 4, 5, 4, 4, 4, 4],
+    "P": [4, 4, 4, 4, 3, 4, 4, 4, 4, 4],
+    "Q": [4, 4, 3, 5, 4, 4, 4, 3, 4, 4],
 }
 
 # Ce que l'itération a changé, direction par direction.
@@ -120,6 +130,11 @@ CHANGES = {
     "O": ["Bannières refaites : un clavier fantôme au trait où seule la grappe WASD est allumée, le W en lilas",
           "Légende du W agrandie à 56 % de la touche pour l'icône et le favicon",
           "Grappe WASD livrée comme élément graphique réutilisable"],
+    "P": ["Contreformes bouchées : les courbes ne suivent plus que l'extérieur du mot",
+          "Relief calculé (distance au mot, bruit lisse, collines cachées) : de vraies courbes de niveau",
+          "Fermeture morphologique : les courbes enjambent le haut du u et les creux du w",
+          "Seules les deux courbes du mot restent orange"],
+    "Q": ["Une barre trop proche du fond fonce d'un cran : contraste de 1,35 au minimum, partout"],
 }
 
 

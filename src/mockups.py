@@ -26,18 +26,7 @@ EMAIL = "contact@wubba.studio"
 
 def outer(path):
     """Garde les contours extérieurs d'une forme (un autocollant découpé n'a pas de trous)."""
-    path = pathops.Path(path)
-    path.simplify()
-    contours = list(path.contours)
-    if not contours:
-        return path
-    sign = 1 if max(contours, key=lambda c: abs(c.area)).area > 0 else -1
-    out = pathops.Path()
-    for c in contours:
-        if c.area * sign > 0:
-            out.addPath(c)
-    out.simplify()
-    return out
+    return g.fill_holes(path)
 
 
 def grow(path, amount):

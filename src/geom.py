@@ -171,3 +171,21 @@ def _fmt(v, precision):
 
 def deg(a):
     return math.radians(a)
+
+
+def fill_holes(path):
+    """Forme pleine : retire les contours contenus dans un autre (les contreformes des lettres).
+    Le sens des contours n'est pas fiable après les opérations : on teste l'inclusion par les aires."""
+    cs = []
+    for c in path.contours:
+        p = pathops.Path()
+        c.draw(p.getPen())
+        cs.append(p)
+    keep = []
+    for i, ci in enumerate(cs):
+        ai = abs(ci.area)
+        inside = any(j != i and abs(cj.area) > ai and abs(abs(intersect(ci, cj).area) - ai) < 0.02 * ai + 0.5
+                     for j, cj in enumerate(cs))
+        if not inside:
+            keep.append(ci)
+    return union(*keep) if keep else pathops.Path()
