@@ -1,0 +1,238 @@
+<title>Couleurs wubba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&family=Instrument+Sans:wght@400;600&family=Martian+Mono:wdth,wght@87.5,400;87.5,500&display=swap">
+<style>
+/* Une colonne d'options numérotées, pensée pour le téléphone : on compare en faisant défiler, on répond avec un numéro. */
+:root {
+  --bg:#EDEDEA; --panel:#F8F8F6; --fg:#141416; --muted:#5D5D5A; --line:#D7D6D1; --tag:#141416; --tag-fg:#F8F8F6;
+  --display:"Archivo","Arial Black",system-ui,sans-serif; --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Martian Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#121214; --panel:#1B1B1E; --fg:#EDEDEA; --muted:#A2A29D; --line:#2E2E32; --tag:#EDEDEA; --tag-fg:#121214; color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#121214; --panel:#1B1B1E; --fg:#EDEDEA; --muted:#A2A29D; --line:#2E2E32; --tag:#EDEDEA; --tag-fg:#121214; color-scheme:dark }
+body { background:var(--bg); color:var(--fg); font:16px/1.5 var(--sans); }
+.wrap { max-width:1080px; margin:0 auto; padding-inline:16px; padding-block:28px 64px; }
+h1 { font-family:var(--display); font-stretch:125%; font-weight:800; font-size:clamp(30px,6vw,52px); line-height:1.02; margin:0 0 12px; letter-spacing:-.015em; text-wrap:balance }
+.lede { max-width:62ch; margin:0 0 20px; color:var(--muted) }
+.eyebrow,.k,code,.num,.reco,.gh,.cur figcaption { font-family:var(--mono); letter-spacing:.02em }
+.eyebrow { font-size:12px; text-transform:uppercase; color:var(--muted); margin:0 0 10px }
+.cur { margin:0 0 28px; display:grid; grid-template-columns:minmax(0,260px) minmax(0,1fr); gap:14px; align-items:center }
+.cur img { display:block; width:100%; opacity:.9 }
+.cur figcaption { font-size:12px; color:var(--muted) }
+.gh { font-size:12px; font-weight:500; text-transform:uppercase; color:var(--muted); margin:36px 0 12px; padding-top:14px; border-top:1px solid var(--line) }
+.grid { display:grid; grid-template-columns:minmax(0,1fr); gap:16px }
+@media (min-width:900px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.opt { background:var(--panel); border:1px solid var(--line); padding:14px; display:grid; gap:12px; align-content:start }
+.opt header { display:flex; align-items:center; gap:12px }
+.num { font-size:28px; font-weight:500; min-width:1.6em }
+.opt h2 { font-size:19px; margin:0; line-height:1.2 }
+.reco { margin-left:auto; font-size:11px; text-transform:uppercase; background:var(--tag); color:var(--tag-fg); padding:4px 8px }
+.opt img { display:block; width:100%; height:auto }
+.row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.42fr); gap:10px; align-items:center }
+.meta { display:grid; grid-template-columns:minmax(0,1fr); gap:12px; align-items:center }
+.sws { list-style:none; margin:0; padding:0; display:grid; gap:6px }
+.sws li { display:flex; align-items:center; gap:10px; font-size:13px }
+.sws b { font-weight:600; margin-right:8px }
+.sw { width:22px; height:22px; flex:none; background:var(--c); border:1px solid var(--line) }
+code { font-size:12px; color:var(--muted) }
+.fav { image-rendering:pixelated; max-width:260px }
+.k { font-size:11px; color:var(--muted); margin:6px 0 0 }
+.why { margin:0; max-width:70ch }
+.end { margin-top:36px; color:var(--muted); max-width:62ch }
+@media (max-width:640px) {
+  .row { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .row .ic { grid-column:1 / -1; max-width:120px }
+  .cur { grid-template-columns:minmax(0,1fr) }
+}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">wubba · direction A · couleur de marque</p>
+  <h1>Couleurs wubba</h1>
+  <p class="lede">Le même logo, douze couleurs. Pour chaque option : la bannière X, le logo sur fond clair et sombre, l'icône, et le favicon rendu à 16, 24, 32 et 48 pixels réels. Réponds-moi simplement avec le numéro.</p>
+  <figure class="cur"><img src="img/0-x.webp" alt="Version actuelle : encre et point rouge"><figcaption>Point de départ écarté : encre et point rouge, trop proches du logo Ironman.</figcaption></figure>
+  <h3 class="gh">Le point change</h3><div class="grid">
+<article class="opt" id="c1">
+  <header><span class="num">1</span><h2>Outremer</h2></header>
+  <img class="banner" src="img/1-x.webp" alt="Bannière X, option 1 Outremer" loading="lazy">
+  <div class="row">
+    <img src="img/1-light.webp" alt="Logo sur fond clair, option 1" loading="lazy">
+    <img src="img/1-dark.webp" alt="Logo sur fond sombre, option 1" loading="lazy">
+    <img class="ic" src="img/1-icon.webp" alt="Icône, option 1" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#6272FF"></span><span><b>Point</b><code>#6272FF</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#2F46FF"></span><span><b>Point sur clair</b><code>#2F46FF</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/1-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 1" loading="lazy">
+    <p class="k">Point sur fond : 4.9:1 en sombre, 5.4:1 en clair</p></div>
+  </div>
+  <p class="why">Un bleu pur et froid, loin du rouge sportif ; il reste net à 16 px sur le noir comme sur le papier.</p>
+</article>
+<article class="opt" id="c2">
+  <header><span class="num">2</span><h2>Rose direct</h2><span class="reco">Mon choix</span></header>
+  <img class="banner" src="img/2-x.webp" alt="Bannière X, option 2 Rose direct" loading="lazy">
+  <div class="row">
+    <img src="img/2-light.webp" alt="Logo sur fond clair, option 2" loading="lazy">
+    <img src="img/2-dark.webp" alt="Logo sur fond sombre, option 2" loading="lazy">
+    <img class="ic" src="img/2-icon.webp" alt="Icône, option 2" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#FF2E93"></span><span><b>Point</b><code>#FF2E93</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/2-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 2" loading="lazy">
+    <p class="k">Point sur fond : 5.5:1 en sombre, 3.0:1 en clair</p></div>
+  </div>
+  <p class="why">Presque personne ne l&#x27;utilise dans le matériel gaming ; il garde l&#x27;énergie d&#x27;un voyant sans être rouge.</p>
+</article>
+<article class="opt" id="c3">
+  <header><span class="num">3</span><h2>Orange</h2></header>
+  <img class="banner" src="img/3-x.webp" alt="Bannière X, option 3 Orange" loading="lazy">
+  <div class="row">
+    <img src="img/3-light.webp" alt="Logo sur fond clair, option 3" loading="lazy">
+    <img src="img/3-dark.webp" alt="Logo sur fond sombre, option 3" loading="lazy">
+    <img class="ic" src="img/3-icon.webp" alt="Icône, option 3" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#F25A00"></span><span><b>Point</b><code>#F25A00</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/3-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 3" loading="lazy">
+    <p class="k">Point sur fond : 5.7:1 en sombre, 3.0:1 en clair</p></div>
+  </div>
+  <p class="why">Le voyant devient ambre, chaud et visible ; mais sur le noir, de loin, il tire encore vers le rouge, et SteelSeries est orange.</p>
+</article>
+<article class="opt" id="c4">
+  <header><span class="num">4</span><h2>Cyan</h2></header>
+  <img class="banner" src="img/4-x.webp" alt="Bannière X, option 4 Cyan" loading="lazy">
+  <div class="row">
+    <img src="img/4-light.webp" alt="Logo sur fond clair, option 4" loading="lazy">
+    <img src="img/4-dark.webp" alt="Logo sur fond sombre, option 4" loading="lazy">
+    <img class="ic" src="img/4-icon.webp" alt="Icône, option 4" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#00B8E6"></span><span><b>Point</b><code>#00B8E6</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#0091C2"></span><span><b>Point sur clair</b><code>#0091C2</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/4-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 4" loading="lazy">
+    <p class="k">Point sur fond : 8.2:1 en sombre, 3.2:1 en clair</p></div>
+  </div>
+  <p class="why">La couleur des écrans et des câbles lumineux ; attention, plusieurs marques de périphériques jouent déjà dans ces bleus.</p>
+</article>
+<article class="opt" id="c5">
+  <header><span class="num">5</span><h2>Vert en ligne</h2></header>
+  <img class="banner" src="img/5-x.webp" alt="Bannière X, option 5 Vert en ligne" loading="lazy">
+  <div class="row">
+    <img src="img/5-light.webp" alt="Logo sur fond clair, option 5" loading="lazy">
+    <img src="img/5-dark.webp" alt="Logo sur fond sombre, option 5" loading="lazy">
+    <img class="ic" src="img/5-icon.webp" alt="Icône, option 5" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#00C46A"></span><span><b>Point</b><code>#00C46A</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#00A35A"></span><span><b>Point sur clair</b><code>#00A35A</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/5-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 5" loading="lazy">
+    <p class="k">Point sur fond : 8.3:1 en sombre, 2.9:1 en clair</p></div>
+  </div>
+  <p class="why">Le point devient le voyant « en ligne » d&#x27;un profil ; attention, Razer, Xbox et Nvidia sont tous verts.</p>
+</article>
+<article class="opt" id="c6">
+  <header><span class="num">6</span><h2>Lilas</h2></header>
+  <img class="banner" src="img/6-x.webp" alt="Bannière X, option 6 Lilas" loading="lazy">
+  <div class="row">
+    <img src="img/6-light.webp" alt="Logo sur fond clair, option 6" loading="lazy">
+    <img src="img/6-dark.webp" alt="Logo sur fond sombre, option 6" loading="lazy">
+    <img class="ic" src="img/6-icon.webp" alt="Icône, option 6" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E0F12"></span><span><b>Fond sombre</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#9B7BFF"></span><span><b>Point</b><code>#9B7BFF</code></span></li><li><span class="sw" style="--c:#0E0F12"></span><span><b>Mot sur clair</b><code>#0E0F12</code></span></li><li><span class="sw" style="--c:#7C5CFF"></span><span><b>Point sur clair</b><code>#7C5CFF</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/6-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 6" loading="lazy">
+    <p class="k">Point sur fond : 6.1:1 en sombre, 3.8:1 en clair</p></div>
+  </div>
+  <p class="why">Doux et inattendu ; sur fond sombre, il se rapproche du violet de Twitch.</p>
+</article></div><h3 class="gh">La couleur prend le fond</h3><div class="grid">
+<article class="opt" id="c7">
+  <header><span class="num">7</span><h2>Nuit et orange</h2></header>
+  <img class="banner" src="img/7-x.webp" alt="Bannière X, option 7 Nuit et orange" loading="lazy">
+  <div class="row">
+    <img src="img/7-light.webp" alt="Logo sur fond clair, option 7" loading="lazy">
+    <img src="img/7-dark.webp" alt="Logo sur fond sombre, option 7" loading="lazy">
+    <img class="ic" src="img/7-icon.webp" alt="Icône, option 7" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#111A3B"></span><span><b>Fond sombre</b><code>#111A3B</code></span></li><li><span class="sw" style="--c:#FF7A1A"></span><span><b>Point</b><code>#FF7A1A</code></span></li><li><span class="sw" style="--c:#111A3B"></span><span><b>Mot sur clair</b><code>#111A3B</code></span></li><li><span class="sw" style="--c:#F25A00"></span><span><b>Point sur clair</b><code>#F25A00</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/7-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 7" loading="lazy">
+    <p class="k">Point sur fond : 6.5:1 en sombre, 3.0:1 en clair</p></div>
+  </div>
+  <p class="why">Le noir disparaît : un bleu nuit profond porte la marque, le point orange s&#x27;y détache à 6,5:1.</p>
+</article>
+<article class="opt" id="c8">
+  <header><span class="num">8</span><h2>Forêt et lime</h2></header>
+  <img class="banner" src="img/8-x.webp" alt="Bannière X, option 8 Forêt et lime" loading="lazy">
+  <div class="row">
+    <img src="img/8-light.webp" alt="Logo sur fond clair, option 8" loading="lazy">
+    <img src="img/8-dark.webp" alt="Logo sur fond sombre, option 8" loading="lazy">
+    <img class="ic" src="img/8-icon.webp" alt="Icône, option 8" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0E2B22"></span><span><b>Fond sombre</b><code>#0E2B22</code></span></li><li><span class="sw" style="--c:#C4F03D"></span><span><b>Point</b><code>#C4F03D</code></span></li><li><span class="sw" style="--c:#0E2B22"></span><span><b>Mot sur clair</b><code>#0E2B22</code></span></li><li><span class="sw" style="--c:#5E9E00"></span><span><b>Point sur clair</b><code>#5E9E00</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/8-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 8" loading="lazy">
+    <p class="k">Point sur fond : 11.4:1 en sombre, 2.9:1 en clair</p></div>
+  </div>
+  <p class="why">Un vert forêt presque noir et un point lime : le dehors, le terrain où le matériel n&#x27;a rien à faire.</p>
+</article>
+<article class="opt" id="c9">
+  <header><span class="num">9</span><h2>Bleu électrique et jaune</h2><span class="reco">Mon choix</span></header>
+  <img class="banner" src="img/9-x.webp" alt="Bannière X, option 9 Bleu électrique et jaune" loading="lazy">
+  <div class="row">
+    <img src="img/9-light.webp" alt="Logo sur fond clair, option 9" loading="lazy">
+    <img src="img/9-dark.webp" alt="Logo sur fond sombre, option 9" loading="lazy">
+    <img class="ic" src="img/9-icon.webp" alt="Icône, option 9" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#1D2FD6"></span><span><b>Fond sombre</b><code>#1D2FD6</code></span></li><li><span class="sw" style="--c:#FFD23F"></span><span><b>Point</b><code>#FFD23F</code></span></li><li><span class="sw" style="--c:#1D2FD6"></span><span><b>Mot sur clair</b><code>#1D2FD6</code></span></li><li><span class="sw" style="--c:#E0A000"></span><span><b>Point sur clair</b><code>#E0A000</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/9-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 9" loading="lazy">
+    <p class="k">Point sur fond : 6.0:1 en sombre, 2.0:1 en clair</p></div>
+  </div>
+  <p class="why">La plus franche : un fond bleu vif qu&#x27;on repère de loin dans un fil, le point jaune comme un soleil. Bleu et jaune ensemble rappellent un peu IKEA.</p>
+</article>
+<article class="opt" id="c10">
+  <header><span class="num">10</span><h2>Aubergine et rose</h2></header>
+  <img class="banner" src="img/10-x.webp" alt="Bannière X, option 10 Aubergine et rose" loading="lazy">
+  <div class="row">
+    <img src="img/10-light.webp" alt="Logo sur fond clair, option 10" loading="lazy">
+    <img src="img/10-dark.webp" alt="Logo sur fond sombre, option 10" loading="lazy">
+    <img class="ic" src="img/10-icon.webp" alt="Icône, option 10" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#2A1233"></span><span><b>Fond sombre</b><code>#2A1233</code></span></li><li><span class="sw" style="--c:#FF5AA5"></span><span><b>Point</b><code>#FF5AA5</code></span></li><li><span class="sw" style="--c:#2A1233"></span><span><b>Mot sur clair</b><code>#2A1233</code></span></li><li><span class="sw" style="--c:#E8337F"></span><span><b>Point sur clair</b><code>#E8337F</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/10-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 10" loading="lazy">
+    <p class="k">Point sur fond : 5.9:1 en sombre, 3.5:1 en clair</p></div>
+  </div>
+  <p class="why">Sombre et chaude à la fois ; plus lifestyle que tech, à l&#x27;opposé des marques de matériel.</p>
+</article></div><h3 class="gh">Le mot en couleur</h3><div class="grid">
+<article class="opt" id="c11">
+  <header><span class="num">11</span><h2>Mot outremer, point rose</h2><span class="reco">Mon choix</span></header>
+  <img class="banner" src="img/11-x.webp" alt="Bannière X, option 11 Mot outremer, point rose" loading="lazy">
+  <div class="row">
+    <img src="img/11-light.webp" alt="Logo sur fond clair, option 11" loading="lazy">
+    <img src="img/11-dark.webp" alt="Logo sur fond sombre, option 11" loading="lazy">
+    <img class="ic" src="img/11-icon.webp" alt="Icône, option 11" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0B0E2A"></span><span><b>Fond sombre</b><code>#0B0E2A</code></span></li><li><span class="sw" style="--c:#FF2E93"></span><span><b>Point</b><code>#FF2E93</code></span></li><li><span class="sw" style="--c:#2F46FF"></span><span><b>Mot sur clair</b><code>#2F46FF</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/11-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 11" loading="lazy">
+    <p class="k">Point sur fond : 5.5:1 en sombre, 3.0:1 en clair</p></div>
+  </div>
+  <p class="why">Deux couleurs vives au lieu d&#x27;une : le mot en bleu, le point en rose. La plus joueuse.</p>
+</article>
+<article class="opt" id="c12">
+  <header><span class="num">12</span><h2>Mot forêt, point orange</h2></header>
+  <img class="banner" src="img/12-x.webp" alt="Bannière X, option 12 Mot forêt, point orange" loading="lazy">
+  <div class="row">
+    <img src="img/12-light.webp" alt="Logo sur fond clair, option 12" loading="lazy">
+    <img src="img/12-dark.webp" alt="Logo sur fond sombre, option 12" loading="lazy">
+    <img class="ic" src="img/12-icon.webp" alt="Icône, option 12" loading="lazy">
+  </div>
+  <div class="meta">
+    <ul class="sws"><li><span class="sw" style="--c:#0F3D2E"></span><span><b>Fond sombre</b><code>#0F3D2E</code></span></li><li><span class="sw" style="--c:#FF7A1A"></span><span><b>Point</b><code>#FF7A1A</code></span></li><li><span class="sw" style="--c:#0F3D2E"></span><span><b>Mot sur clair</b><code>#0F3D2E</code></span></li><li><span class="sw" style="--c:#F25A00"></span><span><b>Point sur clair</b><code>#F25A00</code></span></li></ul>
+    <div class="side"><img class="fav" src="img/12-fav.webp" alt="Favicon à 16, 24, 32 et 48 pixels réels, option 12" loading="lazy">
+    <p class="k">Point sur fond : 4.7:1 en sombre, 2.9:1 en clair</p></div>
+  </div>
+  <p class="why">Un vert profond et un orange de balisage : l&#x27;équipement de plein air plutôt que le bureau gamer.</p>
+</article></div>
+  <p class="end">Les couleurs viennent seules : le dessin du logo ne bouge pas. Une fois la couleur choisie, on passe à la typographie.</p>
+</div>
