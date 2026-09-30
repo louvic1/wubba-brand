@@ -9,6 +9,7 @@
     "shots": "node build.mjs && node tools/shoot.mjs"
   },
   "devDependencies": {
-    "axe-core": "^4.10.0"
+    "axe-core": "^4.10.0",
+    "pdfjs-dist": "^6.3.289"
   }
 }

@@ -318,6 +318,8 @@ function form() {
     $("[data-handoff-title]", el).textContent = failed
       ? "It didn’t go through. Send it from your email instead."
       : "One more step: send it from your email.";
+    handoffText.textContent = "Your brief is written and addressed. Pick how you want to send it.";
+    clearButton.hidden = true;
     ready.value = body;
     mailto.href = `mailto:${INBOX}?subject=${enc(subject)}&body=${enc(short.body)}`;
     gmail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(INBOX)}&su=${enc(subject)}&body=${enc(body)}`;
@@ -336,6 +338,25 @@ function form() {
     handoff.hidden = true;
     foot.hidden = false;
   }
+
+  // Once a way to send was picked, the panel says what comes next. It never says the email went
+  // out: the page cannot know that.
+  const handoffText = $("[data-handoff-text]", el);
+  const clearButton = $("[data-handoff-clear]", el);
+  function handedOff() {
+    $("[data-handoff-title]", el).textContent = `Sent it? We reply from ${INBOX}.`;
+    handoffText.textContent = "If nothing opened, pick another way below.";
+    clearButton.hidden = false;
+  }
+  [gmail, outlook, mailto].forEach((link) => link.addEventListener("click", handedOff));
+  clearButton.addEventListener("click", () => {
+    message.value = "";
+    draft.set("brief", "");
+    updateCount();
+    closeHandoff();
+    announce("Brief cleared.");
+    message.focus();
+  });
 
   function sent() {
     el.classList.add("is-sent");
@@ -493,21 +514,24 @@ function films() {
 
 // ------------------------------------------------------------------ the horizons draw in when they come into view
 
+// The head script sets .reveal-ready before the first paint, so a reveal only ever draws in.
+// Anything on screen draws at once; the rest draws as it scrolls into view. .reveal-live tells
+// the head script's fail-safe that this ran.
 function reveals() {
   const items = $$("[data-reveal]");
-  if (!items.length || !("IntersectionObserver" in window)) return;
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add("is-in");
-        observer.unobserve(entry.target);
-      }
-    },
-    { rootMargin: "0px 0px -12% 0px" },
-  );
+  document.documentElement.classList.add("reveal-live");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((item) => item.classList.add("is-in"));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add("is-in");
+      observer.unobserve(entry.target);
+    }
+  });
   items.forEach((item) => observer.observe(item));
-  document.documentElement.classList.add("reveal-ready");
 }
 
 bar();

@@ -510,7 +510,6 @@ button {
   gap: 28px;
   margin-right: 20px;
   view-transition-name: bar-nav;
-  transition: margin-right var(--duration-fast) var(--ease-smooth-out);
 }
 
 .bar__nav a {
@@ -542,45 +541,42 @@ button {
 }
 
 .bar__cta {
-  max-width: 13rem;
   min-height: 40px;
   padding: 0 16px;
-  overflow: hidden;
   font-size: 0.9375rem;
   view-transition-name: bar-cta;
   transition:
     background-color var(--duration-fast) var(--ease-smooth-out),
-    opacity var(--duration-fast) var(--ease-smooth-out),
-    max-width var(--duration-fast) var(--ease-smooth-out),
-    padding var(--duration-fast) var(--ease-smooth-out),
-    margin var(--duration-fast) var(--ease-smooth-out),
+    border-color var(--duration-fast) var(--ease-smooth-out),
+    color var(--duration-fast) var(--ease-smooth-out),
+    opacity var(--duration-quick) var(--ease-smooth-out),
     visibility 0s linear 0s;
 }
 
-/* one green action per screen: while the page shows its own, the bar's button folds away
-   and the navigation takes its place, so no empty slot is left behind.
-   Pages whose action sits on the first screen start folded (set before first paint). */
+/* one green action per screen: while the page shows its own, the bar's button steps back to an
+   outline, in place, so the navigation never moves. Pages whose action sits on the first screen
+   start that way (set before first paint); on /brief it stays an outline. */
 .primary-in-view .bar__cta,
-.menu-open .bar__cta,
 .bar__cta[aria-current="page"] {
-  max-width: 0;
-  margin-left: -12px;
-  padding-inline: 0;
-  border-width: 0;
+  border-color: var(--line-ui);
+  background: transparent;
+  color: var(--ink);
+}
+
+.primary-in-view .bar__cta:hover,
+.bar__cta[aria-current="page"]:hover {
+  border-color: var(--white);
+  background: transparent;
+}
+
+/* the open menu carries its own button; this one keeps its place, unseen */
+.menu-open .bar__cta {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition:
     opacity var(--duration-quick) var(--ease-smooth-out),
-    max-width var(--duration-fast) var(--ease-smooth-out),
-    padding var(--duration-fast) var(--ease-smooth-out),
-    margin var(--duration-fast) var(--ease-smooth-out),
-    visibility 0s linear var(--duration-fast);
-}
-
-.primary-in-view .bar__nav,
-.bar__in:has(.bar__cta[aria-current="page"]) .bar__nav {
-  margin-right: 0;
+    visibility 0s linear var(--duration-quick);
 }
 
 .bar__menu {
@@ -761,8 +757,10 @@ button {
 }
 
 .menu__cap {
-  font: 500 var(--fs-meta) / 1.4 var(--mono);
-  color: var(--ink-3);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink-2);
 }
 
 .menu__foot .btn {
@@ -851,7 +849,9 @@ button {
   }
 }
 
+/* the figure is its own container, so 98.8M spans whatever column it sits in */
 .figure {
+  container-type: inline-size;
   margin-top: clamp(24px, 3vw, 48px);
 }
 
@@ -864,36 +864,24 @@ button {
   font-variant-numeric: lining-nums proportional-nums;
 }
 
-.figure__num .g {
-  display: inline-block;
-}
-
-/* the decimal point is the logo's dot: round, green */
-.point {
+/* inline, never inline-block: the figure stays one run of text, so it copies, finds and prints
+   as 98.8M. The glyphs move with `top`, which works on inline boxes where transforms do not;
+   print sets them back to static so they print in reading order. */
+.figure__num .g,
+.figure__num .point {
   position: relative;
-  display: inline-block;
-  width: 0.235em;
-  height: 0.18em;
-  vertical-align: baseline;
 }
 
-.point::before {
-  content: "";
-  position: absolute;
-  left: 0.03em;
-  bottom: 0;
-  width: 0.18em;
-  height: 0.18em;
-  border-radius: 50%;
-  background: var(--dot);
-}
-
-/* out of the line box, so the drawn point keeps its place */
-.point__char {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  color: transparent;
+/* the decimal point is the logo's dot: round, green. It is the real "." of the figure, set in
+   Figtree, whose period is round where Sora's is square: 0.18em of the figure, sitting on the
+   baseline, tight to the digit before it. Line height 0 keeps the larger size out of the line box. */
+.point {
+  margin: 0 0.0036em 0 -0.0222em;
+  font: 600 1.282em / 0 var(--text);
+  vertical-align: 0.0144em;
+  color: var(--dot);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .figure__num .g:nth-child(2) {
@@ -956,8 +944,9 @@ button {
 }
 
 /* laptop and desktop windows that are short (1366x657, 1280x609): tighter rhythm, and the figure
-   gives up a little width so "The guy in it doesn't exist." still lands on the first screen */
-@media (min-width: 761px) and (max-height: 820px) {
+   gives up a little width so "The guy in it doesn't exist." still lands on the first screen.
+   It never drops below three quarters of its width; under 600px tall the two-column hook takes over. */
+@media (min-width: 761px) and (max-height: 820px) and (min-height: 600px) {
   .hero {
     padding-top: 12px;
   }
@@ -968,7 +957,7 @@ button {
     margin-top: 28px;
   }
   .figure__num {
-    font-size: min(calc(100cqi / 2.99), calc((100svh - var(--hero-rest)) / 0.78));
+    font-size: max(calc(100cqi / 4), min(calc(100cqi / 2.99), calc((100svh - var(--hero-rest)) / 0.78)));
   }
   .figure__cap {
     margin-top: 6px;
@@ -1004,6 +993,10 @@ button {
     order: 4;
     margin-top: 28px;
   }
+}
+
+/* the caption in two rows wherever the figure is narrow: phones, and the landscape hook's column */
+@media (max-width: 760px), (min-width: 560px) and (max-height: 599px) {
   .figure__cap {
     grid-template-columns: 1fr 1fr;
   }
@@ -1021,12 +1014,68 @@ button {
   }
 }
 
+/* on phones the two actions share the width, or each takes a full line when they wrap */
 @media (max-width: 560px) {
   .hero__actions {
     gap: 10px;
   }
   .hero__actions .btn {
+    flex: 1 1 auto;
     padding: 0 16px;
+  }
+}
+
+/* phones on their side, and any window under 600px tall: the hook in two columns. Headline and
+   actions on the left; the figure, at the full width of its column, and the twist on the right. */
+@media (min-width: 560px) and (max-height: 599px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(24px, 4vw, 56px);
+    padding-top: 14px;
+    padding-bottom: 40px;
+  }
+  .hero__head {
+    display: grid;
+    grid-template: none;
+    grid-row: 1 / span 2;
+    align-content: start;
+    gap: 20px;
+  }
+  .hero__title,
+  .hero__actions {
+    grid-area: auto;
+  }
+  .hero__title {
+    font-size: clamp(1.75rem, 0.9rem + 2.9vw, 3rem);
+  }
+  .hero__sub {
+    max-width: none;
+    margin-top: 0.45em;
+    font-size: clamp(1rem, 0.75rem + 0.9vw, 1.25rem);
+  }
+  .hero__actions {
+    justify-self: start;
+    align-self: start;
+    margin-top: 0;
+  }
+  .figure {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 6px;
+  }
+  .figure__cap .cell {
+    padding-top: 10px;
+  }
+  .figure__cap .cell:first-child {
+    padding-bottom: 10px;
+  }
+  .hero__twist {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 14px;
+    font-size: clamp(1.375rem, 0.8rem + 1.9vw, 2rem);
   }
 }
 
@@ -1056,7 +1105,8 @@ button {
   color: var(--ink-2);
 }
 
-/* one line across the whole screen, and the point resting on it: the middle of the ocean */
+/* one line across the whole screen, and the point floating on it: the middle of the ocean.
+   The point is the hero's decimal point at the scale of the section; the facts hang from the line. */
 .scene__horizon {
   position: relative;
   height: 1px;
@@ -1074,7 +1124,7 @@ button {
   position: absolute;
   left: 61%;
   bottom: 1px;
-  width: clamp(12px, 1.5vw, 22px);
+  width: clamp(28px, 4.4vw, 64px);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--dot);
@@ -1091,15 +1141,28 @@ button {
   display: none;
 }
 
-.scene__sea {
-  padding-top: clamp(40px, 5vw, 72px);
-}
-
 .scene__facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px var(--gap);
+  gap: 0 var(--gap);
   align-items: start;
+}
+
+/* each fact hangs on a line dropped from the horizon */
+.fact {
+  position: relative;
+  padding-top: clamp(56px, 6.4vw, 96px);
+}
+
+.fact::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: calc(clamp(56px, 6.4vw, 96px) - 18px);
+  background: var(--line-ui);
+  transform-origin: top center;
 }
 
 .scene__links {
@@ -1195,11 +1258,11 @@ button {
   padding: 7cqi;
 }
 
+/* two lines, always the same break: "Counter-Strike," then "middle of the ocean" (9.7em at this
+   tracking, so 8.4cqi keeps it inside the card's 86cqi) */
 .card__title {
-  font: 700 9cqi / 1.02 var(--display);
+  font: 700 8.4cqi / 1.02 var(--display);
   letter-spacing: -0.03em;
-  max-width: 14ch;
-  text-wrap: balance;
 }
 
 .card__cta {
@@ -1219,12 +1282,6 @@ a.card:hover {
 
 a.card:hover .card__cta .icon {
   transform: translate(2px, -2px);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html:not(.reveal-ready) .card__point {
-    animation: bob 3.4s ease-in-out infinite;
-  }
 }
 
 @keyframes bob {
@@ -1471,10 +1528,12 @@ a.card:hover .card__cta .icon {
   gap: 22px;
 }
 
+/* a field scrolled to after an error clears the bar above and leaves room for the button below */
 .field {
   display: grid;
   gap: 8px;
   scroll-margin-top: calc(var(--bar-h) + var(--safe-top) + 24px);
+  scroll-margin-bottom: 96px;
 }
 
 .field label {
@@ -1694,6 +1753,12 @@ a.card:hover .card__cta .icon {
 
 .handoff__actions > :first-child {
   grid-column: 1 / -1;
+}
+
+.handoff__more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 28px;
 }
 
 .handoff__copy {
@@ -2087,10 +2152,14 @@ a.card:hover .card__cta .icon {
   container-type: inline-size;
 }
 
+/* pinned under the bar, and never taller than the window: at laptop heights the card gets
+   narrower, so it shows whole on arrival and its title and link stay on screen for the whole pin */
 .series-top__card {
   grid-column: 9 / -1;
   grid-row: 1 / span 2;
   align-self: start;
+  justify-self: end;
+  width: min(100%, calc((100svh - var(--bar-h) - var(--safe-top) - clamp(40px, 5vw, 72px) - 24px) * 9 / 16));
   position: sticky;
   top: calc(var(--bar-h) + var(--safe-top) + 24px);
   margin-top: clamp(40px, 5vw, 72px);
@@ -2111,6 +2180,8 @@ a.card:hover .card__cta .icon {
   }
   .series-top__card {
     position: static;
+    justify-self: stretch;
+    width: auto;
     margin-top: 48px;
   }
 }
@@ -2161,8 +2232,12 @@ a.card:hover .card__cta .icon {
   letter-spacing: -0.03em;
 }
 
+/* the measure sits on the paragraph, so the rule under the item runs the full width */
 .record__text {
   color: var(--ink-2);
+}
+
+.record__text p {
   max-width: 56ch;
 }
 
@@ -2214,7 +2289,7 @@ a.card:hover .card__cta .icon {
    on the horizon. The heading sits above it; the button and the idea sit on it. The crop never
    changes character: always exactly half, and either a clear margin or a clear bleed at the sides. */
 .disc-band {
-  --r: clamp(320px, 30vw, 440px);
+  --r: max(250px, min(30vw, 440px, 45svh));
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -2290,20 +2365,18 @@ a.card:hover .card__cta .icon {
   color: var(--green);
 }
 
-/* below 900px the disc is wider than the screen and bleeds the same amount on both sides */
-@media (max-width: 900px) {
+/* From 641px the disc sits inside the band with a clear margin, never taller than about half the
+   window. On phones it is wider than the screen and bleeds the same amount on both sides. */
+@media (max-width: 640px) {
   .disc-band {
     --r: max(230px, 62vw);
   }
-}
-
-@media (max-width: 640px) {
   .disc-band__acts {
     gap: 14px;
   }
   .disc-band__try {
-    max-width: 280px;
     font-size: var(--fs-small);
+    text-wrap: balance;
   }
 }
 
@@ -2631,35 +2704,36 @@ a.card:hover .card__cta .icon {
 
 /* ---------------------------------------------------------------- motion */
 
-/* The one authored moment: the figure rises, then the point drops into place. */
+/* The one authored moment: the figure rises, then the point drops into place.
+   Fill mode backwards: once it has played nothing stays applied (no leftover blur or transform). */
 @media (prefers-reduced-motion: no-preference) {
   .js .figure__num .g {
-    animation: rise 820ms var(--ease-smooth-out) both;
+    animation: rise 820ms var(--ease-smooth-out) backwards;
     animation-delay: calc(var(--i, 0) * 70ms + 80ms);
   }
 
   .js .figure__num .point {
-    animation: drop 900ms var(--ease-expo-out) 520ms both;
+    animation: drop 900ms var(--ease-expo-out) 520ms backwards;
   }
 
   .js .figure__cap {
-    animation: rule-in 700ms var(--ease-smooth-out) 420ms both;
+    animation: rule-in 700ms var(--ease-smooth-out) 420ms backwards;
     transform-origin: left center;
   }
 
   .js .figure__cap .cell {
-    animation: fade 600ms var(--ease-smooth-out) both;
+    animation: fade 600ms var(--ease-smooth-out) backwards;
     animation-delay: calc(640ms + var(--i, 0) * 60ms);
   }
 
   .js .hero__twist {
-    animation: fade 700ms var(--ease-smooth-out) 1000ms both;
+    animation: fade 700ms var(--ease-smooth-out) 1000ms backwards;
   }
 
   /* headline and actions are readable from the first frame; they only settle */
   .js .hero__title,
   .js .hero__actions {
-    animation: settle 700ms var(--ease-smooth-out) both;
+    animation: settle 700ms var(--ease-smooth-out) backwards;
   }
 
   .js .hero__actions {
@@ -2668,19 +2742,9 @@ a.card:hover .card__cta .icon {
 }
 
 /* the horizons (home scene, title card): the line draws across, then the point drops onto it.
-   .reveal-ready is set only once the observer runs, so nothing hides without it. */
+   The head script sets .reveal-ready before the first paint, so the hidden state is the first one
+   painted and the transitions only ever run towards .is-in. Without JavaScript nothing hides. */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal-ready .scene__horizon::before,
-  .reveal-ready .card__horizon {
-    transition: transform 1200ms var(--ease-expo-out);
-    transform-origin: left center;
-  }
-  .reveal-ready .scene__point,
-  .reveal-ready .card__point {
-    transition:
-      opacity 300ms var(--ease-smooth-out) 450ms,
-      transform 900ms var(--ease-expo-out) 450ms;
-  }
   .reveal-ready [data-reveal]:not(.is-in)::before,
   .reveal-ready [data-reveal]:not(.is-in) .card__horizon {
     transform: scaleX(0);
@@ -2690,32 +2754,55 @@ a.card:hover .card__cta .icon {
     opacity: 0;
     transform: translateY(-3.5rem);
   }
+  .reveal-ready [data-reveal].is-in::before,
+  .reveal-ready [data-reveal].is-in .card__horizon {
+    transition: transform 1200ms var(--ease-expo-out);
+    transform-origin: left center;
+  }
   .reveal-ready [data-reveal].is-in .scene__point,
   .reveal-ready [data-reveal].is-in .card__point {
+    transition:
+      opacity 300ms var(--ease-smooth-out) 450ms,
+      transform 900ms var(--ease-expo-out) 450ms;
     animation: bob 3.4s ease-in-out 1.5s infinite;
+  }
+  /* the lines the facts hang from drop once the horizon is drawing */
+  .reveal-ready .scene:has(.scene__horizon:not(.is-in)) .fact::before {
+    transform: scaleY(0);
+  }
+  .reveal-ready .scene:has(.scene__horizon.is-in) .fact::before {
+    transition: transform 700ms var(--ease-expo-out) calc(300ms + var(--i, 0) * 90ms);
+  }
+  .scene__facts .fact:nth-child(2) {
+    --i: 1;
+  }
+  .scene__facts .fact:nth-child(3) {
+    --i: 2;
   }
 }
 
+/* the figure's glyphs are inline (one run of text), so they move with `top`, not transforms */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(0.14em);
+    top: 0.14em;
     filter: blur(10px);
   }
 }
 
-/* the point falls from inside its own line, never across the headline */
+/* the point falls from inside its own line, never across the headline
+   (0.273em of the point's own size is 0.35em of the figure) */
 @keyframes drop {
   0% {
     opacity: 0;
-    transform: translateY(-0.35em);
+    top: -0.273em;
   }
   35% {
     opacity: 1;
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    top: 0;
   }
 }
 
@@ -2746,12 +2833,19 @@ a.card:hover .card__cta .icon {
   navigation: auto;
 }
 
+/* the old page is gone before the new one comes in, so two pages never show at once; the bar's
+   parts keep their size from page to page, so they cross-fade in place */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {
-    animation: vt-out var(--duration-quick) var(--ease-smooth-out) both;
+    animation: vt-out 120ms var(--ease-smooth-out) both;
   }
   ::view-transition-new(root) {
-    animation: vt-in var(--duration-slow) var(--ease-smooth-out) both;
+    animation: vt-in 320ms var(--ease-smooth-out) 110ms both;
+  }
+  ::view-transition-old(bar-cta),
+  ::view-transition-new(bar-cta) {
+    height: 100%;
+    object-fit: none;
   }
 }
 
@@ -2796,6 +2890,13 @@ a.card:hover .card__cta .icon {
 }
 
 @media print {
+  /* the page prints at rest: an animation left filling (a blur of 0, a transform) would print as an image */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
   :root {
     color-scheme: light;
     --ink: #000;
@@ -2957,6 +3058,24 @@ a.card:hover .card__cta .icon {
   .print-only {
     display: block;
   }
+  /* reveals print drawn, whether or not they were scrolled to */
+  [data-reveal]::before,
+  [data-reveal] .card__horizon,
+  [data-reveal] .scene__point,
+  [data-reveal] .card__point,
+  .fact::before {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  /* /brief on paper: where to send it and what happens next, without the form and the builder */
+  .brief-grid {
+    display: none !important;
+  }
+  .brief-print {
+    margin: 1mm 0 6mm;
+    font-size: 11pt;
+    font-weight: 600;
+  }
   .print-head {
     display: flex;
     align-items: center;
@@ -2999,6 +3118,10 @@ a.card:hover .card__cta .icon {
   }
   .figure__num {
     font-size: calc(100cqi / 3.1);
+  }
+  .figure__num .g,
+  .figure__num .point {
+    position: static;
   }
   .figure__cap {
     margin-top: 1.5mm;
@@ -3051,8 +3174,12 @@ a.card:hover .card__cta .icon {
   .scene__point {
     width: 2.2mm;
   }
-  .scene__sea {
-    padding-top: 2.5mm;
+  .fact {
+    padding-top: 3.5mm;
+  }
+  .fact::before {
+    height: 2.5mm;
+    background: #8a8a8a;
   }
   .scene__facts {
     grid-template-columns: 1fr 2fr 1fr !important;

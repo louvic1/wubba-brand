@@ -18,10 +18,10 @@ The site, rebuilt on the new identity: black, white, the green point, Sora, Figt
 
 ```bash
 cd site
-npm install             # once, for the tests
+npm install             # once, for the tests (axe-core, and pdf.js to read the text of the PDFs)
 npm run build           # src/ -> dist/ (production) and preview/ (claude.ai preview)
 node tools/serve.mjs    # http://127.0.0.1:4173, behaves like Vercel (clean URLs, 404 page)
-npm test                # build, then the gate: every page at 6 widths, fold, contrast, accessibility, links, form, menu, film, print
+npm test                # build, then the gate: every page at 7 widths, real windows (laptops, phones upright and on their side), the first frame and the reveals with motion on, contrast, accessibility, links, form, menu, film, the print of every page and the text of the PDFs
 npm run assets          # redraw the social card and reprint the one-sheet PDF (needs Chromium, run before committing)
 npm run shots           # screenshots of every page in tests/shots/
 ```
@@ -42,9 +42,9 @@ The logo files and fonts come from `../src/site_assets.py`, the same drawing as 
 Edit `site.config.json`, then rebuild:
 
 - `tf1`: the URL of the TF1 fact-check. The "Read the TF1 fact-check" link stays hidden until it is set.
-- `instagram`: the account where the series lives. It drives the hero's "Watch the series" button and the title card. Check it is the link you want public.
+- `instagram`: the account where the series lives. It drives the "The first series on Instagram" links (hero, home and title card). Check it is the link you want public. Once a link to the series post itself exists, it can take its place.
 - `video.src` and `video.poster`: drop the series film (MP4, vertical, muted loop) and a still into `src/assets/media/`, then point these at `/assets/media/...`. The film replaces the title card everywhere, with Pause and Sound buttons, and the hero button becomes "Watch the film".
-- `formEndpoint`: where briefs are sent (a Vercel function, Formspree, Basin...). It receives a JSON POST: `{ email, message, page }`. Until it is set, the form writes the brief as an email and offers three ways to send it: Gmail, the visitor's email app, or copy. It never says "sent" unless the endpoint answered.
+- `formEndpoint`: where briefs are sent (a Vercel function, Formspree, Basin...). It receives a JSON POST: `{ email, message, page }`. Until it is set, the form writes the brief as an email and offers four ways to send it: Gmail, Outlook, the visitor's email app, or copy. It never says "sent" unless the endpoint answered.
 
 ## Deploy on Vercel (later)
 

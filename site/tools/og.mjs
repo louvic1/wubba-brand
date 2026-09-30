@@ -18,7 +18,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><link rel="styles
   .og__line { margin: 22px 0 0; font: 600 27px/1.25 var(--display); letter-spacing: -0.015em; color: #fff; }
 </style></head><body><div class="og">
 <div class="og__top">${mark}<span>wubba.studio</span></div>
-<p class="og__num">98<span class="point"></span>8M</p>
+<p class="og__num">98<span class="point">.</span>8M</p>
 <p class="og__cap"><span>views across the series and its reposts</span><span>X, Instagram &amp; YouTube</span></p>
 <p class="og__line">We build AI streamers who test gaming gear where it has no business working.</p>
 </div></body></html>`;

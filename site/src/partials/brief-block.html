@@ -18,7 +18,7 @@
     </div>
     <div class="handoff" data-handoff hidden>
       <p class="handoff__title" tabindex="-1" data-handoff-title>One more step: send it from your email.</p>
-      <p class="handoff__text">Your brief is written and addressed. Pick how you want to send it.</p>
+      <p class="handoff__text" data-handoff-text>Your brief is written and addressed. Pick how you want to send it.</p>
       <div class="mail">
         <p class="mail__row"><span class="mail__k">To</span><span class="mail__v">{{email}}</span></p>
         <p class="mail__row"><span class="mail__k">Subject</span><span class="mail__v" data-handoff-subject>Brief for Wubba</span></p>
@@ -30,7 +30,10 @@
         <a class="btn btn--line" href="https://outlook.office.com/mail/" rel="noopener" target="_blank" data-handoff-outlook>Open in Outlook <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
         <a class="btn btn--line" href="mailto:{{email}}" data-handoff-mailto>Open my email app</a>
       </div>
-      <button class="handoff__copy" type="button" data-handoff-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-handoff-copy-label>Copy the brief</span></button>
+      <div class="handoff__more">
+        <button class="handoff__copy" type="button" data-handoff-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="swap" data-handoff-copy-label>Copy the brief</span></button>
+        <button class="handoff__copy" type="button" data-handoff-clear hidden>Clear the brief</button>
+      </div>
       <p class="handoff__note" data-handoff-long hidden>Your brief is long, so the email app only gets the first part. Copy the brief to paste all of it.</p>
     </div>
     <div class="form__status" role="status" tabindex="-1" data-status>

@@ -92,13 +92,15 @@ for (const [width, height] of VIEWPORTS) {
 
     // one green action per screen: at the top of the page, and wherever a primary action is in view
     await page.waitForTimeout(80);
+    // counted by what is painted, not by class: the bar's button stays a .btn--green while it shows as an outline
     const greens = async () =>
       page.evaluate(() =>
-        [...document.querySelectorAll(".btn--green")]
+        [...document.querySelectorAll(".btn")]
           .filter((b) => {
             const r = b.getBoundingClientRect();
             const style = getComputedStyle(b);
-            return b.offsetParent && style.visibility === "visible" && Number(style.opacity) > 0.5 && r.bottom > 0 && r.top < innerHeight;
+            const green = style.backgroundColor === "rgb(114, 172, 14)" || style.backgroundColor === "rgb(134, 198, 28)";
+            return green && b.offsetParent && style.visibility === "visible" && Number(style.opacity) > 0.5 && r.bottom > 0 && r.top < innerHeight;
           })
           .map((b) => b.textContent.trim()),
       );
@@ -248,15 +250,22 @@ for (const [width, height] of VIEWPORTS) {
 
 // ------------------------------------------------------------------ the first screen tells the whole hook
 
+// real browser windows: laptops with their toolbars, phones upright, phones on their side
 for (const [width, height] of [
   [1280, 609],
   [1366, 657],
   [1440, 789],
   [1536, 730],
   [1024, 672],
+  [1024, 600],
   [1920, 969],
   [390, 664],
   [375, 553],
+  [844, 390],
+  [926, 428],
+  [812, 375],
+  [740, 360],
+  [667, 375],
 ]) {
   const context = await browser.newContext({ viewport: { width, height }, reducedMotion: "reduce" });
   const where = `fold @${width}x${height}`;
@@ -265,9 +274,17 @@ for (const [width, height] of [
     const bottom = (s) => document.querySelector(s).getBoundingClientRect().bottom;
     const title = parseFloat(getComputedStyle(document.querySelector(".hero__title")).fontSize);
     const h2 = parseFloat(getComputedStyle(document.querySelector("main .h2")).fontSize);
-    const bar = getComputedStyle(document.querySelector(".bar__cta")).visibility === "visible";
-    return { twist: bottom(".hero__twist"), actions: bottom(".hero__actions"), bar, title, h2 };
+    const bar = getComputedStyle(document.querySelector(".bar__cta")).backgroundColor === "rgb(114, 172, 14)";
+    // the figure's glyphs against the column it sits in, and that column against the page grid
+    const glyphs = document.createRange();
+    glyphs.selectNodeContents(document.querySelector(".figure__num"));
+    const figure = document.querySelector(".figure").getBoundingClientRect().width;
+    const hero = document.querySelector(".hero");
+    const style = getComputedStyle(hero);
+    const grid = hero.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    return { twist: bottom(".hero__twist"), actions: bottom(".hero__actions"), bar, title, h2, span: glyphs.getBoundingClientRect().width / figure, column: figure / grid };
   });
+  if (fold.span < 0.7 || fold.column < 0.45) fail(where, `98.8M spans ${Math.round(fold.span * 100)}% of a column ${Math.round(fold.column * 100)}% of the grid`);
   if (fold.twist > height) fail(where, `"The guy in it doesn't exist." ends at ${Math.round(fold.twist)}px, below the fold`);
   if (fold.actions > height && !fold.bar) fail(where, "no green action on the first screen");
   if (fold.actions <= height && fold.bar) fail(where, "two green actions on the first screen");
@@ -287,11 +304,51 @@ for (const [width, height] of [
     const state = await page.evaluate(() => {
       const cta = document.querySelector(".bar__cta");
       const style = getComputedStyle(cta);
-      return { visibility: style.visibility, width: cta.getBoundingClientRect().width };
+      return { green: style.backgroundColor === "rgb(114, 172, 14)", visibility: style.visibility, width: Math.round(cta.getBoundingClientRect().width) };
     });
-    if (folded && (state.visibility !== "hidden" || state.width > 1)) fail(where, `the bar's green button shows before the page's own (${JSON.stringify(state)})`);
-    if (!folded && state.visibility !== "visible") fail(where, "the bar's button is hidden on a page without its own action");
+    if (folded && state.green) fail(where, `the bar's button is green before the page's own shows (${JSON.stringify(state)})`);
+    if (!folded && !state.green) fail(where, "the bar's button is not green on a page without its own action");
+    if (state.visibility !== "visible" || state.width < 80) fail(where, `the bar's button is not in place (${JSON.stringify(state)})`);
     await page.close();
+  }
+  await context.close();
+}
+
+// ------------------------------------------------------------------ reveals only ever draw in, motion on
+
+// sampled every frame from the navigation's commit: the line never shrinks, the point never jumps up
+for (const [path, width, height] of [["/series", 1440, 900], ["/", 2560, 1440]]) {
+  const where = `reveal ${path} @${width}x${height}`;
+  const context = await browser.newContext({ viewport: { width, height } });
+  const page = await context.newPage();
+  await page.addInitScript(() => {
+    window.__reveal = [];
+    const start = performance.now();
+    const tick = () => {
+      const point = document.querySelector(".card__point, .scene__point");
+      const line = document.querySelector(".card__horizon") || document.querySelector(".scene__horizon");
+      if (point && line) {
+        const lineBox = line.getBoundingClientRect();
+        const drawn = line.classList.contains("card__horizon")
+          ? lineBox.width
+          : lineBox.width * new DOMMatrix(getComputedStyle(line, "::before").transform).a;
+        window.__reveal.push({ lift: lineBox.top - point.getBoundingClientRect().bottom, drawn, full: lineBox.width, opacity: Number(getComputedStyle(point).opacity) });
+      }
+      if (performance.now() - start < 2600) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+  await page.goto(url + path, { waitUntil: "commit" });
+  await page.waitForTimeout(2900);
+  const frames = await page.evaluate(() => window.__reveal);
+  const jump = frames.findIndex((f, i) => i && f.opacity > 0.05 && f.lift > frames[i - 1].lift + 3);
+  const shrink = frames.findIndex((f, i) => i && f.drawn < frames[i - 1].drawn - 1);
+  const last = frames.at(-1);
+  if (!frames.length) fail(where, "no frames sampled");
+  else {
+    if (jump > 0) fail(where, `the point jumps up ${Math.round(frames[jump].lift - frames[jump - 1].lift)}px after first paint`);
+    if (shrink > 0) fail(where, "the horizon shrinks after first paint");
+    if (last.drawn < last.full - 1 || last.lift > 3 || last.opacity < 0.99) fail(where, `the reveal does not finish (${JSON.stringify(last)})`);
   }
   await context.close();
 }
@@ -325,12 +382,35 @@ for (const [width, height] of [
   await page.evaluate(() => getSelection().removeAllRanges());
   if (!/^98\.8M\s+views across the series and its reposts/.test(copiedFigure)) fail(where, `the figure copies as "${copiedFigure.slice(0, 60)}"`);
 
-  // the bar's green action waits until the hero's has scrolled away
-  const barAtTop = await page.evaluate(() => getComputedStyle(document.querySelector(".bar__cta")).visibility);
+  // ...and it is one piece of visible text: find-in-page lands on it, a triple click takes all of it
+  const found = await page.evaluate(() => {
+    getSelection().removeAllRanges();
+    const hit = window.find("98.8M", false, false, false, false, false, false);
+    const range = hit ? getSelection().getRangeAt(0).getBoundingClientRect() : null;
+    const figure = document.querySelector(".figure__num").getBoundingClientRect();
+    getSelection().removeAllRanges();
+    return hit && range.width > figure.width * 0.8;
+  });
+  if (!found) fail(where, "find-in-page does not land on the visible 98.8M");
+  const figureBox = await page.locator(".figure__num").boundingBox();
+  await page.mouse.click(figureBox.x + figureBox.width * 0.3, figureBox.y + figureBox.height / 2, { clickCount: 3 });
+  const tripled = await page.evaluate(() => getSelection().toString().trim());
+  await page.evaluate(() => getSelection().removeAllRanges());
+  if (tripled !== "98.8M") fail(where, `a triple click on the figure selects "${tripled}"`);
+
+  // the bar's button is an outline while the hero's green action shows, green once it has scrolled
+  // away, and it changes in place: the navigation never moves
+  const barState = () =>
+    page.evaluate(() => ({
+      background: getComputedStyle(document.querySelector(".bar__cta")).backgroundColor,
+      nav: Math.round(document.querySelector(".bar__nav").getBoundingClientRect().left),
+    }));
+  const barAtTop = await barState();
   await page.evaluate(() => document.querySelector(".pitch").scrollIntoView());
   await page.waitForTimeout(500);
-  const barLater = await page.evaluate(() => getComputedStyle(document.querySelector(".bar__cta")).visibility);
-  if (barAtTop !== "hidden" || barLater !== "visible") fail(where, `bar action is ${barAtTop} at the top and ${barLater} further down`);
+  const barLater = await barState();
+  if (barAtTop.background === "rgb(114, 172, 14)" || barLater.background !== "rgb(114, 172, 14)") fail(where, `bar button is ${barAtTop.background} at the top and ${barLater.background} further down`);
+  if (barAtTop.nav !== barLater.nav) fail(where, `the navigation moves ${barLater.nav - barAtTop.nav}px when the bar's button changes`);
 
   // builder: chips drive the sentence, the idea lands in the brief
   await page.click('label.chip:has(input[value="keyboard"])');
@@ -432,6 +512,23 @@ for (const [width, height] of [
     gmail: new URL(document.querySelector("[data-handoff-gmail]").href).searchParams.get("body").length,
   }));
   if (!long.note || long.mailto > 2000 || long.gmail < 2900) fail(where, `long brief ${JSON.stringify(long)}`);
+
+  // once a way to send was picked, the panel says what comes next, never that the email went out,
+  // and the brief can be cleared
+  await page.evaluate(() => {
+    const link = document.querySelector("[data-handoff-gmail]");
+    link.addEventListener("click", (event) => event.preventDefault(), { once: true });
+    link.click();
+  });
+  const after = await page.evaluate(() => ({
+    title: document.querySelector("[data-handoff-title]").textContent,
+    clear: !document.querySelector("[data-handoff-clear]").hidden,
+    sent: document.querySelector("[data-form]").classList.contains("is-sent"),
+  }));
+  if (!after.title.startsWith("Sent it?") || !after.clear || after.sent) fail(where, `after the hand-off ${JSON.stringify(after)}`);
+  await page.click("[data-handoff-clear]");
+  const clearedBrief = await page.evaluate(() => ({ message: document.querySelector("[data-message]").value, handoff: document.querySelector("[data-handoff]").hidden }));
+  if (clearedBrief.message || !clearedBrief.handoff) fail(where, `"Clear the brief" leaves ${JSON.stringify(clearedBrief)}`);
 
   // the draft survives a reload in the same tab
   await page.fill("[data-message]", text);
@@ -598,7 +695,28 @@ for (const status of [200, 500]) {
   await rm("dist/_fixture.webm");
 }
 
-// ------------------------------------------------------------------ the one-sheet prints on one white page
+// ------------------------------------------------------------------ print: the one-sheet and every page
+
+// the text a PDF reader finds in a PDF (pdf.js, in stream order), or null when pdf.js is not installed
+let pdfjs = null;
+try {
+  pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+} catch {
+  warn("print", "PDF text checks skipped: run npm install in site/");
+}
+async function pdfText(buffer) {
+  if (!pdfjs) return null;
+  const task = pdfjs.getDocument({ data: new Uint8Array(buffer), disableFontFace: true, verbosity: 0 });
+  const doc = await task.promise;
+  let text = "";
+  for (let i = 1; i <= doc.numPages; i++) {
+    const content = await (await doc.getPage(i)).getTextContent();
+    text += content.items.map((item) => item.str + (item.hasEOL ? "\n" : "")).join("") + "\n";
+  }
+  await task.destroy();
+  return text;
+}
+const pageCount = (pdf) => (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
 
 {
   const context = await browser.newContext({ viewport: { width: 1200, height: 1600 }, reducedMotion: "reduce" });
@@ -606,20 +724,39 @@ for (const status of [200, 500]) {
   const { page } = await open(context, "/", where);
   await page.emulateMedia({ media: "print", reducedMotion: "reduce" });
   const pdf = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
-  const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
-  if (pages !== 1) fail(where, `prints on ${pages} pages`);
+  if (pageCount(pdf) !== 1) fail(where, `prints on ${pageCount(pdf)} pages`);
   const ground = await page.evaluate(() => [getComputedStyle(document.documentElement).colorScheme, getComputedStyle(document.body).backgroundColor]);
   if (ground[0] !== "light" || ground[1] !== "rgb(255, 255, 255)") fail(where, `prints on ${ground.join(" / ")}`);
-  for (const [path, most] of [["/offer", 3], ["/series", 2], ["/about", 2]]) {
-    await page.goto(url + path, { waitUntil: "networkidle" });
-    await page.emulateMedia({ media: "print", reducedMotion: "reduce" });
-    const sheet = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
-    const count = (sheet.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
-    if (count > most) fail(`print ${path}`, `runs to ${count} pages (at most ${most})`);
-    const shown = await page.evaluate(() => [...document.querySelectorAll(".disc-band, .card")].filter((el) => getComputedStyle(el).display !== "none").length);
-    if (shown) fail(`print ${path}`, "prints the disc band or the title card");
-  }
+
+  // the figure is text in every PDF: the one-sheet as shipped, and a print made after the motion played
+  const shipped = await pdfText(await readFile(join("dist", "wubba-one-sheet.pdf")));
+  if (shipped !== null && !shipped.includes("98.8M")) fail(where, `the shipped PDF reads "${(shipped.match(/9\S*\s?\S*8M/) || ["no figure"])[0]}"`);
+  const moving = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const { page: played } = await open(moving, "/", "print / after motion");
+  await played.waitForTimeout(2200);
+  await played.emulateMedia({ media: "print" });
+  const after = await pdfText(await played.pdf({ format: "A4", printBackground: true }));
+  if (after !== null && !(after.includes("98.8M") && after.includes("We build AI streamers"))) fail("print / after motion", "the hero prints as an image, not text");
+  await moving.close();
+
   await context.close();
+
+  // every other page prints short, without the screen-only devices
+  const paper = await browser.newContext({ viewport: { width: 1200, height: 1600 }, reducedMotion: "reduce" });
+  for (const [path, most] of [["/offer", 3], ["/series", 2], ["/about", 2], ["/brief", 1], ["/privacy", 2], ["/does-not-exist", 1]]) {
+    const { page: sheetPage } = await open(paper, path, `print ${path}`);
+    await sheetPage.emulateMedia({ media: "print", reducedMotion: "reduce" });
+    const sheet = await sheetPage.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
+    if (pageCount(sheet) > most) fail(`print ${path}`, `runs to ${pageCount(sheet)} pages (at most ${most})`);
+    const shown = await sheetPage.evaluate(() => [...document.querySelectorAll(".disc-band, .card, .builder")].filter((el) => el.getClientRects().length > 0).length);
+    if (shown) fail(`print ${path}`, "prints the disc band, the title card or the idea builder");
+    if (path === "/series") {
+      const text = await pdfText(sheet);
+      if (text !== null && !text.includes("98.8M")) fail(`print ${path}`, "the figure does not print as 98.8M");
+    }
+    await sheetPage.close();
+  }
+  await paper.close();
 }
 
 // ------------------------------------------------------------------ weight and the preview build
