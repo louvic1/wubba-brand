@@ -222,6 +222,7 @@ function builder() {
     const input = wanted && $$(`input[name="${name}"]`, root).find((option) => option.value === wanted && option.value !== "other" && option.dataset.phrase);
     if (input) {
       input.checked = true;
+      slots[name].textContent = input.dataset.phrase; // in place before render(), so nothing animates on arrival
       validParams[name] = input;
     }
   }
@@ -251,7 +252,8 @@ function builder() {
 
   $("[data-shuffle]", root)?.addEventListener("click", () => {
     for (const name of ["product", "place", "game"]) {
-      const options = $$(`input[name="${name}"]`, root).filter((option) => option.value !== "other");
+      // a different preset in every group, never an "other" chip
+      const options = $$(`input[name="${name}"]`, root).filter((option) => option.value !== "other" && !option.checked);
       options[Math.floor(Math.random() * options.length)].checked = true;
     }
     render();
