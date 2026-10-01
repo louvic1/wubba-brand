@@ -61,6 +61,11 @@ for (const [width, height] of VIEWPORTS) {
 
     if (path === "/does-not-exist" && response.status() !== 404) fail(where, `expected 404, got ${response.status()}`);
 
+    if (width === VIEWPORTS[0][0]) {
+      const copy = await page.locator("body").innerText();
+      if (/\b(?:call|calls|phone|meeting)\b|\b(?:1:1|16:9)\b/i.test(copy)) fail(where, "page text mentions a call or an obsolete aspect ratio");
+    }
+
     const overflow = await page.evaluate(() => {
       const doc = document.documentElement;
       if (doc.scrollWidth <= window.innerWidth + 1) return null;
@@ -172,7 +177,7 @@ for (const [width, height] of VIEWPORTS) {
           });
           return 0.2126 * r + 0.7152 * g + 0.0722 * b;
         };
-        return [...document.querySelectorAll(".field__box, .chip input:not(:checked) + span, .btn--line, .copy, .mail")]
+        return [...document.querySelectorAll(".field__box, .builder__other input, .chip input:not(:checked) + span, .btn--line, .copy, .mail")]
           .filter((el) => el.offsetParent)
           .map((el) => [el, (lum(getComputedStyle(el).borderTopColor) + 0.05) / 0.05])
           .filter(([, ratio]) => ratio < 3)
@@ -245,6 +250,58 @@ for (const [width, height] of VIEWPORTS) {
     }
     await page.close();
   }
+  await context.close();
+}
+
+// the builder's three custom fields stay fully visible at phone, tablet and desktop widths
+for (const width of [360, 390, 768, 1024, 1440]) {
+  for (const path of ["/", "/brief"]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
+    const where = `builder custom fields ${path} @${width}`;
+    const { page } = await open(context, path, where);
+    for (const [name, text] of [["product", "a standing desk"], ["place", "inside a volcano"], ["game", "Valorant"]]) {
+      await page.click(`label.chip:has(input[name="${name}"][value="other"])`);
+      await page.fill(`#b-${name}`, text);
+    }
+    const fields = await page.evaluate(() => ({
+      width: document.documentElement.scrollWidth,
+      viewport: innerWidth,
+      fields: [...document.querySelectorAll(".builder__other input")].map((el) => {
+        const rect = el.getBoundingClientRect();
+        return {
+          id: el.id,
+          hidden: el.closest("[data-other]").hidden,
+          left: rect.left,
+          right: rect.right,
+          width: rect.width,
+          height: rect.height,
+          border: getComputedStyle(el).borderTopColor,
+          background: getComputedStyle(document.body).backgroundColor,
+        };
+      }),
+    }));
+    if (fields.width > fields.viewport + 1) fail(where, `horizontal overflow ${fields.width}px`);
+    for (const field of fields.fields) {
+      if (field.hidden || field.left < 0 || field.right > fields.viewport + 1) fail(where, `${field.id} is hidden or cut off (${field.left} to ${field.right})`);
+      if (field.width < 24 || field.height < 24) fail(where, `${field.id} target is ${field.width}x${field.height}`);
+      if (field.border !== "rgb(107, 107, 107)" || field.background !== "rgb(0, 0, 0)") fail(where, `${field.id} does not use the contrast-tested input border`);
+    }
+    await context.close();
+  }
+}
+
+// the offer shows one vertical frame repeated three times at phone, tablet and desktop widths
+for (const width of [360, 768, 1440]) {
+  const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
+  const where = `format frames @${width}`;
+  const { page } = await open(context, "/offer", where);
+  const frames = await page.locator(".formats__frames .frame").evaluateAll((els) => els.map((el) => {
+    const rect = el.getBoundingClientRect();
+    return { width: rect.width, height: rect.height, left: rect.left, right: rect.right };
+  }));
+  if (frames.length !== 3 || frames.some((frame) => frame.right > width + 1)) fail(where, "the three frames are missing or cut off");
+  if (frames.some((frame) => Math.abs(frame.width - frames[0].width) > 1 || Math.abs(frame.height - frames[0].height) > 1)) fail(where, "the 9:16 frames are not the same size");
+  if (frames.some((frame) => Math.abs(frame.width / frame.height - 9 / 16) > 0.02)) fail(where, "a format frame is not 9:16");
   await context.close();
 }
 
@@ -377,7 +434,7 @@ for (const [path, width, height] of [["/series", 1440, 900], ["/", 2560, 1440]])
     getSelection().removeAllRanges();
     getSelection().addRange(range);
   });
-  await page.keyboard.press("Control+C");
+  await page.keyboard.press("ControlOrMeta+C");
   const copiedFigure = await page.evaluate(() => navigator.clipboard.readText());
   await page.evaluate(() => getSelection().removeAllRanges());
   if (!/^98\.8M\s+views across the series and its reposts/.test(copiedFigure)) fail(where, `the figure copies as "${copiedFigure.slice(0, 60)}"`);
@@ -412,21 +469,83 @@ for (const [path, width, height] of [["/series", 1440, 900], ["/", 2560, 1440]])
   if (barAtTop.background === "rgb(114, 172, 14)" || barLater.background !== "rgb(114, 172, 14)") fail(where, `bar button is ${barAtTop.background} at the top and ${barLater.background} further down`);
   if (barAtTop.nav !== barLater.nav) fail(where, `the navigation moves ${barLater.nav - barAtTop.nav}px when the bar's button changes`);
 
-  // builder: chips drive the sentence, the idea lands in the brief
+  // builder: presets drive all three slots and the idea lands in the brief
   await page.click('label.chip:has(input[value="keyboard"])');
   await page.click('label.chip:has(input[value="cockpit"])');
+  await page.click('label.chip:has(input[value="chess"])');
   await page.waitForTimeout(450);
   const idea = await page.textContent("[data-idea]");
-  if (!idea.includes("keyboard") || !idea.includes("in a cockpit")) fail(where, `idea line reads "${idea}"`);
+  if (!idea.includes("keyboard") || !idea.includes("in a cockpit") || !idea.includes("playing chess")) fail(where, `idea line reads "${idea}"`);
   await page.click("[data-use-idea]");
   const brief = await page.inputValue("[data-message]");
-  if (!brief.startsWith("Idea: an AI streamer tests our keyboard in a cockpit.")) fail(where, `brief after "add" reads "${brief.slice(0, 80)}"`);
+  if (!brief.startsWith("Idea: an AI streamer tests our keyboard in a cockpit, playing chess.")) fail(where, `brief after "add" reads "${brief.slice(0, 100)}"`);
   const counter = await page.textContent("[data-count]");
   if (!counter.startsWith(String(brief.length))) fail(where, `counter reads "${counter}" for ${brief.length} characters`);
+
+  // custom choices appear on selection, take pointer focus, and update the line after a short pause
+  const customCases = [
+    ["product", "standing desk", "your standing desk"],
+    ["place", "inside a volcano", "inside a volcano"],
+    ["game", "Tetris", "Tetris"],
+  ];
+  for (const [name, typed, expected] of customCases) {
+    await page.click(`label.chip:has(input[name="${name}"][value="other"])`);
+    await page.waitForTimeout(20);
+    const custom = page.locator(`#b-${name}`);
+    if (!(await custom.isVisible()) || (await page.evaluate(() => document.activeElement?.id)) !== `b-${name}`) fail(where, `${name} custom field did not reveal with focus`);
+    await custom.fill(typed);
+    await page.waitForTimeout(350);
+    const current = await page.textContent("[data-idea]");
+    if (!current.includes(expected)) fail(where, `${name} custom value is missing from "${current}"`);
+    const animated = await page.locator(`[data-slot="${name}"]`).evaluate((el) => el.classList.contains("is-exit") || el.classList.contains("is-enter-start"));
+    if (animated) fail(where, `${name} custom text uses the swap animation`);
+    if (name === "product") {
+      await custom.fill("  standing   desk  ");
+      await page.waitForTimeout(350);
+      const normalized = await page.textContent("[data-idea]");
+      if (!normalized.includes("your standing desk")) fail(where, `product whitespace was not normalized in "${normalized}"`);
+    }
+  }
+
+  // arrowing onto the other radio reveals its field without moving radio focus
+  await page.click('label.chip:has(input[name="product"][value="energy drink"])');
+  await page.keyboard.press("ArrowRight");
+  const keyboardOther = await page.evaluate(() => ({
+    selected: document.querySelector('input[name="product"]:checked')?.value,
+    focus: document.activeElement?.value,
+    hidden: document.querySelector('[data-other="product"]').hidden,
+  }));
+  if (keyboardOther.selected !== "other" || keyboardOther.focus !== "other" || keyboardOther.hidden) fail(where, `keyboard selection moved focus or hid the field (${JSON.stringify(keyboardOther)})`);
+
+  // an empty custom choice leaves the existing brief intact and returns focus to its field
+  const fallbacks = { product: "your product", place: "somewhere it has no business working", game: "your community’s game" };
+  const announcements = { product: "Type your product first.", place: "Type the place first.", game: "Type the game first." };
+  for (const name of ["product", "place", "game"]) {
+    for (const [group, value] of [["product", "headset"], ["place", "ocean"], ["game", "counter-strike-2"]]) {
+      await page.click(`label.chip:has(input[name="${group}"][value="${value}"])`);
+    }
+    const before = await page.inputValue("[data-message]");
+    await page.click(`label.chip:has(input[name="${name}"][value="other"])`);
+    await page.waitForTimeout(20);
+    await page.fill(`#b-${name}`, "");
+    await page.waitForTimeout(350);
+    const line = await page.textContent("[data-idea]");
+    if (!line.includes(fallbacks[name])) fail(where, `empty ${name} does not use its fallback in "${line}"`);
+    await page.click("[data-use-idea]");
+    await page.waitForTimeout(20);
+    const after = await page.inputValue("[data-message]");
+    const focus = await page.evaluate(() => document.activeElement?.id);
+    const message = await page.locator('p.sr-only[aria-live="polite"]').textContent();
+    if (after !== before || focus !== `b-${name}` || message !== announcements[name]) fail(where, `empty ${name} changed the brief or missed focus/announcement (${focus}, ${message})`);
+  }
+
+  // shuffle draws only from the preset chips
+  for (let i = 0; i < 20; i++) {
+    await page.click("[data-shuffle]");
+    const selected = await page.locator('[data-builder] input[type="radio"]:checked').evaluateAll((inputs) => inputs.map((input) => input.value));
+    if (selected.length !== 3 || selected.includes("other")) fail(where, `shuffle selected ${selected.join(", ")}`);
+  }
   await page.click("[data-shuffle]");
-  await page.waitForTimeout(450);
-  const shuffled = await page.textContent("[data-idea]");
-  if (shuffled === idea) fail(where, "shuffle did not change the idea");
 
   // form: empty submit shows both errors and focuses the email field
   await page.fill("[data-message]", "");
@@ -645,12 +764,17 @@ for (const status of [200, 500]) {
 
 {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-  const where = "prefill /brief?product=monitor&place=desert";
-  const { page } = await open(context, "/brief?product=monitor&place=desert", where);
+  const where = "prefill /brief?product=monitor&place=desert&game=minecraft";
+  const { page } = await open(context, "/brief?product=monitor&place=desert&game=minecraft", where);
   const idea = await page.textContent("[data-idea]");
-  if (!idea.includes("monitor") || !idea.includes("in the desert")) fail(where, `idea reads "${idea}"`);
+  if (!idea.includes("monitor") || !idea.includes("in the desert") || !idea.includes("playing Minecraft")) fail(where, `idea reads "${idea}"`);
   const written = await page.inputValue("[data-message]");
-  if (!written.startsWith("Idea: an AI streamer tests our monitor in the desert.")) fail(where, `the brief starts "${written.slice(0, 50)}"`);
+  if (!written.startsWith("Idea: an AI streamer tests our monitor in the desert, playing Minecraft.")) fail(where, `the brief starts "${written.slice(0, 80)}"`);
+  await page.close();
+  const defaultGame = await open(context, "/brief?product=keyboard&place=cockpit", `${where} default game`);
+  const defaultIdea = await defaultGame.page.textContent("[data-idea]");
+  const defaultBrief = await defaultGame.page.inputValue("[data-message]");
+  if (!defaultIdea.includes("playing Counter-Strike 2") || !defaultBrief.startsWith("Idea: an AI streamer tests our keyboard in a cockpit, playing Counter-Strike 2.")) fail(`${where} default game`, `default game missing from idea or brief (${defaultIdea})`);
   await context.close();
 }
 
@@ -750,6 +874,10 @@ const pageCount = (pdf) => (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g)
     if (pageCount(sheet) > most) fail(`print ${path}`, `runs to ${pageCount(sheet)} pages (at most ${most})`);
     const shown = await sheetPage.evaluate(() => [...document.querySelectorAll(".disc-band, .card, .builder")].filter((el) => el.getClientRects().length > 0).length);
     if (shown) fail(`print ${path}`, "prints the disc band, the title card or the idea builder");
+    if (path === "/offer") {
+      const frames = await sheetPage.evaluate(() => getComputedStyle(document.querySelector(".formats__frames")).display);
+      if (frames !== "none") fail("print /offer", "the format frames remain visible in print");
+    }
     if (path === "/series") {
       const text = await pdfText(sheet);
       if (text !== null && !text.includes("98.8M")) fail(`print ${path}`, "the figure does not print as 98.8M");

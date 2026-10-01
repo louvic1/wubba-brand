@@ -169,36 +169,89 @@ function builder() {
   const slots = {
     product: $('[data-slot="product"]', line),
     place: $('[data-slot="place"]', line),
+    game: $('[data-slot="game"]', line),
   };
   const picked = (name) => $(`input[name="${name}"]:checked`, root);
+  const fallback = { product: "product", place: "somewhere it has no business working", game: "your community’s game" };
+  const pending = new Map();
 
-  function render() {
-    swapText(slots.product, picked("product").dataset.phrase);
-    swapText(slots.place, picked("place").dataset.phrase);
+  function customValue(name) {
+    const input = $(`#b-${name}`, root);
+    return input.value.trim().replace(/\s+/g, " ");
   }
 
-  // /brief?product=keyboard&place=cockpit pre-selects an idea (the closing bands and outreach emails use it)
-  const params = new URLSearchParams(location.search);
-  for (const name of ["product", "place"]) {
-    const wanted = params.get(name);
-    const input = wanted && $$(`input[name="${name}"]`, root).find((option) => option.value === wanted);
-    if (input) {
-      input.checked = true;
-      slots[name].textContent = input.dataset.phrase;
+  function valueFor(name) {
+    const option = picked(name);
+    return option.value === "other" ? customValue(name) || fallback[name] : option.dataset.phrase;
+  }
+
+  function setCustomText(name, text) {
+    clearTimeout(slots[name]._swap);
+    slots[name].classList.remove("is-exit", "is-enter-start");
+    slots[name].textContent = text;
+  }
+
+  function syncCustomVisibility() {
+    for (const name of ["product", "place", "game"]) {
+      const other = picked(name).value === "other";
+      $(`[data-other="${name}"]`, root).hidden = !other;
     }
   }
 
+  function render() {
+    syncCustomVisibility();
+    for (const name of ["product", "place", "game"]) {
+      const option = picked(name);
+      const next = valueFor(name);
+      if (option.value === "other") setCustomText(name, next);
+      else swapText(slots[name], next);
+    }
+  }
+
+  function flushCustom(name) {
+    clearTimeout(pending.get(name));
+    pending.delete(name);
+    if (picked(name).value === "other") setCustomText(name, valueFor(name));
+  }
+
+  // /brief?product=keyboard&place=cockpit&game=chess pre-selects an idea.
+  const params = new URLSearchParams(location.search);
+  const validParams = {};
+  for (const name of ["product", "place", "game"]) {
+    const wanted = params.get(name);
+    const input = wanted && $$(`input[name="${name}"]`, root).find((option) => option.value === wanted && option.value !== "other" && option.dataset.phrase);
+    if (input) {
+      input.checked = true;
+      validParams[name] = input;
+    }
+  }
+  render();
+
   // the idea arrives written into an empty brief (the builder sits below the form on phones)
   const message = $("[data-message]");
-  if (params.get("product") && params.get("place") && message && !message.value && !draft.get("brief")) {
-    message.value = `Idea: an AI streamer tests our ${picked("product").dataset.phrase} ${picked("place").dataset.phrase}.\n\nProduct link: \nGoal: \nTimeline: `;
+  if (validParams.product && validParams.place && message && !message.value && !draft.get("brief")) {
+    message.value = `Idea: an AI streamer tests our ${valueFor("product")} ${valueFor("place")}, playing ${valueFor("game")}.\n\nProduct link: \nGoal: \nTimeline: `;
   }
 
   root.addEventListener("change", render);
+  root.addEventListener("click", (event) => {
+    if (event.detail === 0) return;
+    const chip = event.target.closest("label.chip");
+    const option = chip && $("input[type=radio]", chip);
+    if (option?.value === "other") requestAnimationFrame(() => $(`#b-${option.name}`, root).focus({ preventScroll: true }));
+  });
+  for (const name of ["product", "place", "game"]) {
+    const input = $(`#b-${name}`, root);
+    input.addEventListener("input", () => {
+      clearTimeout(pending.get(name));
+      pending.set(name, setTimeout(() => flushCustom(name), 300));
+    });
+    input.addEventListener("blur", () => flushCustom(name));
+  }
 
   $("[data-shuffle]", root)?.addEventListener("click", () => {
-    for (const name of ["product", "place"]) {
-      const options = $$(`input[name="${name}"]`, root).filter((option) => !option.checked);
+    for (const name of ["product", "place", "game"]) {
+      const options = $$(`input[name="${name}"]`, root).filter((option) => option.value !== "other");
       options[Math.floor(Math.random() * options.length)].checked = true;
     }
     render();
@@ -207,7 +260,15 @@ function builder() {
   $("[data-use-idea]", root)?.addEventListener("click", () => {
     const message = $("[data-message]");
     if (!message) return;
-    const idea = `Idea: an AI streamer tests our ${picked("product").dataset.phrase} ${picked("place").dataset.phrase}.`;
+    for (const name of ["product", "place", "game"]) flushCustom(name);
+    const emptyOther = ["product", "place", "game"].find((name) => picked(name).value === "other" && !customValue(name));
+    if (emptyOther) {
+      $(`#b-${emptyOther}`, root).focus({ preventScroll: true });
+      const label = emptyOther === "product" ? "your product" : `the ${emptyOther}`;
+      announce(`Type ${label} first.`);
+      return;
+    }
+    const idea = `Idea: an AI streamer tests our ${valueFor("product")} ${valueFor("place")}, playing ${valueFor("game")}.`;
     const rest = message.value.replace(/^Idea: .*(\r?\n)*/, "");
     const fresh = !rest.trim();
     message.value = `${idea}\n\n${fresh ? "Product link: \nGoal: \nTimeline: " : rest}`;

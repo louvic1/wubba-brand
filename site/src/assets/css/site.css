@@ -1954,6 +1954,45 @@ a.card:hover .card__cta .icon {
   outline-offset: 3px;
 }
 
+.builder__other {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.builder__other[hidden] {
+  display: none;
+}
+
+.builder__other label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.builder__other input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-ui);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  caret-color: var(--green);
+  font: 400 1rem / 1.5 var(--text);
+}
+
+.builder__other input:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.builder__other input::placeholder {
+  color: var(--ink-3);
+  opacity: 1;
+}
+
 .idea {
   padding-top: 24px;
   border-top: 1px solid var(--rule-2);
@@ -1963,7 +2002,7 @@ a.card:hover .card__cta .icon {
   display: block;
   font: 700 clamp(1.625rem, 1.1rem + 2.1vw, 3rem) / 1.08 var(--display);
   letter-spacing: -0.03em;
-  max-width: 20ch;
+  max-width: 24ch;
   text-wrap: balance;
 }
 
@@ -2435,7 +2474,7 @@ a.card:hover .card__cta .icon {
 
 .formats__frames {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 3%;
 }
 
@@ -2447,26 +2486,17 @@ a.card:hover .card__cta .icon {
   padding: 10px;
 }
 
-/* widths chosen so the three heights step down: 9:16 tallest, 16:9 lowest */
 .frame--916 {
-  flex: 0 0 25%;
+  flex: 1 1 0;
+  min-width: 0;
   aspect-ratio: 9 / 16;
   border-color: var(--ink-3);
-}
-
-.frame--11 {
-  flex: 0 0 30%;
-  aspect-ratio: 1 / 1;
-}
-
-.frame--169 {
-  flex: 0 0 39%;
-  aspect-ratio: 16 / 9;
 }
 
 .frame span {
   font: 500 var(--fs-meta) / 1 var(--mono);
   color: var(--ink-2);
+  overflow-wrap: anywhere;
 }
 
 .formats__cap {

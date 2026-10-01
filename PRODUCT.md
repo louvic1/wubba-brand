@@ -32,15 +32,15 @@ The format already ran in public before any client existed. The first series, a 
 
 - The offer, as the site states it. Source: the owner's offer document (revised 28 September 2026). Prices are left out on purpose.
   - Concept: 3 to 5 concepts written on paper for the product; the brand picks one and approves it in writing before anything is produced.
-  - Production: the chosen concept, produced once, as a vertical 9:16 hero film.
-  - Kit: 8 to 12 assets, all cut from that one production: 3 hooks, 2 endings (one with a product end card), 2 gameplay sequences (so the same shot is not burned on two placements), an organic cut for the brand's main account that does not look like an ad, and a paid cut for Meta and TikTok ads inside the safe zones, delivered in 9:16, 1:1 and 16:9. The range "8 to 12" and the item list are both the owner's; the document does not break the count down further, so the site shows both as written. Open question for the owner: how the count is made.
+  - Production: the chosen concept, produced once, as a vertical 9:16 hero film. 9:16 is the only format (owner’s decision, 1 October 2026).
+  - Kit: 8 to 12 assets, all cut from that one production: 3 hooks, 2 endings (one with a product end card), 2 gameplay sequences (so the same shot is not burned on two placements), an organic cut for the brand's main account that does not look like an ad, and a paid cut for Meta and TikTok ads inside the safe zones, all delivered in 9:16, for TikTok, YouTube Shorts and Instagram Reels, organic or paid (Meta and TikTok ads). The range "8 to 12" and the item list are both the owner's; the document does not break the count down further, so the site shows both as written. Open question for the owner: how the count is made.
   - Rights: 6 months of paid usage on every channel, extendable; category exclusivity for the term. The brand gets the finished film and its usage rights; licensed music and stock footage stay with their owners; project files are not delivered. A one-page rights record comes with the delivery.
   - Revisions: 2 rounds of consolidated feedback; a change outside the approved concept is quoted as a change order.
   - Delivery: 10 to 15 business days after written approval of the concept.
   - Payment: half at signature, half on delivery before the final files; previews carry a watermark until then.
   - An AI disclosure clause is part of every contract.
   - Report at day 30: views, retention, share rate, cost per view on the paid cut and a comparison of the three hooks, with a recommendation for the next wave. A report, never a guarantee.
-- Prices never appear on the site (owner's decision). Pricing happens on a call.
+- Prices never appear on the site (owner's decision). Pricing comes by email, in the proposal. The site never mentions a call (owner’s decision, 1 October 2026): the first exchanges are by email.
 - The site never suggests client work, client logos, testimonials or results that do not exist. The first series is the only case.
 - The site never promises virality, views or reach.
 - Facts keep the exact wording of the previous site; they are not reformulated and no new figures are added.
@@ -54,7 +54,7 @@ The format already ran in public before any client existed. The first series, a 
 - Voice: deadpan, precise, lightly self-deprecating. No boasting, no apologising, no mockery of Musk. The raw fact is the punchline.
 - Every film Wubba makes ships labeled as AI.
 - Privacy: Wubba is the only public identity. No legal name, face, age, city or school anywhere on the site.
-- Commitments on the About page, from the owner's identity notes: Wubba is the name the owner works under and the legal name on the invoice is the owner's; the camera stays on in client calls; the owner writes the concepts and produces them.
+- Commitments on the About page, from the owner's identity notes: Wubba is the name the owner works under and the legal name on the invoice is the owner's; the brief, the proposal and the concepts come by email; the owner writes the concepts and produces them.
 - Visual identity finalised in this repository: logo direction A (the w with a dot), black background, white, green #72AC0E; typography T2 (Sora, Figtree, JetBrains Mono). Files in `options/A-point/` and `options/A-point/x-final/`. The green disc of the chosen X banner is the site's closing device.
 - All site copy goes through the Humanizer skill.
 

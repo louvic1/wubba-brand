@@ -14,7 +14,7 @@
     <div class="form__foot" data-form-foot>
       <button class="btn btn--green" type="submit"><span class="swap" data-submit-label>Send the brief</span></button>
       <p class="form__note">No newsletter. We reply from <a class="link" href="mailto:{{email}}">{{email}}</a>.</p>
-      {{#if steps}}<p class="form__next">Next: we reply, then a call if your product fits, then a proposal.</p>{{/if}}
+      {{#if steps}}<p class="form__next">Next: we reply by email, then send a proposal if your product fits.</p>{{/if}}
     </div>
     <div class="handoff" data-handoff hidden>
       <p class="handoff__title" tabindex="-1" data-handoff-title>One more step: send it from your email.</p>
@@ -58,6 +58,11 @@
         <label class="chip"><input type="radio" name="product" value="pc" data-phrase="PC"><span>PC</span></label>
         <label class="chip"><input type="radio" name="product" value="router" data-phrase="router"><span>Router</span></label>
         <label class="chip"><input type="radio" name="product" value="energy drink" data-phrase="energy drink"><span>Energy drink</span></label>
+        <label class="chip"><input type="radio" name="product" value="other"><span>Something else</span></label>
+      </div>
+      <div class="builder__other" data-other="product" hidden>
+        <label for="b-product">Which product?</label>
+        <input id="b-product" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="a standing desk">
       </div>
     </fieldset>
     <fieldset class="builder__group">
@@ -69,10 +74,30 @@
         <label class="chip"><input type="radio" name="place" value="oil-platform" data-phrase="on an oil platform"><span>An oil platform</span></label>
         <label class="chip"><input type="radio" name="place" value="cockpit" data-phrase="in a cockpit"><span>A cockpit</span></label>
         <label class="chip"><input type="radio" name="place" value="polar-station" data-phrase="at a polar station"><span>A polar station</span></label>
+        <label class="chip"><input type="radio" name="place" value="other"><span>Somewhere else</span></label>
+      </div>
+      <div class="builder__other" data-other="place" hidden>
+        <label for="b-place">Where?</label>
+        <input id="b-place" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="inside a volcano">
+      </div>
+    </fieldset>
+    <fieldset class="builder__group">
+      <legend>What the streamer plays</legend>
+      <div class="chips chips--5">
+        <label class="chip"><input type="radio" name="game" value="counter-strike-2" data-phrase="Counter-Strike 2" checked><span>Counter-Strike 2</span></label>
+        <label class="chip"><input type="radio" name="game" value="chess" data-phrase="chess"><span>Chess</span></label>
+        <label class="chip"><input type="radio" name="game" value="rocket-league" data-phrase="Rocket League"><span>Rocket League</span></label>
+        <label class="chip"><input type="radio" name="game" value="minecraft" data-phrase="Minecraft"><span>Minecraft</span></label>
+        <label class="chip"><input type="radio" name="game" value="league-of-legends" data-phrase="League of Legends"><span>League of Legends</span></label>
+        <label class="chip"><input type="radio" name="game" value="other"><span>Another game</span></label>
+      </div>
+      <div class="builder__other" data-other="game" hidden>
+        <label for="b-game">Which game?</label>
+        <input id="b-game" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="Valorant">
       </div>
     </fieldset>
     <div class="idea">
-      <output class="idea__line" aria-label="Your film, in one line" data-idea>An AI streamer tests your <span class="swap" data-slot="product">headset</span> <span class="swap" data-slot="place">in the middle of the ocean</span>.</output>
+      <output class="idea__line" aria-label="Your film, in one line" aria-live="polite" aria-atomic="true" data-idea>An AI streamer tests your <span class="swap" data-slot="product">headset</span> <span class="swap" data-slot="place">in the middle of the ocean</span>, playing <span class="swap" data-slot="game">Counter-Strike 2</span>.</output>
       <div class="idea__actions">
         <button class="btn btn--line btn--small" type="button" data-shuffle><svg class="icon icon--shuffle" aria-hidden="true"><use href="#i-shuffle"/></svg>Shuffle</button>
         <button class="btn btn--line btn--small" type="button" data-use-idea>Add it to my brief</button>
